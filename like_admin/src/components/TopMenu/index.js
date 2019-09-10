@@ -1,42 +1,37 @@
-import React, { Component, Fragment } from 'react'
-import { Route,Redirect, Link} from 'react-router-dom'
-import styled from 'styled-components'
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const MenuItems = [
-  { title: 'Домой', path: '/start'},
-  { title: 'Типы лайков', path: '/likeAdmin/typesOfLikes'},
-  { title: 'Релизы', path: '/likeAdmin/releases'},
-  { title: 'Features', path: '/likeAdmin/features'}
-  ]
+  { title: 'Домой', path: '/start' },
+  { title: 'Типы лайков', path: '/likeAdmin/typesOfLikes' },
+  { title: 'Релизы', path: '/likeAdmin/releases' },
+  { title: 'Features', path: '/likeAdmin/features' },
+];
 
-class TopMenu extends Component{
-  render() {
-    console.log('1111');
-    return (
-      <Fragment>
-        <MenuWrapper>
-          {MenuItems.map(item => {
-            return(
-              <StyledLink to={item.path}>
-                <MenuItemName>{item.title}</MenuItemName>
-               </StyledLink>
-            )
-          })
-          }
-        </MenuWrapper>
-      </Fragment>
-    )
-  }
-}
+const TopMenu = () => {
+  console.log('1111');
+  return (
+    <>
+      <MenuWrapper>
+        {MenuItems.map(item => {
+          return (
+            <StyledLink to={item.path}>
+              <MenuItemName>{item.title}</MenuItemName>
+            </StyledLink>
+          );
+        })}
+      </MenuWrapper>
+    </>
+  );
+};
 
 const MenuWrapper = styled.div`
   background-color: #033e92;
   width: 100%;
   height: 60px;
-  border-radius: 20px;
   display: flex;
-`
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -50,11 +45,12 @@ const StyledLink = styled(Link)`
   width: 100px;
   text-align: center;
 
-  :hover{
-
+  :hover {
   }
-`
+`;
+
 const MenuItemName = styled.div`
   color: #fff;
-`
-export default TopMenu
+`;
+
+export default TopMenu;

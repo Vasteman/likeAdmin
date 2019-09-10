@@ -1,15 +1,12 @@
-import React, { Component, Fragment } from 'react'
-import { Button } from 'antd'
-import TopMenu from '../TopMenu'
+import React from 'react';
+import TopMenu from '../TopMenu';
 
-class TypesOfLikes extends Component {
-  render() {
-    return(
-      <Fragment>
-        <TopMenu />
-      </Fragment>
-    )
-  }
-}
+const TypesOfLikes = () => {
+  return (
+    <>
+      <TopMenu />
+    </>
+  );
+};
 
-export default TypesOfLikes
+export default TypesOfLikes;

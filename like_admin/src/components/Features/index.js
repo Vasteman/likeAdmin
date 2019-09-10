@@ -1,13 +1,7 @@
-import React, { Component } from 'react'
-import { Button, Icon } from 'antd'
+import React from 'react';
 
+const Features = () => {
+  return <h2> Фичи </h2>;
+};
 
-class Features extends Component {
-    render() {
-        return(
-            <h2>Фичи</h2>
-        )
-    }
-}
-
-export default Features
+export default Features;
