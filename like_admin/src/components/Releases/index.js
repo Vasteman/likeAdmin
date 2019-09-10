@@ -1,7 +1,11 @@
 import React from 'react';
+import TopMenu from '../TopMenu';
 
 const Releases = () => {
-  return <h2>Релизы</h2>;
+  return (
+    <>
+      <TopMenu />
+    </>
+  );
 };
-
 export default Releases;

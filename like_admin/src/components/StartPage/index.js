@@ -40,7 +40,7 @@ const CardWrapper = styled.div`
 
 const StyledIconCard = styled(Icon)`
   font-size: 30px;
-  color: #033e92;
+  color: #3fcbff;
   // border: 1px solid red;
   position: absolute;
   left: 10px;
@@ -54,8 +54,8 @@ const StyledLink = styled(Link)`
 const CardOfStartMenu = styled.div`
 
   box-shadow: 10px 10px 15px #CCC;
-  width: 300px;
-  height: 100px;
+  width: 320px;
+  height: 150px;
   border-radius: 3px;
   padding: 2em;
   margin: 1em;
@@ -64,7 +64,7 @@ const CardOfStartMenu = styled.div`
   flex: auto;
   transition: all .3s ease-in-out;
   box-shadow: 2px 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  background: linear-gradient(-45deg, #033e92 50%, #fff 50%);
+  background: linear-gradient(-45deg, #3fcbff 50%, #fff 50%);
   border-radius: 20px;
   text-decoration: none;
 

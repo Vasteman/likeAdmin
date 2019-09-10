@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MenuItems = [
@@ -10,14 +10,13 @@ const MenuItems = [
 ];
 
 const TopMenu = () => {
-  console.log('1111');
   return (
     <>
       <MenuWrapper>
         {MenuItems.map(item => {
           return (
-            <StyledLink to={item.path}>
-              <MenuItemName>{item.title}</MenuItemName>
+            <StyledLink to={item.path} activeClassName="active">
+              {item.title}
             </StyledLink>
           );
         })}
@@ -27,30 +26,36 @@ const TopMenu = () => {
 };
 
 const MenuWrapper = styled.div`
-  background-color: #033e92;
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 60px;
   display: flex;
+  background: rgba(25, 25, 25);
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   text-decoration: none;
-  font-size: 18px;
   font-family: T2_TextSans_Regular;
-  display: block;
-  border-right: 1px solid #fff;
-  padding: 15px 10px 0 10px;
-  border-right: 1px solid #fff;
-  height: 60px;
-  width: 100px;
+  font-size: 20px;
   text-align: center;
+  color: #fff;
+
+  display: block;
+  max-height: 60px;
+  width: 150px;
+  margin: 15px auto;
+
+  &.active {
+    border-bottom: 5px solid #3fcbff;
+    // line-height: 2px;
+  }
 
   :hover {
+    border-bottom: 5px solid #3fcbff;
+    color: #fff;
+    // line-height: 2px;
   }
-`;
-
-const MenuItemName = styled.div`
-  color: #fff;
 `;
 
 export default TopMenu;

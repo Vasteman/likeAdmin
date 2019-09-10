@@ -1,7 +1,12 @@
 import React from 'react';
+import TopMenu from '../TopMenu';
 
 const Features = () => {
-  return <h2> Фичи </h2>;
+  return (
+    <>
+      <TopMenu />
+    </>
+  );
 };
 
 export default Features;
