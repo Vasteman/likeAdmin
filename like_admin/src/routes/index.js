@@ -10,7 +10,7 @@ class Routes extends Component {
     return(
       <Fragment>
         <Switch>
-          <Route exact path = '/' render={()=> <Redirect from='/' to='/start' />}/>
+          <Route exact path='/' render={()=> <Redirect from='/' to='/start' />}/>
           <Route path='/start' component={StartPage} />
           <Route path='/likeAdmin/typesOfLikes' component={TypesOfLikes}/>
           <Route path='/likeAdmin/releases' component={Releases}/>
