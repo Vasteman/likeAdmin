@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Table } from 'antd';
 
 const dataSource = [
@@ -34,12 +35,28 @@ const columns = [
   },
 ];
 
+const { Column } = Table;
 const TypesOfLikesTable = () => {
   return (
     <>
-      <Table dataSource={dataSource} columns={columns} />
+      <Wrapper>
+        <StyledTable bordered dataSource={dataSource} columns={columns}>
+          <Column title="ID"> </Column>
+        </StyledTable>
+      </Wrapper>
     </>
   );
 };
 
+const Wrapper = styled.div`
+  margin: 0px 30px;
+  background-color: white;
+`;
+
+const StyledTable = styled(Table)`
+  .ant-table-thead > tr > th {
+    text-align: center;
+    background: #ecf9ff;
+  }
+`;
 export default TypesOfLikesTable;

@@ -41,7 +41,6 @@ const CardWrapper = styled.div`
 const StyledIconCard = styled(Icon)`
   font-size: 30px;
   color: #3fcbff;
-  // border: 1px solid red;
   position: absolute;
   left: 10px;
   top: 10px;
@@ -69,17 +68,17 @@ const CardOfStartMenu = styled.div`
   text-decoration: none;
 
   :hover{
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.7);
-  box-shadow: 0 0 5px rgba(0,0,0,0.7);
-  transform: translate3d(10px, -20px, -20px);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.7);
+    box-shadow: 0 0 5px rgba(0,0,0,0.7);
+    transform: translate3d(10px, -20px, -20px);
  }
 }
 `;
 
 const CardName = styled.div`
   text-decoration: none;
-  font-size: 20px;
-  font-family: T2_TextSans_Regular;
+  font-size: 16px;
+  font-family: T2_DisplaySerif_Regular;
   color: #000;
   text-overflow: ellipsis;
   margin: -20px 0px 0px 20px;

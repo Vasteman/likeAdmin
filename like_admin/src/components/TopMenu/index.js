@@ -26,9 +26,9 @@ const TopMenu = () => {
 };
 
 const MenuWrapper = styled.div`
-  margin: 0;
+  margin: 3px 30px;
   padding: 0;
-  width: 100%;
+  // width: 100%;
   height: 60px;
   display: flex;
   background: rgba(25, 25, 25);
@@ -36,8 +36,8 @@ const MenuWrapper = styled.div`
 
 const StyledLink = styled(NavLink)`
   text-decoration: none;
-  font-family: T2_TextSans_Regular;
-  font-size: 20px;
+  font-family: T2_DisplaySerif_Regular;
+  font-size: 16px;
   text-align: center;
   color: #fff;
 
