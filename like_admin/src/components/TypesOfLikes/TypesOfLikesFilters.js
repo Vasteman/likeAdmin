@@ -19,15 +19,14 @@ const TypesOfLikesFilters = () => {
   );
 };
 const Wrapper = styled.div`
-  margin: 25px 30px 0px 30px;
-  // border: 1px solid green;
+  background-color: #fff;
+  margin: 25px 0px 0px 0px;
   height: 40px;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid grey;
   box-shadow: 2px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
 `;
 
 const Title = styled.div`
-  // border: 1px solid black;
   width: 200px;
   height: 30px;
   font-size: 20px;
@@ -44,14 +43,12 @@ const HeaderForTable = styled.div`
 
 const StyledIcon = styled(Icon)`
   width: 40px;
-  // border: 1px solid red;
   font-size: 25px;
   margin: 5px 5px;
 `;
 
 const WrapperForIcon = styled.div`
   float: right;
-  // border: 1px solid black;
   margin-right: 0;
   margin-left: auto;
 `;

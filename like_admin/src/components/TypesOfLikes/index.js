@@ -7,8 +7,8 @@ import TypesOfLikesFilters from './TypesOfLikesFilters';
 const TypesOfLikes = () => {
   return (
     <>
+      <TopMenu />
       <Wrapper>
-        <TopMenu />
         <TypesOfLikesFilters />
         <TypesOfLikesTable />
       </Wrapper>
@@ -17,7 +17,7 @@ const TypesOfLikes = () => {
 };
 
 const Wrapper = styled.div`
-  // background-color: #f8f8f8;
+  margin: 0px 30px;
   // border: 1px solid red;
 `;
 

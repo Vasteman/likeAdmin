@@ -5,7 +5,7 @@ body {
   font-family: T2_DisplaySerif_Regular;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
+  background-color: #fff;
 }
 
 @font-face {
@@ -41,9 +41,9 @@ body {
   src: local('PT_Sans-Web-Regular'), url(./assets/fonts/PT_Sans-Web-Regular.ttf) format('woff');
 }
 
-.ant-table-thead > tr > th {
+/* .ant-table-thead > tr > th {
   background: #ecf9ff;
   border-bottom: '0';
   color: #8e97a0;
   font-size: 13px;
-}
+} */
