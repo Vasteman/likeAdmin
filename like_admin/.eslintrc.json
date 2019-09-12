@@ -9,6 +9,7 @@
     "parser": "babel-eslint",
     "rules": {
         "import/no-unresolved": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "react/jsx-filename-extension": [
             1,
             {
@@ -25,4 +26,4 @@
         ]
     },
     "plugins": ["prettier"]
-    }
+}

@@ -7,7 +7,7 @@ const TypesOfLikesFilters = () => {
     <>
       <Wrapper>
         <HeaderForTable>
-          <Title> Типы лайков </Title>
+          <Title> Типы лайков</Title>
           <WrapperForIcon>
             <StyledIcon type="plus" />
             <StyledIcon type="edit" />

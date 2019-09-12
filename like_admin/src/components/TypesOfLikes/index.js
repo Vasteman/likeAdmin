@@ -1,24 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
-import TopMenu from '../TopMenu';
-import TypesOfLikesTable from './typesOfLikesTable';
-import TypesOfLikesFilters from './TypesOfLikesFilters';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-const TypesOfLikes = () => {
-  return (
-    <>
-      <TopMenu />
-      <Wrapper>
-        <TypesOfLikesFilters />
-        <TypesOfLikesTable />
-      </Wrapper>
-    </>
-  );
+import TypesOfLikesPanel from './TypesOfLikesPanel';
+
+import { fetchTypesOfLikes } from '../../reducers/TypesOfLikes/typesOfLikesPanelReducer';
+
+const mapStateToProps = state => {
+  console.log('state', state);
+  return {
+    //  typesOfLikes: state.typesOfLikes,
+  };
 };
 
-const Wrapper = styled.div`
-  margin: 0px 30px;
-  // border: 1px solid red;
-`;
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchTypesOfLikes }, dispatch);
 
-export default TypesOfLikes;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TypesOfLikesPanel);

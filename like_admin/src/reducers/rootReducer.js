@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
-const rootReducer = combineReducers({});
+import typesOfLikes from './TypesOfLikes/typesOfLikesPanelReducer';
+
+const rootReducer = combineReducers({
+  typesOfLikes,
+});
 
 export default rootReducer;
