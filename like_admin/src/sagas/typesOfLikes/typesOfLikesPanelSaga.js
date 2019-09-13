@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import moment from 'moment';
 import { notification } from 'antd';
-import typesOfLikesPanel from '../../utils/typesOfLikes';
+import typesOfLikesPanel from '../../utils/typesOfLikes/typesOfLikesPanel';
 
 import {
   FETCH_TYPES_OF_LIKES_SUCCESS,
@@ -9,14 +9,14 @@ import {
   FETCH_TYPES_OF_LIKES_FAILURE, // error be
 } from '../../reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
-const { getTypesOfLikes } = typesOfLikesPanel;
+const { getLikeType } = typesOfLikesPanel;
 
-export default function* fetchTypesOfLikes() {
+export default function* fetchTypesOfLikesSaga() {
   try {
-    const { data } = yield call(getTypesOfLikes, {}); // результат вызова метода - data
+    const { data } = yield call(getLikeType, {});
     // const { Data: {}}
     if (data.isSuccess) {
-      yield put({ type: FETCH_TYPES_OF_LIKES_SUCCESS, payload: {} }); // if good
+      yield put({ type: FETCH_TYPES_OF_LIKES_SUCCESS, payload: {} });
     } else {
       yield put({ type: FETCH_TYPES_OF_LIKES_ERROR, payload: {} });
     }

@@ -17,6 +17,9 @@ const dataSource = [
   },
 ];
 
+// const createDataSource = () => {
+//   console.log('11');
+// };
 const columns = [
   {
     title: 'ID',
@@ -28,19 +31,13 @@ const columns = [
     title: 'Название',
     dataIndex: 'name',
     key: 'name',
-    width: '20%',
-  },
-  {
-    title: 'Тип лайков',
-    dataIndex: 'typeOfLike',
-    key: 'typeOfLike',
-    width: '20%',
+    width: '35%',
   },
   {
     title: 'Вкл/выкл',
     dataIndex: 'status',
     key: 'status',
-    width: '10%',
+    width: '20%',
   },
   {
     title: 'Автор',
@@ -49,12 +46,45 @@ const columns = [
     width: '35%',
   },
 ];
+const createTable = () => {
+  // dataSource = createDataSource();
+  // this.columns = [
+  //   {
+  //     title: 'ID',
+  //     dataIndex: 'id',
+  //     key: 'id',
+  //     width: '10%',
+  //   },
+  //   {
+  //     title: 'Название',
+  //     dataIndex: 'name',
+  //     key: 'name',
+  //     width: '35%',
+  //   },
+  //   {
+  //     title: 'Вкл/выкл',
+  //     dataIndex: 'status',
+  //     key: 'status',
+  //     width: '20%',
+  //   },
+  //   {
+  //     title: 'Автор',
+  //     dataIndex: 'author',
+  //     key: 'author',
+  //     width: '35%',
+  //   },
+  // ];
+};
 
 class TypesOfLikesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
     selectedRowKeys: [],
   };
+
+  componentDidMount() {
+    createTable();
+  }
 
   render() {
     const { selectedRowKeys } = this.state;
