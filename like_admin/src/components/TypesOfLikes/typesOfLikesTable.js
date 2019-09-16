@@ -1,80 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Table } from 'antd';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    typeOfLike: '10 тест',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    typeOfLike: '10 Downing Street',
-  },
-];
-
-// const createDataSource = () => {
-//   console.log('11');
-// };
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-    width: '10%',
-  },
-  {
-    title: 'Название',
-    dataIndex: 'name',
-    key: 'name',
-    width: '35%',
-  },
-  {
-    title: 'Вкл/выкл',
-    dataIndex: 'status',
-    key: 'status',
-    width: '20%',
-  },
-  {
-    title: 'Автор',
-    dataIndex: 'author',
-    key: 'author',
-    width: '35%',
-  },
-];
-const createTable = () => {
-  // dataSource = createDataSource();
-  // this.columns = [
-  //   {
-  //     title: 'ID',
-  //     dataIndex: 'id',
-  //     key: 'id',
-  //     width: '10%',
-  //   },
-  //   {
-  //     title: 'Название',
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //     width: '35%',
-  //   },
-  //   {
-  //     title: 'Вкл/выкл',
-  //     dataIndex: 'status',
-  //     key: 'status',
-  //     width: '20%',
-  //   },
-  //   {
-  //     title: 'Автор',
-  //     dataIndex: 'author',
-  //     key: 'author',
-  //     width: '35%',
-  //   },
-  // ];
-};
+import typesOfLikes from 'sagas/typesOfLikes';
+import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -83,10 +11,58 @@ class TypesOfLikesTable extends Component {
   };
 
   componentDidMount() {
-    createTable();
+    // eslint-disable-next-line no-shadow
+    const { typesOfLikes } = this.props;
+    this.createTable(typesOfLikes);
   }
 
+  //   createDataSource = typesOfLikes => {
+  //     console.log('createDataSource');
+  //     return (typesOfLikes.map(types, index => {
+  //       let item = {};
+
+  //       item = {
+  //         TypeId: types.TypeId,
+  //         TypeName: types.EmojiName,
+  //         Author: types.EmojiAuthor,
+  //       };
+  //       return null;
+  //     }),
+  // )
+  // };
+
+  createTable = () => {
+    this.dataSource = this.createDataSource(typesOfLikes);
+    this.columns = [
+      {
+        title: 'ID',
+        dataIndex: 'TypeId',
+        key: 'TypeId',
+        width: '10%',
+      },
+      {
+        title: 'Название',
+        dataIndex: 'TypeName',
+        key: 'TypeName',
+        width: '35%',
+      },
+      {
+        title: 'Вкл/выкл',
+        dataIndex: 'status',
+        key: 'status',
+        width: '20%',
+      },
+      {
+        title: 'Автор',
+        dataIndex: 'Author',
+        key: 'Author',
+        width: '35%',
+      },
+    ];
+  };
+
   render() {
+    console.log('8888', this.props);
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -98,14 +74,19 @@ class TypesOfLikesTable extends Component {
           <StyledTable
             rowSelection={rowSelection}
             bordered
-            dataSource={dataSource}
-            columns={columns}
+            // dataSource={this.dataSource}
+            columns={this.columns}
           />
         </Wrapper>
       </>
     );
   }
 }
+
+TypesOfLikesTable.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  typesOfLikes: PropTypes.array.isRequired,
+};
 
 const Wrapper = styled.div`
   // background-color: white;

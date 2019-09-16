@@ -8,13 +8,11 @@ import {
   toggleTypesOfLikesModal,
 } from '../../reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
-const mapStateToProps = state => {
-  return {
-    typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
-    typesOfLikesModalState: state.typesOfLikesPanel.typesOfLikesModalState,
-    isTypesOfLikesModal: state.typesOfLikesPanel.isTypesOfLikesModal,
-  };
-};
+const mapStateToProps = state => ({
+  typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
+  typesOfLikesModalState: state.typesOfLikesPanel.typesOfLikesModalState,
+  isTypesOfLikesModal: state.typesOfLikesPanel.isTypesOfLikesModal,
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ fetchTypesOfLikes, toggleTypesOfLikesModal }, dispatch);

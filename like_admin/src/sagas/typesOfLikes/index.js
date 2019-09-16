@@ -1,7 +1,6 @@
 import { all, takeEvery } from 'redux-saga/effects';
 
-import { FETCH_TYPES_OF_LIKES } from '../../reducers/TypesOfLikes';
-
+import { FETCH_TYPES_OF_LIKES } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 import fetchTypesOfLikesSaga from './typesOfLikesPanelSaga';
 
 export default function*() {

@@ -8,8 +8,8 @@ import TypesOfLikesTable from './TypesOfLikesTable';
 class TypesOfLikesPanel extends Component {
   componentDidMount() {
     const { fetchTypesOfLikes } = this.props;
-    console.log('props', this.props); // dont exist methods and props
-    fetchTypesOfLikes({});
+    fetchTypesOfLikes();
+    console.log('props CDM', this.props);
   }
 
   onCreateType = () => {
@@ -28,6 +28,8 @@ class TypesOfLikesPanel extends Component {
   };
 
   render() {
+    const { typesOfLikes } = this.props;
+    console.log('props222', this.props);
     return (
       <>
         <TopMenu />
@@ -40,7 +42,7 @@ class TypesOfLikesPanel extends Component {
               <StyledIcon type="delete" onClick={this.onDeleteType} />
             </WrapperForIcon>
           </HeaderForTable>
-          <TypesOfLikesTable />
+          <TypesOfLikesTable typesOfLikes={typesOfLikes} />
         </Wrapper>
       </>
     );
@@ -50,6 +52,8 @@ class TypesOfLikesPanel extends Component {
 TypesOfLikesPanel.propTypes = {
   fetchTypesOfLikes: PropTypes.func.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  typesOfLikes: PropTypes.array.isRequired,
 };
 
 const Wrapper = styled.div`
