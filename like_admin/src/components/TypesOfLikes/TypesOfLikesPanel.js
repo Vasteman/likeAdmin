@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
 import TypesOfLikesTable from './TypesOfLikesTable';
+import TypesOfLikesAdminModal from './TypesOfLikesModal';
 
 class TypesOfLikesPanel extends Component {
   componentDidMount() {
@@ -28,21 +29,21 @@ class TypesOfLikesPanel extends Component {
   };
 
   render() {
-    const { typesOfLikes } = this.props;
-    console.log('props222', this.props);
+    const { typesOfLikes, isTypesOfLikesModal } = this.props;
     return (
       <>
         <TopMenu />
         <Wrapper>
-          <HeaderForTable>
+          <Header>
             <Title> Типы лайков</Title>
             <WrapperForIcon>
               <StyledIcon type="plus" onClick={this.onCreateType} />
               <StyledIcon type="edit" onClick={this.onEditType} />
               <StyledIcon type="delete" onClick={this.onDeleteType} />
             </WrapperForIcon>
-          </HeaderForTable>
+          </Header>
           <TypesOfLikesTable typesOfLikes={typesOfLikes} />
+          {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
       </>
     );
@@ -54,6 +55,7 @@ TypesOfLikesPanel.propTypes = {
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
+  isTypesOfLikesModal: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -74,7 +76,7 @@ const Title = styled.div`
   margin-top: 5px;
 `;
 
-const HeaderForTable = styled.div`
+const Header = styled.div`
   display: flex;
   height: 40px;
 `;

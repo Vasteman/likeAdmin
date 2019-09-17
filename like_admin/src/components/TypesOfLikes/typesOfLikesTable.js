@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Table } from 'antd';
-import typesOfLikes from 'sagas/typesOfLikes';
 import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
@@ -16,22 +15,28 @@ class TypesOfLikesTable extends Component {
     this.createTable(typesOfLikes);
   }
 
-  //   createDataSource = typesOfLikes => {
-  //     console.log('createDataSource');
-  //     return (typesOfLikes.map(types, index => {
-  //       let item = {};
+  componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line no-shadow
+    const { typesOfLikes } = nextProps;
+    console.log('nextProps', nextProps);
+    if (typesOfLikes) this.createTable(typesOfLikes);
+  }
 
-  //       item = {
-  //         TypeId: types.TypeId,
-  //         TypeName: types.EmojiName,
-  //         Author: types.EmojiAuthor,
-  //       };
-  //       return null;
-  //     }),
-  // )
-  // };
+  createDataSource = typesOfLikes => {
+    return typesOfLikes.map(type => {
+      let item = {};
+      item = {
+        TypeId: type.TypeId,
+        TypeName: type.EmojiName,
+        Status: type.EmojiActive,
+        Author: type.EmojiAuthor,
+      };
+      console.log('item', item);
+      return item;
+    });
+  };
 
-  createTable = () => {
+  createTable = typesOfLikes => {
     this.dataSource = this.createDataSource(typesOfLikes);
     this.columns = [
       {
@@ -47,9 +52,9 @@ class TypesOfLikesTable extends Component {
         width: '35%',
       },
       {
-        title: 'Вкл/выкл',
-        dataIndex: 'status',
-        key: 'status',
+        title: 'Статус',
+        dataIndex: 'Status',
+        key: 'Status',
         width: '20%',
       },
       {
@@ -62,23 +67,25 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    console.log('8888', this.props);
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
     };
+    const { typesOfLikes } = this.props;
+    console.log('state table', this.state);
+    console.log('state props', this.props);
     return (
-      <>
-        <Wrapper>
+      <Wrapper>
+        {typesOfLikes && (
           <StyledTable
             rowSelection={rowSelection}
             bordered
-            // dataSource={this.dataSource}
+            dataSource={this.dataSource}
             columns={this.columns}
           />
-        </Wrapper>
-      </>
+        )}
+      </Wrapper>
     );
   }
 }
@@ -98,6 +105,10 @@ const StyledTable = styled(Table)`
     text-align: center;
     background-color: #ecf9ff;
     color: #8e97a0;
+  }
+  .ant-table-tbody > tr > td {
+    text-align: center;
+    color: #000;
   }
 `;
 export default TypesOfLikesTable;
