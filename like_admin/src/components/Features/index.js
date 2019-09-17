@@ -1,12 +1,13 @@
-import React from 'react';
-import TopMenu from '../TopMenu';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-const Features = () => {
-  return (
-    <>
-      <TopMenu />
-    </>
-  );
-};
+import featuresPanel from './featuresPanel';
 
-export default Features;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(featuresPanel);
