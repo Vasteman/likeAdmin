@@ -78,6 +78,7 @@ export default handleActions(
     },
 
     [CREATE_TYPE_OF_LIKE]: state => {
+      console.log('CREATE_TYPE_OF_LIKE', state);
       return {
         ...state,
       };

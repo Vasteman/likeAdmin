@@ -77,24 +77,28 @@ class TypesOfLikesAdminModal extends Component {
         <WrapperForLineInput>
           <Label> ID </Label>
           <Input
-            id="TypeName"
+            id="TypeId"
             // value={typeId}
-            onChange={elem => this.ChangeField('TypeName', elem.target.value)}
+            onChange={elem => this.ChangeField('TypeId', elem.target.value)}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Название </Label>
           <Input
-            id="typeName"
+            id="EmojiName"
             // value={typeName}
-            onChange={elem => this.ChangeField('typeName', elem.target.value)}
+            onChange={elem => this.ChangeField('EmojiName', elem.target.value)}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Статус </Label>
-          <StyledSelect id="status" value onChange={() => this.ChangeField('status', true)} />
+          <StyledSelect
+            id="EmojiActive"
+            value
+            onChange={() => this.ChangeField('EmojiActive', true)}
+          />
         </WrapperForLineInput>
 
         <WrapperForLineInput>

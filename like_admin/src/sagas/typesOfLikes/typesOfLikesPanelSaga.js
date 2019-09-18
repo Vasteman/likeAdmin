@@ -56,6 +56,7 @@ export function* fetchTypesOfLikesSaga() {
 export function* createTypeOfLikeSaga({ payload }) {
   try {
     console.log('payload', payload);
+
     const { data } = yield call(createTypeOfLike, payload);
 
     if (data.IsSuccess) {
