@@ -5,16 +5,18 @@ import { bindActionCreators } from 'redux';
 
 // } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 import { toggleTypesOfLikesModal } from 'reducers/TypesOfLikes/typesOfLikesModalReducer';
+import { createTypeOfLike } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
 import TypesOfLikesAdminModal from './TypesOfLikesAdminModal';
 
 const mapStateToProps = state => ({
   isTypesOfLikesModal: state.typesOfLikesModal.isTypesOfLikesModal, //
   typesOfLikesModalState: state.typesOfLikesModal.typesOfLikesModalState,
-  typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
+  // typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleTypesOfLikesModal }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ toggleTypesOfLikesModal, createTypeOfLike }, dispatch);
 
 export default connect(
   mapStateToProps,

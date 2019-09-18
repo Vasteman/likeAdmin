@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 class TypesOfLikesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
-    selectedRowKeys: [],
+    // selectedRowKeys: [],
   };
 
   componentDidMount() {
@@ -26,12 +26,12 @@ class TypesOfLikesTable extends Component {
     return typesOfLikes.map(type => {
       let item = {};
       item = {
-        TypeId: type.TypeId,
-        TypeName: type.EmojiName,
-        Status: type.EmojiActive,
-        Author: type.EmojiAuthor,
+        typeId: type.TypeId,
+        typeName: type.EmojiName,
+        status: type.EmojiActive,
+        author: type.EmojiAuthor,
       };
-      console.log('item', item);
+      // console.log('item', item);
       return item;
     });
   };
@@ -41,48 +41,57 @@ class TypesOfLikesTable extends Component {
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'TypeId',
-        key: 'TypeId',
+        dataIndex: 'typeId',
+        key: 'typeId',
         width: '10%',
       },
       {
         title: 'Название',
-        dataIndex: 'TypeName',
-        key: 'TypeName',
+        dataIndex: 'typeName',
+        key: 'typeName',
         width: '35%',
       },
       {
         title: 'Статус',
-        dataIndex: 'Status',
-        key: 'Status',
+        dataIndex: 'status',
+        key: 'status',
         width: '20%',
       },
       {
         title: 'Автор',
-        dataIndex: 'Author',
-        key: 'Author',
+        dataIndex: 'author',
+        key: 'author',
         width: '35%',
       },
     ];
   };
 
   render() {
-    const { selectedRowKeys } = this.state;
+    const { onSelectRow, selectedRow } = this.props;
+    console.log('selectedRow444', selectedRow);
     const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectedRowKeysChange,
+      // selectedRowKeys: [selectedRow && selectedRow.key],
+      onSelect: (record, selected, selectedRows) => {
+        onSelectRow(record, selected, selectedRows);
+        console.log('selectedRows', selectedRows);
+        console.log(' render record', record);
+      },
+      type: 'radio',
     };
+
     const { typesOfLikes } = this.props;
-    console.log('state table', this.state);
-    console.log('state props', this.props);
+    // console.log('state table', this.state);
+    // console.log('props table', this.props);
     return (
       <Wrapper>
         {typesOfLikes && (
           <StyledTable
             rowSelection={rowSelection}
+            hideDefaultSelections
             bordered
             dataSource={this.dataSource}
             columns={this.columns}
+            pagination={false}
           />
         )}
       </Wrapper>
@@ -93,6 +102,9 @@ class TypesOfLikesTable extends Component {
 TypesOfLikesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
+  onSelectRow: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled.div`

@@ -10,7 +10,6 @@ class TypesOfLikesPanel extends Component {
   componentDidMount() {
     const { fetchTypesOfLikes } = this.props;
     fetchTypesOfLikes();
-    console.log('props CDM', this.props);
   }
 
   onCreateType = () => {
@@ -28,6 +27,12 @@ class TypesOfLikesPanel extends Component {
     console.log('delete');
   };
 
+  onSelectRow = record => {
+    const { selectRow } = this.props;
+    console.log(' onSelectRow record', this.record);
+    selectRow({ selectedRow: record });
+  };
+
   render() {
     const { typesOfLikes, isTypesOfLikesModal } = this.props;
     return (
@@ -42,7 +47,7 @@ class TypesOfLikesPanel extends Component {
               <StyledIcon type="delete" onClick={this.onDeleteType} />
             </WrapperForIcon>
           </Header>
-          <TypesOfLikesTable typesOfLikes={typesOfLikes} />
+          <TypesOfLikesTable typesOfLikes={typesOfLikes} onSelectRow={this.onSelectRow} />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
       </>
@@ -56,6 +61,7 @@ TypesOfLikesPanel.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   isTypesOfLikesModal: PropTypes.bool.isRequired,
+  selectRow: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`

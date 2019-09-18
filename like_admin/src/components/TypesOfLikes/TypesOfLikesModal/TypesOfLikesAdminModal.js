@@ -8,24 +8,27 @@ class TypesOfLikesAdminModal extends Component {
   state = {};
 
   componentDidMount() {
-    console.log('111', this.props);
+    console.log('111', this.state);
     const { typesOfLikes } = this.props;
     const { ...typesOfLikesData } = typesOfLikes;
-    // console.log('typeId', EmojiId);
 
     this.setState({
       ...typesOfLikesData,
     });
+    console.log('22222', this.state);
   }
 
   onOK = () => {
+    const { createTypeOfLike, typesOfLikesModalState } = this.props;
+    const { action } = typesOfLikesModalState;
+    console.log('state Ok', this.state);
+    if (action === 'create') createTypeOfLike(this.state);
     this.onCancel();
   };
 
   onCancel = () => {
     const { toggleTypesOfLikesModal, typesOfLikesModalState } = this.props;
     const { action } = typesOfLikesModalState;
-    console.log('action', action);
     toggleTypesOfLikesModal({ action });
   };
 
@@ -50,11 +53,18 @@ class TypesOfLikesAdminModal extends Component {
     ];
   };
 
+  ChangeField = (field, value) => {
+    this.setState({
+      [field]: value,
+    });
+    console.log('ChangeField', this.state);
+  };
+
   render() {
     const { isTypesOfLikesModal } = this.props;
+    // console.log('this.prop', this.props);
+    // const { typeId, EmojiName: typeName, Status: status, EmojiAuthor: author } = this.state;
     console.log('STATE', this.state);
-    const { TypeId: typeId, EmojiAuthor: author, EmojiName: typeName } = this.state;
-    console.log('this.prop', this.props);
     return (
       <Wrapper
         title="Тип лайков"
@@ -66,22 +76,34 @@ class TypesOfLikesAdminModal extends Component {
       >
         <WrapperForLineInput>
           <Label> ID </Label>
-          <Input value={typeId} />
+          <Input
+            id="TypeName"
+            // value={typeId}
+            onChange={elem => this.ChangeField('TypeName', elem.target.value)}
+          />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
-          <Label value={typeName}> Название </Label>
-          <Input />
+          <Label> Название </Label>
+          <Input
+            id="typeName"
+            // value={typeName}
+            onChange={elem => this.ChangeField('typeName', elem.target.value)}
+          />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Статус </Label>
-          <StyledSelect value={1} />
+          <StyledSelect id="status" value onChange={() => this.ChangeField('status', true)} />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
-          <Label value={author}> Автор </Label>
-          <Input />
+          <Label> Автор </Label>
+          <Input
+            id="author"
+            // value={author}
+            onChange={elem => this.ChangeField('author', elem.target.value)}
+          />
         </WrapperForLineInput>
       </Wrapper>
     );
@@ -91,6 +113,7 @@ class TypesOfLikesAdminModal extends Component {
 TypesOfLikesAdminModal.propTypes = {
   isTypesOfLikesModal: PropTypes.bool.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
+  createTypeOfLike: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikesModalState: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

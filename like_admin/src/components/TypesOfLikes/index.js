@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
   typesOfLikesModalState: state.typesOfLikesPanel.typesOfLikesModalState,
   isTypesOfLikesModal: state.typesOfLikesModal.isTypesOfLikesModal,
+  selectedRow: state.typesOfLikesPanel.selectedRow,
 });
 
 const mapDispatchToProps = dispatch =>
