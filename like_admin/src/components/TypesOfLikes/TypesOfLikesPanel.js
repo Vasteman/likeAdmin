@@ -18,13 +18,23 @@ class TypesOfLikesPanel extends Component {
   };
 
   onEditType = () => {
-    const { toggleTypesOfLikesModal } = this.props;
+    const { toggleTypesOfLikesModal, selectedRow } = this.props;
     console.log('edit');
-    toggleTypesOfLikesModal({ action: 'edit' });
+    toggleTypesOfLikesModal({
+      action: 'edit',
+      typeId: selectedRow.typeId,
+      typename: selectedRow.typeName,
+      status: selectedRow.status,
+      author: selectedRow.author,
+    });
   };
 
   onDeleteType = () => {
+    const { deleteTypeOfLike, selectedRow } = this.props;
     console.log('delete');
+    console.log('selectedRow', selectedRow);
+
+    deleteTypeOfLike({ typeId: selectedRow.typeId });
   };
 
   onSelectRow = record => {
@@ -35,6 +45,7 @@ class TypesOfLikesPanel extends Component {
 
   render() {
     const { typesOfLikes, isTypesOfLikesModal } = this.props;
+    console.log('PROOOOPS', this.props);
     return (
       <>
         <TopMenu />
@@ -57,11 +68,14 @@ class TypesOfLikesPanel extends Component {
 
 TypesOfLikesPanel.propTypes = {
   fetchTypesOfLikes: PropTypes.func.isRequired,
+  deleteTypeOfLike: PropTypes.func.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   isTypesOfLikesModal: PropTypes.bool.isRequired,
   selectRow: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled.div`

@@ -3,6 +3,17 @@ import styled from 'styled-components';
 import { Modal, Input, Select, Button, Popconfirm, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
+const REGIONS_SEARCH_OPTIONS = [
+  {
+    value: true,
+    label: 'Вкл',
+  },
+  {
+    value: false,
+    label: 'Выкл',
+  },
+];
+
 class TypesOfLikesAdminModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {};
@@ -54,6 +65,7 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   ChangeField = (field, value) => {
+    console.log('value change', value);
     this.setState({
       [field]: value,
     });
@@ -61,9 +73,9 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   render() {
-    const { isTypesOfLikesModal } = this.props;
-    // console.log('this.prop', this.props);
-    // const { typeId, EmojiName: typeName, Status: status, EmojiAuthor: author } = this.state;
+    const { isTypesOfLikesModal, selectedRow } = this.props;
+    console.log('selectedRow modal', selectedRow);
+
     console.log('STATE', this.state);
     return (
       <Wrapper
@@ -77,14 +89,14 @@ class TypesOfLikesAdminModal extends Component {
         <WrapperForLineInput>
           <Label> ID </Label>
           <Input
-            id="TypeId"
+            // id="TypeId"
             // value={typeId}
-            onChange={elem => this.ChangeField('TypeId', elem.target.value)}
+            onChange={elem => this.ChangeField('TypeId', parseInt(elem.target.value, 10))}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
-          <Label> Название </Label>
+          <Label> Название типа </Label>
           <Input
             id="EmojiName"
             // value={typeName}
@@ -93,22 +105,38 @@ class TypesOfLikesAdminModal extends Component {
         </WrapperForLineInput>
 
         <WrapperForLineInput>
-          <Label> Статус </Label>
-          <StyledSelect
-            id="EmojiActive"
-            value
-            onChange={() => this.ChangeField('EmojiActive', true)}
+          <Label> Название Emoji </Label>
+          <Input
+            id="EmojiId"
+            // value={typeName}
+            onChange={elem => this.ChangeField('EmojiId', elem.target.value)}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
+          <Label> Статус </Label>
+          <StyledSelect
+            // value={status}
+            id="EmojiActive"
+            // defaultValue={REGIONS_SEARCH_OPTIONS[0].value}
+            onChange={value => this.ChangeField('EmojiActive', value)}
+          >
+            {REGIONS_SEARCH_OPTIONS.map(option => (
+              <Select.Option value={option.value} key={option.value}>
+                {option.label}
+              </Select.Option>
+            ))}
+          </StyledSelect>
+        </WrapperForLineInput>
+
+        {/* <WrapperForLineInput>
           <Label> Автор </Label>
           <Input
             id="author"
             // value={author}
             onChange={elem => this.ChangeField('author', elem.target.value)}
           />
-        </WrapperForLineInput>
+        </WrapperForLineInput> */}
       </Wrapper>
     );
   }
@@ -122,6 +150,9 @@ TypesOfLikesAdminModal.propTypes = {
   typesOfLikesModalState: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
+  status: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled(Modal)`
@@ -156,6 +187,7 @@ const Label = styled.div`
 
 const StyledSelect = styled(Select)`
   // border: 1px solid green;
+  width: 100px;
 `;
 
 const StyledButtonPrimary = styled(Button)`

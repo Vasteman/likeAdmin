@@ -3,19 +3,25 @@ import { bindActionCreators } from 'redux';
 
 import { toggleTypesOfLikesModal } from 'reducers/TypesOfLikes/typesOfLikesModalReducer';
 
-import { fetchTypesOfLikes, selectRow } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
+import {
+  fetchTypesOfLikes,
+  selectRow,
+  deleteTypeOfLike,
+} from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
 import TypesOfLikesPanel from './TypesOfLikesPanel';
 
 const mapStateToProps = state => ({
-  typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
-  typesOfLikesModalState: state.typesOfLikesPanel.typesOfLikesModalState,
+  typesOfLikes: state.typesOfLikesPanel.typesOfLikes, // state.название_из_rootReducer
   isTypesOfLikesModal: state.typesOfLikesModal.isTypesOfLikesModal,
   selectedRow: state.typesOfLikesPanel.selectedRow,
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchTypesOfLikes, toggleTypesOfLikesModal, selectRow }, dispatch);
+  bindActionCreators(
+    { fetchTypesOfLikes, deleteTypeOfLike, toggleTypesOfLikesModal, selectRow },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

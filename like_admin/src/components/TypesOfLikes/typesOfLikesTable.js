@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table } from 'antd';
+import { Table, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
@@ -31,7 +31,6 @@ class TypesOfLikesTable extends Component {
         status: type.EmojiActive,
         author: type.EmojiAuthor,
       };
-      // console.log('item', item);
       return item;
     });
   };
@@ -56,6 +55,9 @@ class TypesOfLikesTable extends Component {
         dataIndex: 'status',
         key: 'status',
         width: '20%',
+        render: (text, record) => {
+          return <Checkbox checked={record.status} />;
+        },
       },
       {
         title: 'Автор',
@@ -67,19 +69,17 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, selectedRow } = this.props;
+    const { onSelectRow, selectedRow, typesOfLikes } = this.props;
     console.log('selectedRow444', selectedRow);
     const rowSelection = {
       // selectedRowKeys: [selectedRow && selectedRow.key],
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
-        console.log('selectedRows', selectedRows);
-        console.log(' render record', record);
+        console.log(' onSelectRow record', record);
       },
       type: 'radio',
     };
 
-    const { typesOfLikes } = this.props;
     // console.log('state table', this.state);
     // console.log('props table', this.props);
     return (
@@ -110,6 +110,9 @@ TypesOfLikesTable.propTypes = {
 const Wrapper = styled.div`
   // background-color: white;
   font-family: PT_Sans-Web-Regular;
+  .ant-checkbox-input {
+    background-color: #ecf9ff;
+  }
 `;
 
 const StyledTable = styled(Table)`
@@ -121,6 +124,9 @@ const StyledTable = styled(Table)`
   .ant-table-tbody > tr > td {
     text-align: center;
     color: #000;
+  }
+  .ant-checkbox-input {
+    background-color: #ecf9ff;
   }
 `;
 export default TypesOfLikesTable;
