@@ -39,6 +39,8 @@ class TypesOfLikesTable extends Component {
   changeCheckBoxStatus = record => {
     console.log('changeCheckBoxStatus');
     console.log('record', record);
+    const { onChangeCheckboxValue } = this.props;
+    onChangeCheckboxValue(record);
   };
 
   createTable = typesOfLikes => {
@@ -116,6 +118,7 @@ TypesOfLikesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
+  onChangeCheckboxValue: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`

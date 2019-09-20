@@ -17,6 +17,8 @@ import {
   DELETE_TYPE_OF_LIKE_SUCCESS,
   DELETE_TYPE_OF_LIKE_ERROR,
   DELETE_TYPE_OF_LIKE_FAILURE,
+  // checkbox
+  CHANGE_CHECKBOX_VALUE_SUCCESS,
 } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
 const { fetchTypesOfLikes, createTypeOfLike, deleteTypeOfLike } = api;
@@ -104,6 +106,31 @@ export function* deleteTypeOfLikeSaga({ payload }) {
     }
   } catch (ex) {
     yield put({ type: DELETE_TYPE_OF_LIKE_FAILURE, message: ex.message });
+    notification.error({
+      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
+      description: ex,
+    });
+  }
+}
+
+export function* changeCheckBoxValueSaga({ payload }) {
+  try {
+    console.log('payload', payload);
+
+    const { data } = yield call(createTypeOfLike, payload);
+
+    if (data.IsSuccess) {
+      yield put({ type: CHANGE_CHECKBOX_VALUE_SUCCESS });
+      notification.success({
+        message: 'Типы лайков',
+        description: 'Checkbox обновлен!',
+      });
+      yield put({ type: FETCH_TYPES_OF_LIKES });
+    } else {
+      // yield put({ type: CREATE_TYPE_OF_LIKE_ERROR });
+    }
+  } catch (ex) {
+    yield put({ type: CREATE_TYPE_OF_LIKE_FAILURE, message: ex.message }); // ДОДЕЛАТЬ
     notification.error({
       message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
       description: ex,

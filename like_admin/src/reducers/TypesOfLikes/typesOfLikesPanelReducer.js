@@ -29,6 +29,10 @@ export const DELETE_TYPE_OF_LIKE_ERROR = 'tol/DELETE_TYPE_OF_LIKE_ERROR';
 export const DELETE_TYPE_OF_LIKE_FAILURE = 'tol/DELETE_TYPE_OF_LIKE_FAILURE';
 export const deleteTypeOfLike = createAction(DELETE_TYPE_OF_LIKE);
 
+export const CHANGE_CHECKBOX_VALUE = 'tol/CHANGE_CHECKBOX_VALUE';
+export const CHANGE_CHECKBOX_VALUE_SUCCESS = 'tol/CHANGE_CHECKBOX_VALUE_SUCCESS';
+export const changeCheckBoxValue = createAction(CHANGE_CHECKBOX_VALUE);
+
 export default handleActions(
   {
     [FETCH_TYPES_OF_LIKES]: state => {
@@ -136,7 +140,25 @@ export default handleActions(
         isDeleteTypeError: data,
       };
     },
-  },
 
+    //
+    [CHANGE_CHECKBOX_VALUE]: state => {
+      // ДОДЕЛАТЬ!!!!!!!
+      // console.log('payload checkbox ', status);
+      // console.log('CREATE_TYPE_OF_LIKE', state);
+      console.log('STATE REDUCER', state);
+      return {
+        ...state,
+        status: !state.status,
+      };
+    },
+
+    [CHANGE_CHECKBOX_VALUE_SUCCESS]: state => {
+      // console.log('CREATE_TYPE_OF_LIKE', state);
+      return {
+        ...state,
+      };
+    },
+  },
   initialState
 );

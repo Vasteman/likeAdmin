@@ -7,4 +7,5 @@ export default {
   createTypeOfLike: params => axios.post(`${pathCrmccbe}:11270/adminLike/setLikeType`, params),
   deleteTypeOfLike: params =>
     axios.get(`${pathCrmccbe}:11270/adminLike/deleteLikeType`, { params }),
+  changeCheckBoxValue: params => axios.post(`${pathCrmccbe}:11270/adminLike/setLikeType`, params),
 };

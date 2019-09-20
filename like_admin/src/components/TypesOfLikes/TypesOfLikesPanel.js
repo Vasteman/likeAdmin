@@ -36,6 +36,13 @@ class TypesOfLikesPanel extends Component {
     selectRow({ selectedRow: record });
   };
 
+  onChangeCheckboxValue = record => {
+    // wtf
+    const { changeCheckBoxValue } = this.props;
+    console.log('record for createType', record);
+    changeCheckBoxValue(record);
+  };
+
   render() {
     const { typesOfLikes, isTypesOfLikesModal, selectedRow } = this.props;
     return (
@@ -54,6 +61,7 @@ class TypesOfLikesPanel extends Component {
             typesOfLikes={typesOfLikes}
             onSelectRow={this.onSelectRow}
             selectedRow={selectedRow}
+            onChangeCheckboxValue={this.onChangeCheckboxValue}
           />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
@@ -65,6 +73,7 @@ class TypesOfLikesPanel extends Component {
 TypesOfLikesPanel.propTypes = {
   fetchTypesOfLikes: PropTypes.func.isRequired,
   deleteTypeOfLike: PropTypes.func.isRequired,
+  changeCheckBoxValue: PropTypes.func.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
