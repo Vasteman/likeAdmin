@@ -19,21 +19,29 @@ class TypesOfLikesAdminModal extends Component {
   state = {};
 
   componentDidMount() {
-    console.log('111', this.state);
-    const { typesOfLikes } = this.props;
-    const { ...typesOfLikesData } = typesOfLikes;
+    const {
+      selectedRow,
+      typesOfLikesModalState: { action },
+    } = this.props;
 
-    this.setState({
-      ...typesOfLikesData,
-    });
-    console.log('22222', this.state);
+    if (action === 'edit') {
+      // деструктуризирую и пихаю все в стейт, потом отправляю это все в запросе
+      const { typeId, typeName: emojiName, emojiName: emojiId, status: emojiActive } = selectedRow;
+      this.setState({
+        typeId,
+        emojiName,
+        emojiId,
+        emojiActive,
+      });
+    }
   }
 
   onOK = () => {
-    const { createTypeOfLike, typesOfLikesModalState } = this.props;
-    const { action } = typesOfLikesModalState;
-    console.log('state Ok', this.state);
-    if (action === 'create') createTypeOfLike(this.state);
+    const {
+      createTypeOfLike,
+      typesOfLikesModalState: { action },
+    } = this.props;
+    if (action === 'create' || action === 'edit') createTypeOfLike(this.state);
     this.onCancel();
   };
 
@@ -64,19 +72,15 @@ class TypesOfLikesAdminModal extends Component {
     ];
   };
 
-  ChangeField = (field, value) => {
-    console.log('value change', value);
+  ChangeField = (fieldName, value) => {
     this.setState({
-      [field]: value,
+      [fieldName]: value,
     });
-    console.log('ChangeField', this.state);
   };
 
   render() {
-    const { isTypesOfLikesModal, selectedRow } = this.props;
-    console.log('selectedRow modal', selectedRow);
-
-    console.log('STATE', this.state);
+    const { isTypesOfLikesModal } = this.props;
+    const { typeId, emojiName, emojiId, emojiActive } = this.state;
     return (
       <Wrapper
         title="Тип лайков"
@@ -89,37 +93,33 @@ class TypesOfLikesAdminModal extends Component {
         <WrapperForLineInput>
           <Label> ID </Label>
           <Input
-            // id="TypeId"
-            // value={typeId}
-            onChange={elem => this.ChangeField('TypeId', parseInt(elem.target.value, 10))}
+            value={typeId}
+            onChange={elem => this.ChangeField('typeId', parseInt(elem.target.value, 10))}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Название типа </Label>
           <Input
-            id="EmojiName"
-            // value={typeName}
-            onChange={elem => this.ChangeField('EmojiName', elem.target.value)}
+            value={emojiName}
+            onChange={elem => this.ChangeField('emojiName', elem.target.value)}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Название Emoji </Label>
           <Input
-            id="EmojiId"
-            // value={typeName}
-            onChange={elem => this.ChangeField('EmojiId', elem.target.value)}
+            value={emojiId}
+            onChange={elem => this.ChangeField('emojiId', elem.target.value)}
           />
         </WrapperForLineInput>
 
         <WrapperForLineInput>
           <Label> Статус </Label>
           <StyledSelect
-            // value={status}
-            id="EmojiActive"
+            value={emojiActive}
             // defaultValue={REGIONS_SEARCH_OPTIONS[0].value}
-            onChange={value => this.ChangeField('EmojiActive', value)}
+            onChange={value => this.ChangeField('emojiActive', value)}
           >
             {REGIONS_SEARCH_OPTIONS.map(option => (
               <Select.Option value={option.value} key={option.value}>
@@ -148,9 +148,6 @@ TypesOfLikesAdminModal.propTypes = {
   createTypeOfLike: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikesModalState: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  typesOfLikes: PropTypes.array.isRequired,
-  status: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
 };

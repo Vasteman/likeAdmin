@@ -18,16 +18,17 @@ class TypesOfLikesTable extends Component {
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line no-shadow
     const { typesOfLikes } = nextProps;
-    console.log('nextProps', nextProps);
     if (typesOfLikes) this.createTable(typesOfLikes);
   }
 
+  // нейминг переменных отличается от тех, что в модалке (!)
   createDataSource = typesOfLikes => {
     return typesOfLikes.map(type => {
       let item = {};
       item = {
         typeId: type.TypeId,
         typeName: type.EmojiName,
+        emojiName: type.EmojiId,
         status: type.EmojiActive,
         author: type.EmojiAuthor,
       };
@@ -35,20 +36,33 @@ class TypesOfLikesTable extends Component {
     });
   };
 
+  changeCheckBoxStatus = record => {
+    console.log('changeCheckBoxStatus');
+    console.log('record', record);
+  };
+
   createTable = typesOfLikes => {
     this.dataSource = this.createDataSource(typesOfLikes);
+    console.log('PROPSS', this.props);
+    console.log('STATE', this.state);
     this.columns = [
       {
         title: 'ID',
         dataIndex: 'typeId',
         key: 'typeId',
-        width: '10%',
+        width: '9%',
       },
       {
-        title: 'Название',
+        title: 'Название типа',
         dataIndex: 'typeName',
         key: 'typeName',
-        width: '35%',
+        width: '18%',
+      },
+      {
+        title: 'Название Emoji',
+        dataIndex: 'emojiName',
+        key: 'emojiName',
+        width: '18%',
       },
       {
         title: 'Статус',
@@ -56,7 +70,9 @@ class TypesOfLikesTable extends Component {
         key: 'status',
         width: '20%',
         render: (text, record) => {
-          return <Checkbox checked={record.status} />;
+          return (
+            <Checkbox checked={record.status} onChange={() => this.changeCheckBoxStatus(record)} />
+          );
         },
       },
       {
@@ -69,13 +85,10 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, selectedRow, typesOfLikes } = this.props;
-    console.log('selectedRow444', selectedRow);
+    const { onSelectRow, typesOfLikes } = this.props;
     const rowSelection = {
-      // selectedRowKeys: [selectedRow && selectedRow.key],
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
-        console.log(' onSelectRow record', record);
       },
       type: 'radio',
     };
@@ -103,8 +116,6 @@ TypesOfLikesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled.div`

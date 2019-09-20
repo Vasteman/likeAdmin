@@ -19,33 +19,25 @@ class TypesOfLikesPanel extends Component {
 
   onEditType = () => {
     const { toggleTypesOfLikesModal, selectedRow } = this.props;
-    console.log('edit');
-    toggleTypesOfLikesModal({
-      action: 'edit',
-      typeId: selectedRow.typeId,
-      typename: selectedRow.typeName,
-      status: selectedRow.status,
-      author: selectedRow.author,
-    });
+    if (Object.keys(selectedRow).length !== 0) {
+      toggleTypesOfLikesModal({ action: 'edit' });
+    }
   };
 
   onDeleteType = () => {
     const { deleteTypeOfLike, selectedRow } = this.props;
-    console.log('delete');
-    console.log('selectedRow', selectedRow);
-
-    deleteTypeOfLike({ typeId: selectedRow.typeId });
+    if (Object.keys(selectedRow).length !== 0) {
+      deleteTypeOfLike({ typeId: selectedRow.typeId });
+    }
   };
 
   onSelectRow = record => {
     const { selectRow } = this.props;
-    console.log(' onSelectRow record', this.record);
     selectRow({ selectedRow: record });
   };
 
   render() {
-    const { typesOfLikes, isTypesOfLikesModal } = this.props;
-    console.log('PROOOOPS', this.props);
+    const { typesOfLikes, isTypesOfLikesModal, selectedRow } = this.props;
     return (
       <>
         <TopMenu />
@@ -58,7 +50,11 @@ class TypesOfLikesPanel extends Component {
               <StyledIcon type="delete" onClick={this.onDeleteType} />
             </WrapperForIcon>
           </Header>
-          <TypesOfLikesTable typesOfLikes={typesOfLikes} onSelectRow={this.onSelectRow} />
+          <TypesOfLikesTable
+            typesOfLikes={typesOfLikes}
+            onSelectRow={this.onSelectRow}
+            selectedRow={selectedRow}
+          />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
       </>

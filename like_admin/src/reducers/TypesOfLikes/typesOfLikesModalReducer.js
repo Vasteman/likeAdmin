@@ -11,10 +11,7 @@ const initialState = {
 export default handleActions(
   {
     // actions for typesOfLikesModal
-    [TOGGLE_TYPES_OF_LIKES_MODAL]: (
-      state,
-      { payload: { action, typeId, typeName, status, author } }
-    ) => {
+    [TOGGLE_TYPES_OF_LIKES_MODAL]: (state, { payload: { action } }) => {
       console.log('action', action);
       if (action === 'create') {
         return {
@@ -24,14 +21,11 @@ export default handleActions(
         };
       }
       if (action === 'edit') {
+        console.log('action EDIT', action);
         return {
           ...state,
           isTypesOfLikesModal: !state.isTypesOfLikesModal,
           typesOfLikesModalState: { action },
-          typeId,
-          typeName,
-          status,
-          author,
         };
       }
       return { ...state };

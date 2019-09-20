@@ -97,6 +97,10 @@ export function* deleteTypeOfLikeSaga({ payload }) {
       });
     } else {
       yield put({ type: DELETE_TYPE_OF_LIKE_ERROR });
+      notification.success({
+        message: 'Типы лайков',
+        description: 'Что-то пошло не так...',
+      });
     }
   } catch (ex) {
     yield put({ type: DELETE_TYPE_OF_LIKE_FAILURE, message: ex.message });
