@@ -7,7 +7,7 @@ import {
   fetchTypesOfLikes,
   selectRow,
   deleteTypeOfLike,
-  changeCheckBoxValue,
+  createTypeOfLike,
 } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 
 import TypesOfLikesPanel from './TypesOfLikesPanel';
@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch =>
     {
       fetchTypesOfLikes,
       deleteTypeOfLike,
-      changeCheckBoxValue,
+      createTypeOfLike,
       toggleTypesOfLikesModal,
       selectRow,
     },

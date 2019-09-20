@@ -37,10 +37,16 @@ class TypesOfLikesPanel extends Component {
   };
 
   onChangeCheckboxValue = record => {
-    // wtf
-    const { changeCheckBoxValue } = this.props;
-    console.log('record for createType', record);
-    changeCheckBoxValue(record);
+    const { createTypeOfLike } = this.props;
+    const { typeId, typeName: emojiName, emojiName: emojiId, status: emojiActive } = record;
+
+    const recordDataForRequest = {
+      emojiActive: !emojiActive,
+      emojiName,
+      typeId,
+      emojiId,
+    };
+    createTypeOfLike(recordDataForRequest);
   };
 
   render() {
@@ -73,7 +79,7 @@ class TypesOfLikesPanel extends Component {
 TypesOfLikesPanel.propTypes = {
   fetchTypesOfLikes: PropTypes.func.isRequired,
   deleteTypeOfLike: PropTypes.func.isRequired,
-  changeCheckBoxValue: PropTypes.func.isRequired,
+  createTypeOfLike: PropTypes.func.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,

@@ -36,17 +36,10 @@ class TypesOfLikesTable extends Component {
     });
   };
 
-  changeCheckBoxStatus = record => {
-    console.log('changeCheckBoxStatus');
-    console.log('record', record);
-    const { onChangeCheckboxValue } = this.props;
-    onChangeCheckboxValue(record);
-  };
-
   createTable = typesOfLikes => {
     this.dataSource = this.createDataSource(typesOfLikes);
-    console.log('PROPSS', this.props);
-    console.log('STATE', this.state);
+
+    const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
         title: 'ID',
@@ -73,7 +66,7 @@ class TypesOfLikesTable extends Component {
         width: '20%',
         render: (text, record) => {
           return (
-            <Checkbox checked={record.status} onChange={() => this.changeCheckBoxStatus(record)} />
+            <Checkbox checked={record.status} onChange={() => onChangeCheckboxValue(record)} />
           );
         },
       },
@@ -95,8 +88,6 @@ class TypesOfLikesTable extends Component {
       type: 'radio',
     };
 
-    // console.log('state table', this.state);
-    // console.log('props table', this.props);
     return (
       <Wrapper>
         {typesOfLikes && (
