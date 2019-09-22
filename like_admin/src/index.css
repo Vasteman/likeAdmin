@@ -40,6 +40,12 @@ body {
   font-family: 'PT_Sans-Web-Regular';
   src: local('PT_Sans-Web-Regular'), url(./assets/fonts/PT_Sans-Web-Regular.ttf) format('woff');
 }
+@font-face {
+  font-family: 'Standard CT Stencil';
+  src: local('Standard CT Stencil'), url(./assets/fonts/standardctstencil_bold-webfont.woff2) format('woff');
+}
+
+
 
 /* .ant-table-thead > tr > th {
   background: #ecf9ff;

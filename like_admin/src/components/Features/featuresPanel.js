@@ -55,7 +55,7 @@ FeaturesPanel.propTypes = {
 };
 
 const Wrapper = styled.div`
-  border: 3px solid green;
+  // border: 3px solid green;
   background-color: #fff;
   margin: 25px 30px 0px 30px;
   // height: 100px;
@@ -70,15 +70,16 @@ const Title = styled.div`
   font-family: T2_DisplaySerif_Regular;
   text-align: center;
   margin-top: 5px;
-  padding-right: 140px;
+  padding-right: 40px;
 `;
 
 const HeaderForTable = styled.div`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
-  border-bottom: 2px solid grey;
+  border-bottom: 1px solid black;
   display: flex;
   height: 40px;
-  // border: 1px solid green;
+  // border: 1px solid black;
+  margin-top: 30px;
 `;
 
 const StyledIcon = styled(Icon)`
@@ -91,6 +92,10 @@ const WrapperForIcon = styled.div`
   float: right;
   margin-right: 0;
   margin-left: auto;
+  .anticon > * {
+    line-height: 1;
+    color: #000;
+  }
 `;
 
 export default FeaturesPanel;

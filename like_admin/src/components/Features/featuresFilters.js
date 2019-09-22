@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Checkbox } from 'antd';
+import { Input, Button, Checkbox, Icon } from 'antd';
 // import PropTypes from 'prop-types';
 
 class FeaturesFilters extends Component {
@@ -29,20 +29,19 @@ class FeaturesFilters extends Component {
     return (
       <>
         <Wrapper>
+          <HeaderForFilters>
+            <TitleForFilters> Фильтры </TitleForFilters>
+            <StyledIconFilter type="filter"> </StyledIconFilter>
+            {/* <Icon type="filter" /> */}
+          </HeaderForFilters>
+
           <WrapperForSearch>
+            <WrapperForRangePicker> RangePicker </WrapperForRangePicker>
             <StyledTitle> Название </StyledTitle>
             <Input size="small" />
             <Button type="primary"> Поиск </Button>
 
-            <StyledTitle> Автор </StyledTitle>
-            <Input size="small" />
-            <Button type="primary"> Поиск </Button>
-
-            <StyledTitle> ID </StyledTitle>
-            <Input size="small" />
-            <Button type="primary"> Поиск </Button>
-
-            <StyledTitle> Активные </StyledTitle>
+            <StyledTitle> Показать активные </StyledTitle>
             <Checkbox> </Checkbox>
           </WrapperForSearch>
         </Wrapper>
@@ -59,14 +58,40 @@ FeaturesFilters.propTypes = {
 const Wrapper = styled.div`
   // background-color: white;
   font-family: PT_Sans-Web-Regular;
-  // border: 1px solid red;
-  height: 200px;
+  // border: 2px solid red;
+  height: 80px;
   color: #000;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  .anticon > * {
+    color: #000;
+  }
+`;
+const HeaderForFilters = styled.div`
+  //border: 1px solid black;
+  height: 40px;
+  border-bottom: 1px solid black;
+  display: flex;
+`;
+const StyledIconFilter = styled(Icon)`
+  // color: #000;
+  // width: 40px;
+  // font-size: 25px;
+  // margin: 5px 5px;
 `;
 
+const TitleForFilters = styled.div`
+  width: 200px;
+  height: 30px;
+  font-size: 20px;
+  color: #000;
+  font-family: T2_DisplaySerif_Regular;
+  text-align: center;
+  padding-top: 5px;
+  //border: 1px solid red;
+`;
 const StyledTitle = styled.div`
   border: 1px solid red;
-  width: 80px;
+  width: 180px;
   text-align: center;
   font-size: 16px;
   height: 24px;
@@ -75,7 +100,7 @@ const StyledTitle = styled.div`
 
 const WrapperForSearch = styled.div`
   display: flex;
-  // border: 1px solid black;
+  border: 1px solid black;
   width: auto;
 
   .ant-input {
@@ -92,6 +117,11 @@ const WrapperForSearch = styled.div`
     border: 1px solid red;
     margih-left: 30px;
   }
+`;
+
+const WrapperForRangePicker = styled.div`
+  border: 1px solid red;
+  width: 300px;
 `;
 
 export default FeaturesFilters;

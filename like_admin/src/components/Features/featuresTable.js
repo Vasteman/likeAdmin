@@ -89,7 +89,6 @@ class FeaturesTable extends Component {
           dataSource={this.dataSource}
           columns={this.columns}
         />
-        )
       </Wrapper>
     );
   }
@@ -103,7 +102,8 @@ FeaturesTable.propTypes = {
 const Wrapper = styled.div`
   // background-color: white;
   font-family: PT_Sans-Web-Regular;
-  border: 1px solid red;
+  // border: 1px solid red;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
 `;
 
 const StyledTable = styled(Table)`

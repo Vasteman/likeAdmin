@@ -26,7 +26,7 @@ const TopMenu = () => {
 };
 
 const MenuWrapper = styled.div`
-  margin: 3px 30px;
+  margin: 0px 30px;
   padding: 0;
   // width: 100%;
   height: 60px;
@@ -47,14 +47,14 @@ const StyledLink = styled(NavLink)`
   margin: 15px auto;
 
   &.active {
-    border-bottom: 5px solid #3fcbff;
+    border-bottom: 3px solid #3fcbff;
     // line-height: 2px;
   }
 
   :hover {
-    border-bottom: 5px solid #3fcbff;
+    border-bottom: 3px solid #3fcbff;
     color: #fff;
-    // line-height: 2px;
+    transition: all 0.2s ease-in-out;
   }
 `;
 
