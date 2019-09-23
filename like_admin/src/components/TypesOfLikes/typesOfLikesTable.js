@@ -115,6 +115,7 @@ TypesOfLikesTable.propTypes = {
 const Wrapper = styled.div`
   // background-color: white;
   font-family: PT_Sans-Web-Regular;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   .ant-checkbox-input {
     background-color: #ecf9ff;
   }

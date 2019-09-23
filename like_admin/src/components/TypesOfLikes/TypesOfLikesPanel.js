@@ -93,8 +93,8 @@ const Wrapper = styled.div`
   background-color: #fff;
   margin: 25px 30px 0px 30px;
   height: 40px;
-  // border-bottom: 2px solid black;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom: 1px solid black;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   .anticon > * {
     color: #000;
   }

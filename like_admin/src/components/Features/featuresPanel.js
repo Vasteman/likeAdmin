@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
 import FeaturesTable from './featuresTable';
-import FeaturesFilters from './featuresFilters';
+// import FeaturesFilters from './featuresFilters';
 
 class FeaturesPanel extends Component {
   componentDidMount() {
-    // fetchFeatures({})
+    const { fetchFeatures } = this.props;
+    fetchFeatures({});
   }
 
   onCreateFeature = () => {
@@ -27,12 +28,13 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    // const { typesOfLikes, isTypesOfLikesModal } = this.props;
+    const { features } = this.props;
+    console.log('PANEL', this.props);
     return (
       <>
         <TopMenu />
         <Wrapper>
-          <FeaturesFilters />
+          {/* <FeaturesFilters /> */}
           <HeaderForTable>
             <Title> Фичи </Title>
             <WrapperForIcon>
@@ -41,7 +43,7 @@ class FeaturesPanel extends Component {
               <StyledIcon type="delete" onClick={this.onDeleteFeature} />
             </WrapperForIcon>
           </HeaderForTable>
-          <FeaturesTable />
+          <FeaturesTable features={features} />
           {/* <TypesOfLikesTable typesOfLikes={typesOfLikes} />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />} */}
         </Wrapper>
@@ -51,7 +53,9 @@ class FeaturesPanel extends Component {
 }
 
 FeaturesPanel.propTypes = {
-  // props
+  fetchFeatures: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  features: PropTypes.array.isRequired,
 };
 
 const Wrapper = styled.div`

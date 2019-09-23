@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table } from 'antd';
-// import PropTypes from 'prop-types';
+import { Table, Checkbox } from 'antd';
+import PropTypes from 'prop-types';
 
 class FeaturesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -11,62 +11,71 @@ class FeaturesTable extends Component {
 
   componentDidMount() {
     // eslint-disable-next-line no-shadow
-    // const { typesOfLikes } = this.props;
-    // this.createTable(typesOfLikes);
+    const { features } = this.props;
+    console.log('PROPS CDM ', this.props);
+    this.createTable(features);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // eslint-disable-next-line no-shadow
-  //   // const { typesOfLikes } = nextProps;
-  //   // console.log('nextProps', nextProps);
-  //   // if (typesOfLikes) this.createTable(typesOfLikes);
-  // }
+  componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line no-shadow
+    const { features } = nextProps;
+    console.log('nextProps', nextProps);
+    if (features) this.createTable(features);
+  }
 
   createDataSource = features => {
     return features.map(feature => {
       let item = {};
       item = {
-        FeatureId: feature.FeatureId,
-        TypeName: feature.EmojiName,
-        Status: feature.EmojiActive,
-        Author: feature.EmojiAuthor,
+        author: feature.FeatureAuthor,
+        featureDate: feature.FeatureDate,
+        featureId: feature.FeatureId,
+        featureName: feature.FeatureName,
+        featureStatus: feature.IsLikeActive,
       };
       console.log('item', item);
       return item;
     });
   };
 
-  createTable = () => {
-    // this.dataSource = this.createDataSource(features);
+  createTable = features => {
+    this.dataSource = this.createDataSource(features);
+
+    const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'FeatureId',
-        key: 'FeatureId',
-        width: '10%',
+        dataIndex: 'featureId',
+        key: 'featureId',
+        width: '9%',
       },
       {
         title: 'Название',
-        dataIndex: 'FeatureName',
-        key: 'FeatureName',
-        width: '35%',
+        dataIndex: 'featureName',
+        key: 'featureName',
+        width: '18%',
       },
       {
         title: 'Статус',
-        dataIndex: 'Status',
-        key: 'Status',
+        dataIndex: 'featureStatus',
+        key: 'featureStatus',
         width: '20%',
+        render: (text, record) => {
+          return (
+            <Checkbox checked={record.status} onChange={() => onChangeCheckboxValue(record)} />
+          );
+        },
       },
       {
         title: 'Дата создания',
-        dataIndex: 'dateOfCreation',
-        key: 'dateOfCreation',
-        width: '35%',
+        dataIndex: 'featureDate',
+        key: 'featureDate',
+        width: '18%',
       },
       {
         title: 'Автор',
-        dataIndex: 'Author',
-        key: 'Author',
+        dataIndex: 'author',
+        key: 'author',
         width: '35%',
       },
     ];
@@ -78,9 +87,9 @@ class FeaturesTable extends Component {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
     };
-    // const { features } = this.props;
-    console.log('state table', this.state);
-    console.log('state props', this.props);
+
+    console.log('state render', this.state);
+    console.log('render props', this.props);
     return (
       <Wrapper>
         <StyledTable
@@ -88,6 +97,7 @@ class FeaturesTable extends Component {
           bordered
           dataSource={this.dataSource}
           columns={this.columns}
+          pagination={false}
         />
       </Wrapper>
     );
@@ -96,7 +106,8 @@ class FeaturesTable extends Component {
 
 FeaturesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  // features: PropTypes.array.isRequired,
+  features: PropTypes.array.isRequired,
+  onChangeCheckboxValue: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`

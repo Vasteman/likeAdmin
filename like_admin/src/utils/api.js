@@ -2,6 +2,7 @@ import axios from 'axios';
 import qs from 'query-string';
 
 import typesOfLikes from './entities/TypesOfLikes/typesOfLikesPanel';
+import features from './entities/Features/featuresPanel';
 
 axios.interceptors.request.use(
   config => ({
@@ -15,4 +16,5 @@ axios.interceptors.request.use(
 
 export default {
   ...typesOfLikes,
+  ...features,
 };

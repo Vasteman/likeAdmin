@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Input, Button, Checkbox, Icon } from 'antd';
 // import PropTypes from 'prop-types';
+// import RangePicker from 'components/RangePicker';
 
 class FeaturesFilters extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -31,12 +32,14 @@ class FeaturesFilters extends Component {
         <Wrapper>
           <HeaderForFilters>
             <TitleForFilters> Фильтры </TitleForFilters>
-            <StyledIconFilter type="filter"> </StyledIconFilter>
-            {/* <Icon type="filter" /> */}
+            <StyledIcon type="filter"> </StyledIcon>
           </HeaderForFilters>
 
           <WrapperForSearch>
-            <WrapperForRangePicker> RangePicker </WrapperForRangePicker>
+            <WrapperForRangePicker>
+              {/* <RangePicker /> */}
+              RangePicker
+            </WrapperForRangePicker>
             <StyledTitle> Название </StyledTitle>
             <Input size="small" />
             <Button type="primary"> Поиск </Button>
@@ -70,13 +73,12 @@ const HeaderForFilters = styled.div`
   //border: 1px solid black;
   height: 40px;
   border-bottom: 1px solid black;
-  display: flex;
+  // display: flex;
 `;
-const StyledIconFilter = styled(Icon)`
-  // color: #000;
-  // width: 40px;
-  // font-size: 25px;
-  // margin: 5px 5px;
+const StyledIcon = styled(Icon)`
+  width: 40px;
+  font-size: 25px;
+  margin: 5px 5px;
 `;
 
 const TitleForFilters = styled.div`
@@ -86,7 +88,7 @@ const TitleForFilters = styled.div`
   color: #000;
   font-family: T2_DisplaySerif_Regular;
   text-align: center;
-  padding-top: 5px;
+  margin-top: 10px;
   //border: 1px solid red;
 `;
 const StyledTitle = styled.div`
