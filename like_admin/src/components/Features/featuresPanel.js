@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
 import FeaturesTable from './featuresTable';
-// import FeaturesFilters from './featuresFilters';
+import FeaturesFilters from './featuresFilters';
 
 class FeaturesPanel extends Component {
   componentDidMount() {
@@ -34,7 +34,8 @@ class FeaturesPanel extends Component {
       <>
         <TopMenu />
         <Wrapper>
-          {/* <FeaturesFilters /> */}
+          <FeaturesFilters />
+
           <HeaderForTable>
             <Title> Фичи </Title>
             <WrapperForIcon>
@@ -43,6 +44,7 @@ class FeaturesPanel extends Component {
               <StyledIcon type="delete" onClick={this.onDeleteFeature} />
             </WrapperForIcon>
           </HeaderForTable>
+
           <FeaturesTable features={features} />
           {/* <TypesOfLikesTable typesOfLikes={typesOfLikes} />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />} */}
@@ -59,7 +61,7 @@ FeaturesPanel.propTypes = {
 };
 
 const Wrapper = styled.div`
-  // border: 3px solid green;
+  // border: 1px solid black;
   background-color: #fff;
   margin: 25px 30px 0px 30px;
   // height: 100px;
@@ -69,7 +71,7 @@ const Wrapper = styled.div`
 const Title = styled.div`
   width: 200px;
   height: 30px;
-  font-size: 20px;
+  font-size: 18px;
   color: #000;
   font-family: T2_DisplaySerif_Regular;
   text-align: center;

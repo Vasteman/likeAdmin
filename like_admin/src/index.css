@@ -45,8 +45,6 @@ body {
   src: local('Standard CT Stencil'), url(./assets/fonts/standardctstencil_bold-webfont.woff2) format('woff');
 }
 
-
-
 /* .ant-table-thead > tr > th {
   background: #ecf9ff;
   border-bottom: '0';

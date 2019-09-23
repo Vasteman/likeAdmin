@@ -174,6 +174,7 @@ export default class RangePicker extends PureComponent {
       value: { from, to },
       isMonthOnly,
     } = this.props;
+    console.log('Props RP', this.props);
     const isSelectedAny = this.selectedRange === 'any' && !isMonthOnly;
     const disabledPrevChange = isSelectedAny || (isMonthOnly && moment().diff(from, 'month') === 5);
     const disabledNextChange = isSelectedAny || to.isSame(moment(), 'day');
@@ -181,7 +182,7 @@ export default class RangePicker extends PureComponent {
     return (
       <Wrapper>
         <Select
-          style={{ width: '130px' }}
+          style={{ width: '130px', margin: '12px 0 0 0' }}
           value={this.selectedRange}
           onChange={this.handleRangeChange}
           disabled={isMonthOnly}
@@ -251,26 +252,67 @@ RangePicker.propTypes = {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  // border: 1px solid red;
+  height: 35px;
+  margin-bottom: 5px;
+
+  .ant-calendar-picker-input.ant-input {
+    height: 25px;
+    margin: 0px 0px 0px 15px;
+    width: 120px;
+    padding: 0px 20px 0px 0px;
+    text-align: center;
+  }
+
+  .ant-btn-group .ant-btn {
+    height: 25px;
+  }
+
+  .ant-select-disabled .ant-select-selection {
+    height: 25px;
+    //border: 1px solid black;
+    // padding-top: 5px;
+  }
+
+  .ant-select-selection-selected-value {
+    height: 25px;
+    // margin: 0px 0px 0px 15px;
+    width: 120px;
+    padding: 0px 20px 20px 5px;
+    text-align: center;
+  }
+
+  .ant-select-selection--single {
+    height: 25px;
+  }
+
+  .ant-calendar-picker-icon {
+    padding: 0px 15px 2px 15px;
+  }
 `;
 
 const Label = styled.label`
   font-size: 14px;
   color: black;
   font-weight: normal;
-  margin: 0;
+  margin: 5px 0px 0px 0px;
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 25px;
+  // border: 1px solid red;
 `;
 
 const StyledPicker = styled(DatePicker)`
-  margin-left: 10px;
-  width: 140px;
+  margin: 0px 0px 0px 10px;
+  width: 135px;
+  // border: 1px solid black;
 `;
 
 const StyleButtonGroup = styled(ButtonGroup)`
-  margin-left: 10px;
+  margin: 5px 0px 0px 30px;
   display: inherit;
+  height: 25px;
+
   & button {
     width: 30px;
     padding: 0;

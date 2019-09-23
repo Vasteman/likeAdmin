@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
-import TypesOfLikesTable from './TypesOfLikesTable';
+import TypesOfLikesTable from './typesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
 
 class TypesOfLikesPanel extends Component {
@@ -103,7 +103,7 @@ const Wrapper = styled.div`
 const Title = styled.div`
   width: 200px;
   height: 30px;
-  font-size: 20px;
+  font-size: 18px;
   color: #000;
   font-family: T2_DisplaySerif_Regular;
   text-align: center;
