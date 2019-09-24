@@ -66,7 +66,7 @@ const Wrapper = styled.div`
   background-color: #fff;
   margin: 25px 30px 0px 30px;
   // height: 100px;
-  // box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
 `;
 
 const Title = styled.div`
@@ -81,12 +81,12 @@ const Title = styled.div`
 `;
 
 const HeaderForTable = styled.div`
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
+  // box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   border-bottom: 1px solid black;
   display: flex;
   height: 40px;
   // border: 1px solid black;
-  margin-top: 20px;
+  // margin-top: 20px;
 `;
 
 const StyledIcon = styled(Icon)`

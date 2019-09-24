@@ -111,10 +111,7 @@ FeaturesTable.propTypes = {
 };
 
 const Wrapper = styled.div`
-  // background-color: white;
-  font-family: PT_Sans-Web-Regular;
-  // border: 1px solid red;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
+  font-family: T2_DisplaySerif_Regular;
 `;
 
 const StyledTable = styled(Table)`

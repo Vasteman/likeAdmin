@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 // } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 import { toggleFeaturesModal } from 'reducers//Features/featuresModalReducer';
-// import { createTypeOfLike } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
+import { createFeature } from 'reducers/Features/featuresPanelReducer';
 
 import FeaturesModal from './featuresModal';
 
@@ -16,7 +16,8 @@ const mapStateToProps = state => ({
   // selectedRow: state.typesOfLikesPanel.selectedRow,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleFeaturesModal }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ toggleFeaturesModal, createFeature }, dispatch);
 
 export default connect(
   mapStateToProps,

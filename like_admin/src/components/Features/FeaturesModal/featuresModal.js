@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Button, Popconfirm, Icon, Form, Input, Select, DatePicker } from 'antd';
 import PropTypes from 'prop-types';
+// import moment from 'moment';
 
 const FormItem = Form.Item;
 
@@ -25,12 +26,12 @@ class FeaturesModal extends Component {
   }
 
   onOK = () => {
-    // const {
-    //   // createTypeOfLike,
-    //   featuresModalState: { action },
-    // } = this.props;
+    const {
+      createFeature,
+      featuresModalState: { action },
+    } = this.props;
 
-    // if (action === 'create' || action === 'edit') createTypeOfLike(this.state);
+    if (action === 'create' || action === 'edit') createFeature(this.state);
     this.onCancel();
   };
 
@@ -91,6 +92,7 @@ class FeaturesModal extends Component {
     // if (fieldName === 'emojiActive') {
     //   setFieldsValue({ fieldName: value });
     // }
+    // fieldName === 'tfsReleaseDate' ? value: value.utc().format() : value; DODELAT!!!
     this.setState({
       [fieldName]: value,
     });
@@ -101,7 +103,14 @@ class FeaturesModal extends Component {
     console.log('isFeaturesModal', isFeaturesModal);
 
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureId, featureName, featureStatus, tfsReleaseId, tfsReleaseName } = this.state;
+    const {
+      featureId,
+      featureName,
+      featureStatus,
+      tfsReleaseId,
+      tfsReleaseName,
+      tfsReleaseDate,
+    } = this.state;
     console.log('STATE', this.state);
 
     const featureIdError = isFieldTouched('featureId') && getFieldError('featureId');
@@ -224,7 +233,10 @@ class FeaturesModal extends Component {
               })(
                 <WrapperForDate>
                   <Label> Дата релиза(TFS) </Label>
-                  <DatePicker />
+                  <DatePicker
+                    value={tfsReleaseDate}
+                    onChange={dateString => this.ChangeField('tfsReleaseDate', dateString)}
+                  />
                 </WrapperForDate>
               )}
             </FormItem>
@@ -237,6 +249,7 @@ class FeaturesModal extends Component {
 FeaturesModal.propTypes = {
   isFeaturesModal: PropTypes.bool.isRequired,
   toggleFeaturesModal: PropTypes.func.isRequired,
+  createFeature: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   featuresModalState: PropTypes.object.isRequired,
   // getFieldDecorator: PropTypes.func.isRequired,
