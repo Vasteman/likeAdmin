@@ -5,6 +5,7 @@ import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
 import FeaturesTable from './featuresTable';
 import FeaturesFilters from './featuresFilters';
+import FeaturesModal from './FeaturesModal';
 
 class FeaturesPanel extends Component {
   componentDidMount() {
@@ -13,14 +14,13 @@ class FeaturesPanel extends Component {
   }
 
   onCreateFeature = () => {
-    // const { toggleTypesOfLikesModal } = this.props;
-    // toggleTypesOfLikesModal({ action: 'create' });
+    const { toggleFeaturesModal } = this.props;
+    toggleFeaturesModal({ action: 'create' });
   };
 
   onEditFeature = () => {
-    // const { toggleTypesOfLikesModal } = this.props;
-    // console.log('edit');
-    // toggleTypesOfLikesModal({ action: 'edit' });
+    const { toggleFeaturesModal } = this.props;
+    toggleFeaturesModal({ action: 'edit' });
   };
 
   onDeleteFeature = () => {
@@ -28,7 +28,7 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    const { features } = this.props;
+    const { features, isFeaturesModal } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -46,8 +46,7 @@ class FeaturesPanel extends Component {
           </HeaderForTable>
 
           <FeaturesTable features={features} />
-          {/* <TypesOfLikesTable typesOfLikes={typesOfLikes} />
-          {isTypesOfLikesModal && <TypesOfLikesAdminModal />} */}
+          {isFeaturesModal && <FeaturesModal />}
         </Wrapper>
       </>
     );
@@ -58,6 +57,8 @@ FeaturesPanel.propTypes = {
   fetchFeatures: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   features: PropTypes.array.isRequired,
+  toggleFeaturesModal: PropTypes.func.isRequired,
+  isFeaturesModal: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -76,7 +77,7 @@ const Title = styled.div`
   font-family: T2_DisplaySerif_Regular;
   text-align: center;
   margin-top: 5px;
-  padding-right: 40px;
+  padding-right: 90px;
 `;
 
 const HeaderForTable = styled.div`
@@ -85,7 +86,7 @@ const HeaderForTable = styled.div`
   display: flex;
   height: 40px;
   // border: 1px solid black;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const StyledIcon = styled(Icon)`

@@ -252,42 +252,45 @@ RangePicker.propTypes = {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  // border: 1px solid red;
   height: 35px;
   margin-bottom: 5px;
 
   .ant-calendar-picker-input.ant-input {
-    height: 25px;
-    margin: 0px 0px 0px 15px;
+    height: 32px;
+    margin: 0px 0px 0px 10px;
     width: 120px;
     padding: 0px 20px 0px 0px;
     text-align: center;
   }
 
   .ant-btn-group .ant-btn {
-    height: 25px;
+    height: 32px;
+  }
+
+  .ant-btn-group {
+    position: relative;
+    display: flex;
+    margin: 0px 0px 5px 10px;
   }
 
   .ant-select-disabled .ant-select-selection {
-    height: 25px;
-    //border: 1px solid black;
-    // padding-top: 5px;
+    height: 32px;
   }
 
   .ant-select-selection-selected-value {
-    height: 25px;
-    // margin: 0px 0px 0px 15px;
+    height: 32px;
     width: 120px;
     padding: 0px 20px 20px 5px;
     text-align: center;
   }
 
   .ant-select-selection--single {
-    height: 25px;
+    height: 32px;
+    margin-bottom: 8px;
   }
 
   .ant-calendar-picker-icon {
-    padding: 0px 15px 2px 15px;
+    padding-right: 10px;
   }
 `;
 
@@ -298,19 +301,18 @@ const Label = styled.label`
   margin: 5px 0px 0px 0px;
   display: flex;
   align-items: center;
-  margin-left: 25px;
-  // border: 1px solid red;
+  margin-left: 10px;
+  width: 150px;
 `;
 
 const StyledPicker = styled(DatePicker)`
   margin: 0px 0px 0px 10px;
   width: 135px;
-  // border: 1px solid black;
 `;
 
 const StyleButtonGroup = styled(ButtonGroup)`
   margin: 5px 0px 0px 30px;
-  display: inherit;
+  // display: inherit;
   height: 25px;
 
   & button {

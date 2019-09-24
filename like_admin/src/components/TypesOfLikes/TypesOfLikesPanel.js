@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import TopMenu from '../TopMenu';
-import TypesOfLikesTable from './typesOfLikesTable';
+import TypesOfLikesTable from './TypesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
 
 class TypesOfLikesPanel extends Component {

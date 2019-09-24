@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
 
-const REGIONS_SEARCH_OPTIONS = [
+const STATUS_TYPE_OF_LIKE__OPTIONS = [
   {
     value: true,
     label: 'Вкл',
@@ -70,8 +70,7 @@ class TypesOfLikesAdminModal extends Component {
 
     const { action } = typesOfLikesModalState;
     const disabledButtonPrimary = action === 'create' ? this.hasErrors(getFieldsError()) : false;
-    console.log('disabledButtonPrimary', disabledButtonPrimary);
-    console.log('PROPS', this.props);
+
     return [
       <Popconfirm
         key={1}
@@ -177,7 +176,7 @@ class TypesOfLikesAdminModal extends Component {
           <FormItem validateStatus={emojiActiveError ? 'error' : ''} help={emojiActiveError || ''}>
             {getFieldDecorator('emojiActive', {
               rules: [{ required: true, message: 'Статус является обязательным!' }],
-              initialValue: REGIONS_SEARCH_OPTIONS[0].value,
+              initialValue: STATUS_TYPE_OF_LIKE__OPTIONS[0].value,
             })(
               <WrapperForLineInput>
                 <Label> Статус </Label>
@@ -186,7 +185,7 @@ class TypesOfLikesAdminModal extends Component {
                   placeholder="Выберите статус"
                   onChange={value => this.ChangeField('emojiActive', value)}
                 >
-                  {REGIONS_SEARCH_OPTIONS.map(option => (
+                  {STATUS_TYPE_OF_LIKE__OPTIONS.map(option => (
                     <Select.Option value={option.value} key={option.value}>
                       {option.label}
                     </Select.Option>
@@ -201,10 +200,10 @@ class TypesOfLikesAdminModal extends Component {
           <Label> Статус </Label>
           <StyledSelect
             value={emojiActive}
-            // defaultValue={REGIONS_SEARCH_OPTIONS[0].value}
+            // defaultValue={STATUS_TYPE_OF_LIKE__OPTIONS[0].value}
             onChange={value => this.ChangeField('emojiActive', value)}
           >
-            {REGIONS_SEARCH_OPTIONS.map(option => (
+            {STATUS_TYPE_OF_LIKE__OPTIONS.map(option => (
               <Select.Option value={option.value} key={option.value}>
                 {option.label}
               </Select.Option>

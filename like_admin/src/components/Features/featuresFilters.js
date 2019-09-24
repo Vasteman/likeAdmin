@@ -13,7 +13,7 @@ const date = {
 class FeaturesFilters extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
-    selectedRowKeys: [],
+    isFilterHidden: false,
   };
 
   componentDidMount() {
@@ -28,30 +28,43 @@ class FeaturesFilters extends Component {
   //   // console.log('nextProps', nextProps);
   //   // if (typesOfLikes) this.createTable(typesOfLikes);
   // }
+  changeVisibilityFilter = isFilterHidden => {
+    console.log('1111');
+    return !isFilterHidden;
+  };
+
   render() {
     // const { features } = this.props;
-    console.log('state table', this.state);
-    console.log('state props', this.props);
-
-    console.log('date', date);
+    const { isFilterHidden } = this.state;
+    console.log('isFilterHidden state', isFilterHidden);
     return (
       <>
         <Wrapper>
           <HeaderForFilters>
             <TitleForFilters> Фильтры </TitleForFilters>
-            <StyledIconFilter type="filter" />
+            <StyledIconFilter
+              type="filter"
+              onClick={() => {
+                this.changeVisibilityFilter(isFilterHidden);
+              }}
+            />
           </HeaderForFilters>
 
-          <WrapperForAllFilters>
+          <WrapperForAllFilters hidden={isFilterHidden}>
             <WrapperForRangePicker>
               <RangePicker isMonthOnly={3} value={{ from: date.from, to: date.to }} />
+              <StyledButton type="primary"> Поиск </StyledButton>
+              <StyledButton type="default"> Очистить </StyledButton>
             </WrapperForRangePicker>
-            <StyledTitle> Показать активные </StyledTitle>
-            <Checkbox> </Checkbox>
-            <StyledTitle> Название </StyledTitle>
-            <Input size="small" />
-            <StyledButton type="primary"> Поиск </StyledButton>
-            <StyledButton type="danger"> Очистить </StyledButton>
+
+            <WrapperForInputFilter>
+              <StyledTitle> Показать активные </StyledTitle>
+              <Checkbox> </Checkbox>
+              <StyledTitle> Название </StyledTitle>
+              <Input />
+              <StyledButton type="primary"> Поиск </StyledButton>
+              <StyledButton type="default"> Очистить </StyledButton>
+            </WrapperForInputFilter>
           </WrapperForAllFilters>
         </Wrapper>
       </>
@@ -68,9 +81,10 @@ const Wrapper = styled.div`
   // background-color: white;
   font-family: PT_Sans-Web-Regular;
   // border: 2px solid red;
+  justify-content: space-between;
   height: 70px;
   color: #000;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   .anticon > * {
     color: #000;
   }
@@ -80,17 +94,15 @@ const Wrapper = styled.div`
   }
 `;
 const HeaderForFilters = styled.div`
-  // border: 1px solid black;
   height: 30px;
-  border-bottom: 1px solid black;
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid black;
 `;
 const StyledIconFilter = styled(Icon)`
   width: 40px;
   font-size: 25px;
   margin: 5px 5px;
-  // border: 1px solid red;
 `;
 
 const TitleForFilters = styled.div`
@@ -101,7 +113,6 @@ const TitleForFilters = styled.div`
   font-family: T2_DisplaySerif_Regular;
   // text-align: center;
   margin-left: 30px;
-  // border: 1px solid green;
 `;
 const StyledTitle = styled.div`
   //border: 1px solid red;
@@ -114,38 +125,46 @@ const StyledTitle = styled.div`
 
 const WrapperForAllFilters = styled.div`
   display: flex;
-  // border: 1px solid black;
-  height: 35px;
+  height: 40px;
   .ant-input {
     width: 150px;
-    margin: 8px 0px 0px 10px;
+    margin: 3px 0px 0px 10px;
   }
   .ant-btn-primary {
-    height: 25px;
+    height: 32px;
     background-color: #3fcbff;
     border-color: #3fcbff;
-    margin: 8px 0px 0px 15px;
+    margin: 3px 0px 0px 15px;
   }
-  .ant-btn-danger {
-    height: 25px;
-    margin: 8px 0px 0px 15px;
+  .ant-btn-default {
+    height: 32px;
+    margin: 3px 0px 0px 15px;
   }
 
   .ant-checkbox-input {
     border: 1px solid red;
-    margin: 8px 0px 0px 10px;
+    margin: 3px 0px 0px 10px;
   }
 `;
 
 const WrapperForRangePicker = styled.div`
   // border: 1px solid red;
-  width: 575px;
+  width: 750px;
   margin-left: 15px;
+  display: flex;
 `;
 
 const StyledButton = styled(Button)`
   border: 1px solid black;
   height: 30px;
+`;
+
+const WrapperForInputFilter = styled.div`
+  // border: 1px solid red;
+  width: 800px;
+  display: flex;
+  height: 40px;
+  margin-left: 200px;
 `;
 
 export default FeaturesFilters;
