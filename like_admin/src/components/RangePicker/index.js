@@ -32,7 +32,6 @@ const RANGE_OPTIONS = [
 export default class RangePicker extends PureComponent {
   get selectedRange() {
     const {
-      isMonthOnly,
       value: { from, to },
     } = this.props;
 
@@ -43,17 +42,7 @@ export default class RangePicker extends PureComponent {
     if (from.isSame(to.clone().subtract(7, 'days'), 'day')) return 'week';
 
     if (from.isSame(to.clone().subtract(1, 'month'), 'day')) return 'month';
-    if (
-      isMonthOnly &&
-      from.isSame(
-        to
-          .clone()
-          .add(1, 'day')
-          .subtract(1, 'month'),
-        'day'
-      )
-    )
-      return 'month';
+
     return 'any';
   }
 
@@ -131,40 +120,23 @@ export default class RangePicker extends PureComponent {
     const {
       value: { from, to },
       onChange,
-      isMonthOnly,
     } = this.props;
 
-    if (isMonthOnly) {
-      if (step === 'previos') {
-        onChange({ to: moment(from).subtract(1, 'day'), from: moment(from).subtract(1, 'month') });
-      } else {
-        const newFrom = moment(from).add(1, 'month');
-        const newTo = moment(newFrom)
-          .add(1, 'month')
-          .subtract(1, 'day');
-        if (moment().isAfter(newTo)) {
-          onChange({ to: newTo, from: newFrom });
-        } else {
-          onChange({ to: moment(), from: newFrom });
-        }
-      }
+    const period = this.selectedRange;
+    const difference = period === 'week' ? '7' : '1';
+    const dimension = period === 'month' ? 'month' : 'day';
+    if (step === 'previos') {
+      onChange({
+        to: moment(to).subtract(difference, dimension),
+        from: moment(from).subtract(difference, dimension),
+      });
     } else {
-      const period = this.selectedRange;
-      const difference = period === 'week' ? '7' : '1';
-      const dimension = period === 'month' ? 'month' : 'day';
-      if (step === 'previos') {
-        onChange({
-          to: moment(to).subtract(difference, dimension),
-          from: moment(from).subtract(difference, dimension),
-        });
+      const newTo = moment(to).add(difference, dimension);
+      if (moment().isAfter(newTo)) {
+        // проверка на доступность даты
+        onChange({ to: newTo, from: moment(from).add(difference, dimension) });
       } else {
-        const newTo = moment(to).add(difference, dimension);
-        if (moment().isAfter(newTo)) {
-          // проверка на доступность даты
-          onChange({ to: newTo, from: moment(from).add(difference, dimension) });
-        } else {
-          onChange({ to: moment(), from: moment().subtract(difference, dimension) });
-        }
+        onChange({ to: moment(), from: moment().subtract(difference, dimension) });
       }
     }
   };
@@ -172,12 +144,9 @@ export default class RangePicker extends PureComponent {
   render() {
     const {
       value: { from, to },
-      isMonthOnly,
     } = this.props;
     console.log('Props RP', this.props);
-    const isSelectedAny = this.selectedRange === 'any' && !isMonthOnly;
-    const disabledPrevChange = isSelectedAny || (isMonthOnly && moment().diff(from, 'month') === 5);
-    const disabledNextChange = isSelectedAny || to.isSame(moment(), 'day');
+    const disabledNextChange = to.isSame(moment(), 'day');
 
     return (
       <Wrapper>
@@ -185,7 +154,6 @@ export default class RangePicker extends PureComponent {
           style={{ width: '130px', margin: '12px 0 0 0' }}
           value={this.selectedRange}
           onChange={this.handleRangeChange}
-          disabled={isMonthOnly}
         >
           {RANGE_OPTIONS.map(option => (
             <Select.Option value={option.value} disabled={option.disabled} key={option.value}>
@@ -197,7 +165,6 @@ export default class RangePicker extends PureComponent {
           с
           <StyledPicker
             allowClear={false}
-            disabled={isMonthOnly}
             disabledDate={this.checkFromDateDisabled}
             value={from}
             onChange={this.handleFromChange}
@@ -210,7 +177,6 @@ export default class RangePicker extends PureComponent {
           по
           <StyledPicker
             allowClear={false}
-            disabled={isMonthOnly}
             disabledDate={this.checkToDateDisabled}
             value={to}
             onChange={this.handleToChange}
@@ -220,10 +186,7 @@ export default class RangePicker extends PureComponent {
           />
         </Label>
         <StyleButtonGroup>
-          <Button
-            disabled={disabledPrevChange}
-            onClick={() => this.handleArrowChangePeriod('previos')}
-          >
+          <Button onClick={() => this.handleArrowChangePeriod('previos')}>
             <Icon type="left" />
           </Button>
           <Button
@@ -246,7 +209,6 @@ RangePicker.propTypes = {
   }),
   onChange: PropTypes.func.isRequired,
   limitMonth: PropTypes.number.isRequired,
-  isMonthOnly: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`

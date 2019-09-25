@@ -19,16 +19,49 @@ class FeaturesPanel extends Component {
   };
 
   onEditFeature = () => {
-    const { toggleFeaturesModal } = this.props;
-    toggleFeaturesModal({ action: 'edit' });
+    const { toggleFeaturesModal, selectedRow } = this.props;
+    if (Object.keys(selectedRow).length !== 0) {
+      toggleFeaturesModal({ action: 'edit' });
+    }
   };
 
   onDeleteFeature = () => {
-    console.log('delete');
+    const { deleteFeature, selectedRow } = this.props;
+    if (Object.keys(selectedRow).length !== 0) {
+      console.log('SELECTED ROW', selectedRow);
+      deleteFeature({ featureId: selectedRow.featureId });
+    }
+  };
+
+  onSelectRow = record => {
+    const { selectRow } = this.props;
+    selectRow({ selectedRow: record });
+  };
+
+  onChangeCheckboxValue = record => {
+    const { createFeature } = this.props;
+    const {
+      featureId,
+      featureName,
+      featureStatus,
+      tfsReleaseId,
+      tfsReleaseName,
+      tfsReleaseDate,
+    } = record;
+
+    const recordDataForRequest = {
+      featureId,
+      featureName,
+      featureStatus: !featureStatus,
+      tfsReleaseId,
+      tfsReleaseName,
+      tfsReleaseDate,
+    };
+    createFeature(recordDataForRequest);
   };
 
   render() {
-    const { features, isFeaturesModal } = this.props;
+    const { features, isFeaturesModal, selectedRow } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -45,7 +78,12 @@ class FeaturesPanel extends Component {
             </WrapperForIcon>
           </HeaderForTable>
 
-          <FeaturesTable features={features} />
+          <FeaturesTable
+            features={features}
+            selectedRow={selectedRow}
+            onSelectRow={this.onSelectRow}
+            onChangeCheckboxValue={this.onChangeCheckboxValue}
+          />
           {isFeaturesModal && <FeaturesModal />}
         </Wrapper>
       </>
@@ -54,18 +92,21 @@ class FeaturesPanel extends Component {
 }
 
 FeaturesPanel.propTypes = {
+  toggleFeaturesModal: PropTypes.func.isRequired,
   fetchFeatures: PropTypes.func.isRequired,
+  createFeature: PropTypes.func.isRequired,
+  deleteFeature: PropTypes.func.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  isFeaturesModal: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   features: PropTypes.array.isRequired,
-  toggleFeaturesModal: PropTypes.func.isRequired,
-  isFeaturesModal: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled.div`
-  // border: 1px solid black;
   background-color: #fff;
   margin: 25px 30px 0px 30px;
-  // height: 100px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
 `;
 
@@ -82,11 +123,9 @@ const Title = styled.div`
 
 const HeaderForTable = styled.div`
   // box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #8e97a0;
   display: flex;
   height: 40px;
-  // border: 1px solid black;
-  // margin-top: 20px;
 `;
 
 const StyledIcon = styled(Icon)`

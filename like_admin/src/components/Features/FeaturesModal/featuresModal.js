@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Button, Popconfirm, Icon, Form, Input, Select, DatePicker } from 'antd';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 
@@ -22,7 +22,32 @@ class FeaturesModal extends Component {
   state = {};
 
   componentDidMount() {
-    // comment
+    const {
+      selectedRow,
+      featuresModalState: { action },
+      form: { validateFields },
+    } = this.props;
+    validateFields();
+
+    if (action === 'edit') {
+      const {
+        featureId,
+        featureName,
+        featureStatus,
+        tfsReleaseId,
+        tfsReleaseName,
+        tfsReleaseDate,
+      } = selectedRow;
+
+      this.setState({
+        featureId,
+        featureName,
+        featureStatus,
+        tfsReleaseId,
+        tfsReleaseName,
+        tfsReleaseDate,
+      });
+    }
   }
 
   onOK = () => {
@@ -125,7 +150,6 @@ class FeaturesModal extends Component {
       <Wrapper
         title="Добавление фичи"
         visible={isFeaturesModal}
-        Ok={this.onOK}
         onCancel={this.onCancel}
         width={800}
         footer={this.renderFooterButtons()}
@@ -175,7 +199,7 @@ class FeaturesModal extends Component {
                   <Label> Статус </Label>
                   <StyledSelect
                     value={featureStatus}
-                    placeholder="Выберите статус"
+                    placeholder="Статус"
                     onChange={value => this.ChangeField('featureStatus', value)}
                   >
                     {STATUS_FEATURES_OPTIONS.map(option => (
@@ -234,7 +258,11 @@ class FeaturesModal extends Component {
                 <WrapperForDate>
                   <Label> Дата релиза(TFS) </Label>
                   <DatePicker
+                    allowClear={false}
+                    // format={datesFormatsArray}
                     value={tfsReleaseDate}
+                    showToday={false}
+                    defaultValue={moment()}
                     onChange={dateString => this.ChangeField('tfsReleaseDate', dateString)}
                   />
                 </WrapperForDate>
@@ -255,7 +283,9 @@ FeaturesModal.propTypes = {
   // getFieldDecorator: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   form: PropTypes.object.isRequired,
-  // validateFields: PropTypes.func.isRequired,
+  validateFields: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const StyledForm = styled(Form)`

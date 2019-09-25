@@ -5,14 +5,12 @@ import { Input, Button, Checkbox } from 'antd';
 import RangePicker from 'components/RangePicker';
 import moment from 'moment';
 
-const date = {
-  from: moment(),
-  to: moment().add(1, 'month'),
-};
-
 class FeaturesFilters extends Component {
   // eslint-disable-next-line react/state-in-constructor
-  state = {};
+  state = {
+    datePeriodStart: moment().subtract(1, 'month'),
+    datePeriodFinish: moment(),
+  };
 
   componentDidMount() {
     // eslint-disable-next-line no-shadow
@@ -26,8 +24,14 @@ class FeaturesFilters extends Component {
   //   // console.log('nextProps', nextProps);
   //   // if (typesOfLikes) this.createTable(typesOfLikes);
   // }
+  changeDate = params => {
+    this.setState({
+      ...params,
+    });
+  };
 
   render() {
+    const { datePeriodStart, datePeriodFinish } = this.state;
     return (
       <>
         <Wrapper>
@@ -41,7 +45,12 @@ class FeaturesFilters extends Component {
 
             <WrapperForRangePicker>
               <StyledTitlePeriod> Период </StyledTitlePeriod>
-              <RangePicker isMonthOnly={12} value={{ from: date.from, to: date.to }} />
+              <RangePicker
+                value={{ from: datePeriodStart, to: datePeriodFinish }}
+                onChange={({ from, to }) =>
+                  this.changeDate({ datePeriodStart: from, datePeriodFinish: to })
+                }
+              />
               <StyledButton type="primary"> Найти </StyledButton>
               <StyledButton type="default"> Очистить </StyledButton>
               <StyledTitle> Показать активные </StyledTitle>
@@ -60,16 +69,19 @@ FeaturesFilters.propTypes = {
 };
 
 const Wrapper = styled.div`
-  font-family: T2_DisplaySerif_Regular;
+  font-family: PT_Sans-Web-Regular;
   height: 90px;
   color: #000;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #8e97a0;
   .anticon > * {
     color: #000;
   }
 
   .ant-checkbox-inner {
     margin-top: 15px;
+  }
+  .ant-checkbox-wrapper {
+    margin-left: 10px;
   }
 `;
 

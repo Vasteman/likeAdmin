@@ -125,7 +125,6 @@ class TypesOfLikesAdminModal extends Component {
       <Wrapper
         title="Тип лайков"
         visible={isTypesOfLikesModal}
-        onOk={this.onOK}
         onCancel={this.onCancel}
         width={750}
         footer={this.renderFooterButtons()}

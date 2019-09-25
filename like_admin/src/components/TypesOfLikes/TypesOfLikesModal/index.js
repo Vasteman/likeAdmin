@@ -12,7 +12,6 @@ import TypesOfLikesAdminModal from './TypesOfLikesAdminModal';
 const mapStateToProps = state => ({
   isTypesOfLikesModal: state.typesOfLikesModal.isTypesOfLikesModal, //
   typesOfLikesModalState: state.typesOfLikesModal.typesOfLikesModalState,
-  // typesOfLikes: state.typesOfLikesPanel.typesOfLikes,
   selectedRow: state.typesOfLikesPanel.selectedRow,
 });
 

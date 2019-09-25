@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import moment from 'moment';
 import { notification } from 'antd';
 import api from 'utils/api';
@@ -8,7 +8,7 @@ import {
   FETCH_TYPES_OF_LIKES_SUCCESS,
   FETCH_TYPES_OF_LIKES_ERROR, // error fe
   FETCH_TYPES_OF_LIKES_FAILURE, // error be
-  SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
+  // SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
   // create type of like
   CREATE_TYPE_OF_LIKE_SUCCESS,
   CREATE_TYPE_OF_LIKE_ERROR,
@@ -24,7 +24,7 @@ const { fetchTypesOfLikes, createTypeOfLike, deleteTypeOfLike } = api;
 export const getAdminCategoriesPanelSelectedRow = state => state.typesOfLikesPanel.selectedRow;
 
 export function* fetchTypesOfLikesSaga() {
-  const selectedRow = yield select(getAdminCategoriesPanelSelectedRow);
+  // const selectedRow = yield select(getAdminCategoriesPanelSelectedRow);
 
   try {
     const { data } = yield call(fetchTypesOfLikes, {});
@@ -33,17 +33,17 @@ export function* fetchTypesOfLikesSaga() {
     if (data.IsSuccess) {
       yield put({ type: FETCH_TYPES_OF_LIKES_SUCCESS, payload: { typesOfLikes } });
 
-      if (Object.keys(selectedRow).length > 0) {
-        console.log('selectedRow777', selectedRow);
-        const isSelectedRowExistInCategories = typesOfLikes.find(
-          item => item.TypeId === selectedRow.key
-        );
+      // if (Object.keys(selectedRow).length > 0) {
+      //   console.log('selectedRow777', selectedRow);
+      //   const isSelectedRowExistInCategories = typesOfLikes.find(
+      //     item => item.TypeId === selectedRow.key
+      //   );
 
-        yield put({
-          type: SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
-          payload: { selectedRow: null, newType: isSelectedRowExistInCategories || {} },
-        });
-      }
+      //   yield put({
+      //     type: SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
+      //     payload: { selectedRow: null, newType: isSelectedRowExistInCategories || {} },
+      //   });
+      // }
       // console.log('payload', payload);
     } else {
       yield put({ type: FETCH_TYPES_OF_LIKES_ERROR, payload: {} });
@@ -67,7 +67,7 @@ export function* createTypeOfLikeSaga({ payload }) {
       yield put({ type: CREATE_TYPE_OF_LIKE_SUCCESS });
       notification.success({
         message: 'Типы лайков',
-        description: 'Тип лайка успешно создан!',
+        description: 'Тип лайка добавлен!',
       });
       yield put({ type: FETCH_TYPES_OF_LIKES });
     } else {
