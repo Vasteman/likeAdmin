@@ -3,6 +3,7 @@ import qs from 'query-string';
 
 import typesOfLikes from './entities/TypesOfLikes/typesOfLikesPanel';
 import features from './entities/Features/featuresPanel';
+import releases from './entities/Releases/releasesPanel';
 
 axios.interceptors.request.use(
   config => ({
@@ -17,4 +18,5 @@ axios.interceptors.request.use(
 export default {
   ...typesOfLikes,
   ...features,
+  ...releases,
 };
