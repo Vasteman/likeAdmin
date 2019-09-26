@@ -84,9 +84,9 @@ export function* createTypeOfLikeSaga({ payload }) {
 
 export function* deleteTypeOfLikeSaga({ payload }) {
   try {
-    console.log('payload delete', payload);
+    const { typeId } = payload;
 
-    const { data } = yield call(deleteTypeOfLike, payload);
+    const { data } = yield call(deleteTypeOfLike, typeId);
 
     if (data.IsSuccess) {
       yield put({ type: DELETE_TYPE_OF_LIKE_SUCCESS });

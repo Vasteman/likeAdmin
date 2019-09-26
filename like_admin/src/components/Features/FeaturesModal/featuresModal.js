@@ -34,6 +34,7 @@ class FeaturesModal extends Component {
     if (action === 'edit') {
       fetchReleases({});
       console.log('FETCH DONE');
+      console.log('PROPS CDM ', this.props);
       const {
         featureId,
         featureName,

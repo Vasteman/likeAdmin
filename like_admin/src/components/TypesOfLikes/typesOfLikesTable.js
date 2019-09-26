@@ -60,7 +60,7 @@ class TypesOfLikesTable extends Component {
         width: '18%',
       },
       {
-        title: 'Статус',
+        title: 'Активно',
         dataIndex: 'status',
         key: 'status',
         width: '20%',

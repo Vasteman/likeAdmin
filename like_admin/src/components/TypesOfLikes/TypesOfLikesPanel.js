@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon } from 'antd';
+import { Icon, Popconfirm } from 'antd';
 import TopMenu from '../TopMenu';
 import TypesOfLikesTable from './TypesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
@@ -29,6 +29,7 @@ class TypesOfLikesPanel extends Component {
     if (Object.keys(selectedRow).length !== 0) {
       deleteTypeOfLike({ typeId: selectedRow.typeId });
     }
+    console.log('onDelete');
   };
 
   onSelectRow = record => {
@@ -60,7 +61,19 @@ class TypesOfLikesPanel extends Component {
             <WrapperForIcon>
               <StyledIcon type="plus" onClick={this.onCreateType} />
               <StyledIcon type="edit" onClick={this.onEditType} />
-              <StyledIcon type="delete" onClick={this.onDeleteType} />
+
+              <Popconfirm
+                key={1}
+                title="Уверены в удалении?"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                placement="bottomRight"
+                onConfirm={this.onDeleteType}
+                onCancel={() => null}
+                okText="Да"
+                cancelText="Нет"
+              >
+                <StyledIcon type="delete" />
+              </Popconfirm>
             </WrapperForIcon>
           </Header>
           <TypesOfLikesTable
@@ -97,6 +110,14 @@ const Wrapper = styled.div`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   .anticon > * {
     color: #000;
+  }
+  .ant-btn-primary {
+    background-color: #3fcbff;
+    border-color: #3fcbff;
+  }
+  .ant-btn-sm {
+    background-color: #3fcbff;
+    border-color: #3fcbff;
   }
 `;
 

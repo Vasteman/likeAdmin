@@ -54,7 +54,7 @@ class FeaturesTable extends Component {
         width: '18%',
       },
       {
-        title: 'Статус',
+        title: 'Активно',
         dataIndex: 'featureStatus',
         key: 'featureStatus',
         width: '20%',
