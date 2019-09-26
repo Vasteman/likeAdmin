@@ -40,7 +40,7 @@ class FeaturesModal extends Component {
         featureName,
         featureStatus,
         tfsReleaseId,
-        tfsReleaseName,
+        releaseName,
         tfsReleaseDate,
       } = selectedRow;
 
@@ -49,7 +49,7 @@ class FeaturesModal extends Component {
         featureName,
         featureStatus,
         tfsReleaseId,
-        tfsReleaseName,
+        releaseName,
         tfsReleaseDate,
       });
     }
@@ -60,6 +60,7 @@ class FeaturesModal extends Component {
       createFeature,
       featuresModalState: { action },
     } = this.props;
+    console.log('State OK!', this.state);
 
     if (action === 'create' || action === 'edit') createFeature(this.state);
     this.onCancel();
@@ -126,18 +127,25 @@ class FeaturesModal extends Component {
     this.setState({
       [fieldName]: value,
     });
+    console.log('State modal!', this.state);
   };
 
   render() {
-    const { isFeaturesModal, form, releases } = this.props;
-
+    const {
+      isFeaturesModal,
+      form,
+      releases,
+      featuresModalState: { action },
+    } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureName, featureStatus } = this.state;
+    const { featureId, featureName, featureStatus, releaseName } = this.state;
     console.log('releases', releases);
     console.log('PROOOPS', this.props);
+
+    const featureIdError = isFieldTouched('featureId') && getFieldError('featureId');
     const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
     const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
-    const tfsReleaseNameError = isFieldTouched('tfsReleaseName') && getFieldError('tfsReleaseName');
+    const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
 
     return (
       <Wrapper
@@ -149,12 +157,27 @@ class FeaturesModal extends Component {
       >
         <StyledForm>
           <FeatureWrapper>
+            {action === 'create' && (
+              <FormItem validateStatus={featureIdError ? 'error' : ''} help={featureIdError || ''}>
+                {getFieldDecorator('featureId', {
+                  rules: [{ required: true, message: 'ID фичи является обязательным!' }],
+                })(
+                  <WrapperForLineInput>
+                    <Label> ID </Label>
+                    <Input
+                      value={featureId}
+                      onChange={elem => this.ChangeField('featureId', elem.target.value)}
+                    />
+                  </WrapperForLineInput>
+                )}
+              </FormItem>
+            )}
             <FormItem
               validateStatus={featureNameError ? 'error' : ''}
               help={featureNameError || ''}
             >
               {getFieldDecorator('featureName', {
-                rules: [{ required: false, message: 'Имя фичи является обязательным!' }],
+                rules: [{ required: true, message: 'Имя фичи является обязательным!' }],
               })(
                 <WrapperForLineInput>
                   <Label> Название фичи </Label>
@@ -194,19 +217,25 @@ class FeaturesModal extends Component {
 
           <ReleaseWrapper>
             <FormItem
-              validateStatus={tfsReleaseNameError ? 'error' : ''}
-              help={tfsReleaseNameError || ''}
+              validateStatus={releaseNameError ? 'error' : ''}
+              help={releaseNameError || ''}
             >
-              {getFieldDecorator('tfsReleaseNameError', {
-                rules: [{ required: true, message: 'Имя релиза является обязательным!' }],
+              {getFieldDecorator('releaseNameError', {
+                rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
               })(
                 <WrapperForLineInput>
                   <Label> Название релиза</Label>
-                  {releases.map(release => (
-                    <Select.Option value={release.value} key={release.value}>
-                      {release.label}
-                    </Select.Option>
-                  ))}
+                  <StyledSelect
+                    value={releaseName}
+                    placeholder="Релиз"
+                    onChange={value => this.ChangeField('releaseName', value)}
+                  >
+                    {releases.map(release => (
+                      <Select.Option value={release.TfsReleaseId} key={release.TfsReleaseId}>
+                        {release.TfsReleaseName}
+                      </Select.Option>
+                    ))}
+                  </StyledSelect>
                 </WrapperForLineInput>
               )}
             </FormItem>
@@ -255,17 +284,11 @@ const FeatureWrapper = styled.div`
 const ReleaseWrapper = styled.div`
   width: 350px;
   margin-left: 50px;
-  .ant-calendar-picker-input.ant-input {
-    width: 140px;
-    margin-left: 50px;
-    font-family: PT_Sans-Web-Regular;
-  }
 `;
 const WrapperForLineInput = styled.div`
   display: flex;
   height: 35px;
   .ant-input {
-    // border: 1px solid green;
     width: 140px;
     margin-left: 50px;
   }
@@ -280,8 +303,9 @@ const WrapperForLineInput = styled.div`
 // `;
 
 const Label = styled.div`
-  width: 150px;
+  width: 200px;
   height: 30px;
+  border: 1px solid red;
 `;
 
 const StyledButtonPrimary = styled(Button)`
@@ -293,8 +317,6 @@ const StyledButtonPrimary = styled(Button)`
 `;
 
 const StyledSelect = styled(Select)`
-  // border: 1px solid green;
-  width: 100px;
   .ant-select-selection {
     width: 140px;
     margin-left: 60px;

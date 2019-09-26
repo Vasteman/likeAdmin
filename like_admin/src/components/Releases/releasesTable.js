@@ -8,16 +8,12 @@ class ReleasesTable extends Component {
   state = {};
 
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
     const { releases } = this.props;
-    console.log('PROPS CDM ', this.props);
     this.createTable(releases);
   }
 
   componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line no-shadow
     const { releases } = nextProps;
-    console.log('nextProps', nextProps);
     if (releases) this.createTable(releases);
   }
 
@@ -68,7 +64,7 @@ class ReleasesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, releases } = this.props; // features добавить в пропсы
+    const { onSelectRow, releases } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
@@ -76,8 +72,6 @@ class ReleasesTable extends Component {
       type: 'radio',
     };
 
-    console.log('state render', this.state);
-    console.log('render props', this.props);
     return (
       <Wrapper>
         {releases && (

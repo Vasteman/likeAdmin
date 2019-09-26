@@ -61,13 +61,13 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    const { features, isFeaturesModal, selectedRow } = this.props;
+    const { features, isFeaturesModal, selectedRow, fetchFeatures } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
         <TopMenu />
         <Wrapper>
-          <FeaturesFilters />
+          <FeaturesFilters fetchFeatures={fetchFeatures} />
 
           <HeaderForTable>
             <Title> Фичи </Title>

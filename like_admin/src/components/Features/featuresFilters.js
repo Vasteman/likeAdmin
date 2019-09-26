@@ -30,6 +30,34 @@ class FeaturesFilters extends Component {
     });
   };
 
+  onChangeCheckbox = event => {
+    console.log('checked', event.target.checked);
+    // const { fetchFeatures } = this.props;
+    // fetchFeatures() передать здесь параметр для отображения по статусу
+  };
+
+  onSearchFeaturesByName = nameFeature => {
+    console.log('nameFEature', nameFeature);
+    console.log('STATE onSearchFeaturesByName', this.state);
+    // const { featureName } = this.state;
+
+    // const { fetchFeatures } = this.props;
+    // fetchFeatures(featureName)
+  };
+
+  ChangeField = (fieldName, value) => {
+    this.setState({
+      fieldName: value,
+    });
+  };
+
+  onClearInputForFeatureName = () => {
+    this.setState({
+      featureName: '',
+    });
+    console.log('STATE onClearInputForFeatureName', this.state);
+  };
+
   render() {
     const { datePeriodStart, datePeriodFinish } = this.state;
     return (
@@ -38,9 +66,16 @@ class FeaturesFilters extends Component {
           <WrapperForAllFilters>
             <WrapperForInputFilter>
               <StyledTitle> Название </StyledTitle>
-              <Input placeholder="Название" />
-              <StyledButton type="primary"> Найти </StyledButton>
-              <StyledButton type="default"> Очистить </StyledButton>
+              <Input
+                placeholder="Название"
+                onChange={elem => this.ChangeField('featureName', elem.target.value)}
+              />
+              <StyledButton type="primary" onClick={this.onSearchFeaturesByName}>
+                Найти
+              </StyledButton>
+              <StyledButton type="default" onClick={this.onClearInputForFeatureName}>
+                Очистить
+              </StyledButton>
             </WrapperForInputFilter>
 
             <WrapperForRangePicker>
@@ -54,7 +89,7 @@ class FeaturesFilters extends Component {
               <StyledButton type="primary"> Найти </StyledButton>
               <StyledButton type="default"> Очистить </StyledButton>
               <StyledTitle> Показать активные </StyledTitle>
-              <Checkbox> </Checkbox>
+              <Checkbox onChange={this.onChangeCheckbox} />
             </WrapperForRangePicker>
           </WrapperForAllFilters>
         </Wrapper>
