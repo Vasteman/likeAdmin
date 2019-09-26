@@ -9,35 +9,34 @@ class ReleasesTable extends Component {
 
   componentDidMount() {
     // eslint-disable-next-line no-shadow
-    // const { releases } = this.props;
+    const { releases } = this.props;
     console.log('PROPS CDM ', this.props);
-    // this.createTable(releases);
+    this.createTable(releases);
   }
 
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line no-shadow
-    const { features } = nextProps;
+    const { releases } = nextProps;
     console.log('nextProps', nextProps);
-    if (features) this.createTable(features);
+    if (releases) this.createTable(releases);
   }
 
   createDataSource = releases => {
     return releases.map(release => {
       let item = {};
       item = {
-        author: release.FeatureAuthor,
-        featureDate: release.FeatureDate,
-        featureId: release.FeatureId,
-        featureName: release.FeatureName,
-        featureStatus: release.IsLikeActive,
+        author: release.TfsReleaseAuthor,
+        releaseDate: release.TfsReleaseDate,
+        releaseId: release.TfsReleaseId,
+        releaseName: release.TfsReleaseName,
       };
       console.log('item', item);
       return item;
     });
   };
 
-  createTable = () => {
-    // this.dataSource = this.createDataSource(releases);
+  createTable = releases => {
+    this.dataSource = this.createDataSource(releases);
 
     // const { onChangeCheckboxValue } = this.props;
     this.columns = [
@@ -69,7 +68,7 @@ class ReleasesTable extends Component {
   };
 
   render() {
-    const { onSelectRow } = this.props; // features добавить в пропсы
+    const { onSelectRow, releases } = this.props; // features добавить в пропсы
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
@@ -81,13 +80,15 @@ class ReleasesTable extends Component {
     console.log('render props', this.props);
     return (
       <Wrapper>
-        <StyledTable
-          rowSelection={rowSelection}
-          bordered
-          dataSource={this.dataSource}
-          columns={this.columns}
-          pagination={false}
-        />
+        {releases && (
+          <StyledTable
+            rowSelection={rowSelection}
+            bordered
+            dataSource={this.dataSource}
+            columns={this.columns}
+            pagination={false}
+          />
+        )}
       </Wrapper>
     );
   }
@@ -95,7 +96,7 @@ class ReleasesTable extends Component {
 
 ReleasesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  features: PropTypes.array.isRequired,
+  releases: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
 };
 

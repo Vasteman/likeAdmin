@@ -6,7 +6,7 @@ const MenuItems = [
   { title: 'Домой', path: '/start' },
   { title: 'Типы лайков', path: '/likeAdmin/typesOfLikes' },
   { title: 'Релизы', path: '/likeAdmin/releases' },
-  { title: 'Features', path: '/likeAdmin/features' },
+  { title: 'Фичи', path: '/likeAdmin/features' },
 ];
 
 const TopMenu = () => {

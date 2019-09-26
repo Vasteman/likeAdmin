@@ -39,7 +39,7 @@ class ReleasesPanel extends Component {
   };
 
   render() {
-    const { isReleasesModal } = this.props;
+    const { isReleasesModal, releases } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -57,9 +57,9 @@ class ReleasesPanel extends Component {
           </HeaderForTable>
 
           <ReleasesTable
-          // releases={releases}
-          // selectedRow={selectedRow}
-          // onSelectRow={this.onSelectRow}
+            releases={releases}
+            // selectedRow={selectedRow}
+            // onSelectRow={this.onSelectRow}
           />
           {isReleasesModal && <ReleaseModal />}
         </Wrapper>
@@ -76,7 +76,7 @@ ReleasesPanel.propTypes = {
   selectRow: PropTypes.func.isRequired,
   isReleasesModal: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  // features: PropTypes.array.isRequired,
+  releases: PropTypes.array.isRequired,
   // // eslint-disable-next-line react/forbid-prop-types
   // selectedRow: PropTypes.object.isRequired,
 };

@@ -1,8 +1,9 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Modal, Button, Popconfirm, Icon, Form, Input, Select, DatePicker } from 'antd';
+import { Modal, Button, Popconfirm, Icon, Form, Input, Select } from 'antd';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 
 const FormItem = Form.Item;
 
@@ -26,10 +27,13 @@ class FeaturesModal extends Component {
       selectedRow,
       featuresModalState: { action },
       form: { validateFields },
+      fetchReleases,
     } = this.props;
     validateFields();
 
     if (action === 'edit') {
+      fetchReleases({});
+      console.log('FETCH DONE');
       const {
         featureId,
         featureName,
@@ -124,27 +128,15 @@ class FeaturesModal extends Component {
   };
 
   render() {
-    const { isFeaturesModal, form } = this.props;
-    console.log('isFeaturesModal', isFeaturesModal);
+    const { isFeaturesModal, form, releases } = this.props;
 
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const {
-      featureId,
-      featureName,
-      featureStatus,
-      tfsReleaseId,
-      tfsReleaseName,
-      tfsReleaseDate,
-    } = this.state;
-    console.log('STATE', this.state);
-
-    const featureIdError = isFieldTouched('featureId') && getFieldError('featureId');
+    const { featureName, featureStatus } = this.state;
+    console.log('releases', releases);
+    console.log('PROOOPS', this.props);
     const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
     const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
-
-    const tfsReleaseIdError = isFieldTouched('tfsReleaseId') && getFieldError('tfsReleaseId');
     const tfsReleaseNameError = isFieldTouched('tfsReleaseName') && getFieldError('tfsReleaseName');
-    const tfsReleaseDateError = isFieldTouched('tfsReleaseDate') && getFieldError('tfsReleaseDate');
 
     return (
       <Wrapper
@@ -156,20 +148,6 @@ class FeaturesModal extends Component {
       >
         <StyledForm>
           <FeatureWrapper>
-            <FormItem validateStatus={featureIdError ? 'error' : ''} help={featureIdError || ''}>
-              {getFieldDecorator('featureId', {
-                rules: [{ required: true, message: 'ID фичи является обязательным!' }],
-              })(
-                <WrapperForLineInput>
-                  <Label> ID </Label>
-                  <Input
-                    value={featureId}
-                    onChange={elem => this.ChangeField('featureId', elem.target.value)}
-                  />
-                </WrapperForLineInput>
-              )}
-            </FormItem>
-
             <FormItem
               validateStatus={featureNameError ? 'error' : ''}
               help={featureNameError || ''}
@@ -192,7 +170,7 @@ class FeaturesModal extends Component {
               help={featureStatusError || ''}
             >
               {getFieldDecorator('featureStatus', {
-                rules: [{ required: true, message: 'Статус является обязательным!' }],
+                rules: [{ required: false, message: 'Статус является обязательным!' }],
                 // initialValue: STATUS_TYPE_OF_LIKE__OPTIONS[0].value,
               })(
                 <WrapperForLineInput>
@@ -215,57 +193,20 @@ class FeaturesModal extends Component {
 
           <ReleaseWrapper>
             <FormItem
-              validateStatus={tfsReleaseIdError ? 'error' : ''}
-              help={tfsReleaseIdError || ''}
-            >
-              {getFieldDecorator('tfsReleaseIdError', {
-                rules: [{ required: true, message: 'ID релиза является обязательным!' }],
-              })(
-                <WrapperForLineInput>
-                  <Label> ID релиза </Label>
-                  <Input
-                    value={tfsReleaseId}
-                    onChange={elem => this.ChangeField('tfsReleaseId', elem.target.value)}
-                  />
-                </WrapperForLineInput>
-              )}
-            </FormItem>
-
-            <FormItem
               validateStatus={tfsReleaseNameError ? 'error' : ''}
               help={tfsReleaseNameError || ''}
             >
               {getFieldDecorator('tfsReleaseNameError', {
-                rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
+                rules: [{ required: true, message: 'Имя релиза является обязательным!' }],
               })(
                 <WrapperForLineInput>
-                  <Label> Название релиза(TFS) </Label>
-                  <Input
-                    value={tfsReleaseName}
-                    onChange={elem => this.ChangeField('tfsReleaseName', elem.target.value)}
-                  />
+                  <Label> Название релиза</Label>
+                  {releases.map(release => (
+                    <Select.Option value={release.value} key={release.value}>
+                      {release.label}
+                    </Select.Option>
+                  ))}
                 </WrapperForLineInput>
-              )}
-            </FormItem>
-
-            <FormItem
-              validateStatus={tfsReleaseDateError ? 'error' : ''}
-              help={tfsReleaseDateError || ''}
-            >
-              {getFieldDecorator('tfsReleaseDateError', {
-                rules: [{ required: true, message: 'Выберите дату!' }],
-              })(
-                <WrapperForDate>
-                  <Label> Дата релиза(TFS) </Label>
-                  <DatePicker
-                    allowClear={false}
-                    // format={datesFormatsArray}
-                    value={tfsReleaseDate}
-                    showToday={false}
-                    defaultValue={moment()}
-                    onChange={dateString => this.ChangeField('tfsReleaseDate', dateString)}
-                  />
-                </WrapperForDate>
               )}
             </FormItem>
           </ReleaseWrapper>
@@ -286,6 +227,8 @@ FeaturesModal.propTypes = {
   validateFields: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
+  fetchReleases: PropTypes.func.isRequired,
+  releases: PropTypes.array.isRequired,
 };
 
 const StyledForm = styled(Form)`
@@ -314,6 +257,7 @@ const ReleaseWrapper = styled.div`
   .ant-calendar-picker-input.ant-input {
     width: 140px;
     margin-left: 50px;
+    font-family: PT_Sans-Web-Regular;
   }
 `;
 const WrapperForLineInput = styled.div`
@@ -330,9 +274,9 @@ const WrapperForLineInput = styled.div`
   }
 `;
 
-const WrapperForDate = styled.div`
-  display: flex;
-`;
+// const WrapperForDate = styled.div`
+//   display: flex;
+// `;
 
 const Label = styled.div`
   width: 150px;

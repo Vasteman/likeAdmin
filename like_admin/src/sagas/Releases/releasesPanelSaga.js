@@ -16,10 +16,10 @@ const { fetchReleases } = api;
 export default function* fetchReleasesSaga() {
   try {
     const { data } = yield call(fetchReleases, {});
-    const { Data: features } = data; // typesOfLikes - renaming
+    const { Data: releases } = data;
     console.log('data', data);
     if (data.IsSuccess) {
-      yield put({ type: FETCH_RELEASES_SUCCESS, payload: { features } });
+      yield put({ type: FETCH_RELEASES_SUCCESS, payload: { releases } });
     } else {
       yield put({ type: FETCH_RELEASES_ERROR, payload: {} });
     }
