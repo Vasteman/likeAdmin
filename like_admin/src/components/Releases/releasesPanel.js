@@ -20,10 +20,10 @@ class ReleasesPanel extends Component {
   };
 
   onEditRelease = () => {
-    // const { toggleFeaturesModal, selectedRow } = this.props;
-    // if (Object.keys(selectedRow).length !== 0) {
-    //   toggleFeaturesModal({ action: 'edit' });
-    // }
+    const { toggleReleaseModal, selectedRow } = this.props;
+    if (Object.keys(selectedRow).length !== 0) {
+      toggleReleaseModal({ action: 'edit' });
+    }
   };
 
   onDeleteRelease = () => {

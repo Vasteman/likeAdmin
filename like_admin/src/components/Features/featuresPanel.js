@@ -63,7 +63,7 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    const { features, isFeaturesModal, selectedRow, fetchFeatures, releases } = this.props;
+    const { features, isFeaturesModal, selectedRow, fetchFeatures } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -97,7 +97,7 @@ class FeaturesPanel extends Component {
             onSelectRow={this.onSelectRow}
             onChangeCheckboxValue={this.onChangeCheckboxValue}
           />
-          {isFeaturesModal && <FeaturesModal releases={releases} />}
+          {isFeaturesModal && <FeaturesModal />}
         </Wrapper>
       </>
     );
@@ -113,7 +113,6 @@ FeaturesPanel.propTypes = {
   selectRow: PropTypes.func.isRequired,
   isFeaturesModal: PropTypes.bool.isRequired,
   features: PropTypes.array.isRequired,
-  releases: PropTypes.array.isRequired,
   selectedRow: PropTypes.object.isRequired,
 };
 

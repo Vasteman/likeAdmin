@@ -4,16 +4,23 @@ import { notification } from 'antd';
 import api from 'utils/api';
 
 import {
-  // FETCH_RELEASES,
+  FETCH_RELEASES,
   FETCH_RELEASES_SUCCESS,
   FETCH_RELEASES_ERROR, // error fe
   FETCH_RELEASES_FAILURE, // error be
   // SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
+  DELETE_RELEASE_SUCCESS,
+  DELETE_RELEASE_ERROR,
+  DELETE_RELEASE_FAILURE,
+  //
+  CREATE_RELEASE_SUCCESS,
+  CREATE_RELEASE_ERROR,
+  CREATE_RELEASE_FAILURE,
 } from 'reducers/Releases/releasesPanelReducer';
 
-const { fetchReleases } = api;
+const { fetchReleases, deleteReleases, createReleases } = api;
 
-export default function* fetchReleasesSaga() {
+export function* fetchReleasesSaga() {
   try {
     const { data } = yield call(fetchReleases, {});
     const { Data: releases } = data;
@@ -26,6 +33,60 @@ export default function* fetchReleasesSaga() {
   } catch (ex) {
     yield put({ type: FETCH_RELEASES_FAILURE, message: ex.message });
     console.log('ERROOOOOOR');
+    notification.error({
+      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
+      description: ex,
+    });
+  }
+}
+
+export function* deleteReleasesSaga({ payload }) {
+  try {
+    console.log('payload', payload);
+
+    const { data } = yield call(deleteReleases, payload);
+
+    if (data.IsSuccess) {
+      yield put({ type: DELETE_RELEASE_SUCCESS });
+      yield put({ type: FETCH_RELEASES });
+      notification.success({
+        message: 'Релизы',
+        description: 'Релиз успешно удален!',
+      });
+    } else {
+      yield put({ type: DELETE_RELEASE_ERROR });
+      notification.success({
+        message: 'Релизы',
+        description: 'Что-то пошло не так...',
+      });
+    }
+  } catch (ex) {
+    yield put({ type: DELETE_RELEASE_FAILURE, message: ex.message });
+    notification.error({
+      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
+      description: ex,
+    });
+  }
+}
+
+export function* createReleasesSaga({ payload }) {
+  try {
+    console.log('payload', payload);
+
+    const { data } = yield call(createReleases, payload);
+
+    if (data.IsSuccess) {
+      yield put({ type: CREATE_RELEASE_SUCCESS });
+      notification.success({
+        message: 'Релизы',
+        description: 'Релиз добавлен!',
+      });
+      yield put({ type: FETCH_RELEASES });
+    } else {
+      yield put({ type: CREATE_RELEASE_ERROR });
+    }
+  } catch (ex) {
+    yield put({ type: CREATE_RELEASE_FAILURE, message: ex.message });
     notification.error({
       message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
       description: ex,

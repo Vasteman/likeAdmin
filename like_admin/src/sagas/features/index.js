@@ -12,4 +12,5 @@ export default function*() {
   yield all([takeEvery(FETCH_FEATURES, fetchFeaturesSaga)]);
   yield all([takeEvery(CREATE_FEATURE, createFeatureSaga)]);
   yield all([takeEvery(DELETE_FEATURE, deleteFeatureSaga)]);
+  //
 }

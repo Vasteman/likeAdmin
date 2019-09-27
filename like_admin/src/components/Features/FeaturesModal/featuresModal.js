@@ -15,28 +15,20 @@ class FeaturesModal extends Component {
       selectedRow,
       featuresModalState: { action },
       form: { validateFields },
+      fetchReleases,
     } = this.props;
     validateFields();
 
+    fetchReleases({});
+
     if (action === 'edit') {
-      console.log('FETCH DONE');
-      console.log('PROPS CDM ', this.props);
-      const {
-        featureId,
-        featureName,
-        featureStatus,
-        tfsReleaseId,
-        releaseName,
-        tfsReleaseDate,
-      } = selectedRow;
+      const { featureName, featureStatus, tfsReleaseId, releaseName } = selectedRow;
 
       this.setState({
-        featureId,
         featureName,
         featureStatus,
         tfsReleaseId,
         releaseName,
-        tfsReleaseDate,
       });
     }
   }
@@ -100,16 +92,6 @@ class FeaturesModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
-    // const {
-    //   form: { setFieldsValue },
-    // } = this.props;
-
-    // console.log('fieldName', fieldName);
-    // console.log('value', value);
-    // if (fieldName === 'emojiActive') {
-    //   setFieldsValue({ fieldName: value });
-    // }
-    // fieldName === 'tfsReleaseDate' ? value: value.utc().format() : value; DODELAT!!!
     this.setState({
       [fieldName]: value,
     });
@@ -165,11 +147,12 @@ class FeaturesModal extends Component {
                     placeholder="Выберите релиз"
                     onChange={value => this.ChangeField('releaseName', value)}
                   >
-                    {releases.map(release => (
-                      <Select.Option value={release.TfsReleaseId} key={release.TfsReleaseId}>
-                        {release.TfsReleaseName}
-                      </Select.Option>
-                    ))}
+                    {releases &&
+                      releases.map(release => (
+                        <Select.Option value={release.TfsReleaseId} key={release.TfsReleaseId}>
+                          {release.TfsReleaseName}
+                        </Select.Option>
+                      ))}
                   </StyledSelect>
                 </WrapperForReleaseName>
               )}
@@ -185,9 +168,7 @@ class FeaturesModal extends Component {
                 <WrapperForStatus>
                   <Label> Активно </Label>
                   <Switch
-                    value={featureStatus}
-                    defaultChecked={false}
-                    // placeholder="Выберите статус"
+                    checked={featureStatus}
                     onChange={value => this.ChangeField('featureStatus', value)}
                   />
                 </WrapperForStatus>
@@ -209,6 +190,7 @@ FeaturesModal.propTypes = {
   validateFields: PropTypes.func.isRequired,
   selectedRow: PropTypes.object.isRequired,
   releases: PropTypes.array.isRequired,
+  fetchReleases: PropTypes.func.isRequired,
 };
 
 const StyledForm = styled(Form)`

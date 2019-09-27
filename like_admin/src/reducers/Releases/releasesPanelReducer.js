@@ -31,6 +31,7 @@ export const selectRow = createAction(SELECT_ROW_OF_RELEASES_TABLE);
 export default handleActions(
   {
     [FETCH_RELEASES]: state => {
+      console.log('6666666666');
       return {
         ...state,
         releases: null,

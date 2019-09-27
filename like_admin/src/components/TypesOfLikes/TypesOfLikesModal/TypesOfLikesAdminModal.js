@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Modal, Input, Select, Button, Popconfirm, Icon, Form } from 'antd';
+import { Modal, Input, Button, Popconfirm, Icon, Form, Switch } from 'antd';
 import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
 
-const STATUS_TYPE_OF_LIKE__OPTIONS = [
-  {
-    value: true,
-    label: 'Вкл',
-  },
-  {
-    value: false,
-    label: 'Выкл',
-  },
-];
-
 class TypesOfLikesAdminModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
-  state = {};
+  state = { emojiActive: false };
 
   componentDidMount() {
     const {
@@ -97,34 +86,21 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
-    // const {
-    //   form: { setFieldsValue },
-    // } = this.props;
-
-    // console.log('fieldName', fieldName);
-    // console.log('value', value);
-    // if (fieldName === 'emojiActive') {
-    //   setFieldsValue({ fieldName: value });
-    // }
     this.setState({
       [fieldName]: value,
     });
   };
 
   render() {
-    const {
-      isTypesOfLikesModal,
-      form,
-      typesOfLikesModalState: { action },
-    } = this.props;
+    const { isTypesOfLikesModal, form, selectedRow } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { typeId, emojiName, emojiId, emojiActive } = this.state;
+    const { emojiName, emojiId, emojiActive } = this.state;
 
-    const typeIdError = isFieldTouched('typeId') && getFieldError('typeId');
     const emojiNameError = isFieldTouched('emojiName') && getFieldError('emojiName');
     const emojiIdError = isFieldTouched('emojiId') && getFieldError('emojiId');
     const emojiActiveError = isFieldTouched('emojiActive') && getFieldError('emojiActive');
-
+    console.log('selectedRow', selectedRow);
+    console.log('state MODAL', this.state);
     return (
       <Wrapper
         title="Тип лайков"
@@ -134,21 +110,6 @@ class TypesOfLikesAdminModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <Form>
-          {action === 'create' && (
-            <FormItem validateStatus={typeIdError ? 'error' : ''} help={typeIdError || ''}>
-              {getFieldDecorator('typeId', {
-                rules: [{ required: true, message: 'ID является обязательным!' }],
-              })(
-                <WrapperForLineInput>
-                  <Label> ID </Label>
-                  <Input
-                    value={typeId}
-                    onChange={elem => this.ChangeField('typeId', elem.target.value)}
-                  />
-                </WrapperForLineInput>
-              )}
-            </FormItem>
-          )}
           <FormItem validateStatus={emojiNameError ? 'error' : ''} help={emojiNameError || ''}>
             {getFieldDecorator('emojiName', {
               rules: [{ required: true, message: 'Название типа является обязательным!' }],
@@ -179,41 +140,19 @@ class TypesOfLikesAdminModal extends Component {
 
           <FormItem validateStatus={emojiActiveError ? 'error' : ''} help={emojiActiveError || ''}>
             {getFieldDecorator('emojiActive', {
-              rules: [{ required: true, message: 'Статус является обязательным!' }],
-              initialValue: STATUS_TYPE_OF_LIKE__OPTIONS[0].value,
+              rules: [{ required: false, message: 'Статус является обязательным!' }],
             })(
-              <WrapperForLineInput>
-                <Label> Статус </Label>
-                <StyledSelect
-                  value={emojiActive}
-                  placeholder="Выберите статус"
+              <WrapperForStatus>
+                <Label> Активно </Label>
+                <StyledSwitch
+                  checked={emojiActive}
+                  // defaultChecked={false}
                   onChange={value => this.ChangeField('emojiActive', value)}
-                >
-                  {STATUS_TYPE_OF_LIKE__OPTIONS.map(option => (
-                    <Select.Option value={option.value} key={option.value}>
-                      {option.label}
-                    </Select.Option>
-                  ))}
-                </StyledSelect>
-              </WrapperForLineInput>
+                />
+              </WrapperForStatus>
             )}
           </FormItem>
         </Form>
-
-        {/* <WrapperForLineInput>
-          <Label> Статус </Label>
-          <StyledSelect
-            value={emojiActive}
-            // defaultValue={STATUS_TYPE_OF_LIKE__OPTIONS[0].value}
-            onChange={value => this.ChangeField('emojiActive', value)}
-          >
-            {STATUS_TYPE_OF_LIKE__OPTIONS.map(option => (
-              <Select.Option value={option.value} key={option.value}>
-                {option.label}
-              </Select.Option>
-            ))}
-          </StyledSelect>
-        </WrapperForLineInput> */}
       </Wrapper>
     );
   }
@@ -243,6 +182,9 @@ const Wrapper = styled(Modal)`
     background-color: #3fcbff;
     border-color: #3fcbff;
   }
+  .ant-form-item .ant-switch {
+    margin: 2px 0 4px 50px;
+  }
 `;
 
 const WrapperForLineInput = styled.div`
@@ -264,22 +206,21 @@ const Label = styled.div`
   height: 40px;
 `;
 
-const StyledSelect = styled(Select)`
-  // border: 1px solid green;
-  width: 100px;
-  .ant-select-selection {
-    width: 170px;
-    margin-left: 35px;
+const WrapperForStatus = styled.div`
+  display: flex;
+  width: 300px;
+
+  .ant-input {
+    margin-left: 50px;
+  }
+
+  .ant-select {
   }
 `;
 
-const StyledButtonPrimary = styled(Button)`
-  .ant-btn-primary {
-    backgorund-color: #3fcbff;
-    border-color: #3fcbff;
-    border: 1px solid black;
-  }
-`;
+const StyledSwitch = styled(Switch)``;
+
+const StyledButtonPrimary = styled(Button)``;
 
 // export default TypesOfLikesAdminModal;
 export default Form.create()(TypesOfLikesAdminModal);

@@ -7,12 +7,12 @@ class FeaturesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {};
 
-  componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    const { features } = this.props;
-    console.log('PROPS CDM ', this.props);
-    this.createTable(features);
-  }
+  // componentDidMount() {
+  //   // eslint-disable-next-line no-shadow
+  //   const { features } = this.props;
+  //   console.log('PROPS CDM ', this.props);
+  //   this.createTable(features);
+  // }
 
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line no-shadow
