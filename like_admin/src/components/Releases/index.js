@@ -5,9 +5,9 @@ import { toggleReleaseModal } from 'reducers/Releases/releasesModalReducer';
 
 import {
   fetchReleases,
-  // selectRow,
-  // deleteTypeOfLike,
-  // createTypeOfLike,
+  selectRow,
+  deleteRelease,
+  createRelease,
 } from 'reducers/Releases/releasesPanelReducer';
 
 import ReleasesPanel from './releasesPanel';
@@ -23,9 +23,9 @@ const mapDispatchToProps = dispatch =>
     {
       toggleReleaseModal,
       fetchReleases,
-      // deleteTypeOfLike,
-      // createTypeOfLike,
-      // selectRow,
+      selectRow,
+      deleteRelease,
+      createRelease,
     },
     dispatch
   );

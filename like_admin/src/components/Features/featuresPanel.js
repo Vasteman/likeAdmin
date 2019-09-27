@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon } from 'antd';
+import { Icon, Popconfirm } from 'antd';
 import TopMenu from '../TopMenu';
 import FeaturesTable from './featuresTable';
 import FeaturesFilters from './featuresFilters';
@@ -11,6 +12,7 @@ class FeaturesPanel extends Component {
   componentDidMount() {
     const { fetchFeatures } = this.props;
     fetchFeatures({});
+    // fetchReleases({});
   }
 
   onCreateFeature = () => {
@@ -61,7 +63,7 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    const { features, isFeaturesModal, selectedRow, fetchFeatures } = this.props;
+    const { features, isFeaturesModal, selectedRow, fetchFeatures, releases } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -74,7 +76,18 @@ class FeaturesPanel extends Component {
             <WrapperForIcon>
               <StyledIcon type="plus" onClick={this.onCreateFeature} />
               <StyledIcon type="edit" onClick={this.onEditFeature} />
-              <StyledIcon type="delete" onClick={this.onDeleteFeature} />
+              <Popconfirm
+                key={1}
+                title="Уверены в удалении?"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                placement="bottomRight"
+                onConfirm={this.onDeleteFeature}
+                onCancel={() => null}
+                okText="Да"
+                cancelText="Нет"
+              >
+                <StyledIcon type="delete" />
+              </Popconfirm>
             </WrapperForIcon>
           </HeaderForTable>
 
@@ -84,7 +97,7 @@ class FeaturesPanel extends Component {
             onSelectRow={this.onSelectRow}
             onChangeCheckboxValue={this.onChangeCheckboxValue}
           />
-          {isFeaturesModal && <FeaturesModal />}
+          {isFeaturesModal && <FeaturesModal releases={releases} />}
         </Wrapper>
       </>
     );
@@ -94,13 +107,13 @@ class FeaturesPanel extends Component {
 FeaturesPanel.propTypes = {
   toggleFeaturesModal: PropTypes.func.isRequired,
   fetchFeatures: PropTypes.func.isRequired,
+  // fetchReleases: PropTypes.func.isRequired,
   createFeature: PropTypes.func.isRequired,
   deleteFeature: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
   isFeaturesModal: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   features: PropTypes.array.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+  releases: PropTypes.array.isRequired,
   selectedRow: PropTypes.object.isRequired,
 };
 

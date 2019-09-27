@@ -112,7 +112,11 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   render() {
-    const { isTypesOfLikesModal, form } = this.props;
+    const {
+      isTypesOfLikesModal,
+      form,
+      typesOfLikesModalState: { action },
+    } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { typeId, emojiName, emojiId, emojiActive } = this.state;
 
@@ -130,20 +134,21 @@ class TypesOfLikesAdminModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <Form>
-          <FormItem validateStatus={typeIdError ? 'error' : ''} help={typeIdError || ''}>
-            {getFieldDecorator('typeId', {
-              rules: [{ required: true, message: 'ID является обязательным!' }],
-            })(
-              <WrapperForLineInput>
-                <Label> ID </Label>
-                <Input
-                  value={typeId}
-                  onChange={elem => this.ChangeField('typeId', elem.target.value)}
-                />
-              </WrapperForLineInput>
-            )}
-          </FormItem>
-
+          {action === 'create' && (
+            <FormItem validateStatus={typeIdError ? 'error' : ''} help={typeIdError || ''}>
+              {getFieldDecorator('typeId', {
+                rules: [{ required: true, message: 'ID является обязательным!' }],
+              })(
+                <WrapperForLineInput>
+                  <Label> ID </Label>
+                  <Input
+                    value={typeId}
+                    onChange={elem => this.ChangeField('typeId', elem.target.value)}
+                  />
+                </WrapperForLineInput>
+              )}
+            </FormItem>
+          )}
           <FormItem validateStatus={emojiNameError ? 'error' : ''} help={emojiNameError || ''}>
             {getFieldDecorator('emojiName', {
               rules: [{ required: true, message: 'Название типа является обязательным!' }],

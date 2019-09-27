@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -26,11 +27,11 @@ class ReleasesPanel extends Component {
   };
 
   onDeleteRelease = () => {
-    // const { deleteFeature, selectedRow } = this.props;
-    // if (Object.keys(selectedRow).length !== 0) {
-    //   console.log('SELECTED ROW', selectedRow);
-    //   deleteFeature({ featureId: selectedRow.featureId });
-    // }
+    const { deleteRelease, selectedRow } = this.props;
+    if (Object.keys(selectedRow).length !== 0) {
+      console.log('SELECTED ROW', selectedRow);
+      deleteRelease({ releaseId: selectedRow.releaseId });
+    }
   };
 
   onSelectRow = record => {
@@ -39,7 +40,7 @@ class ReleasesPanel extends Component {
   };
 
   render() {
-    const { isReleasesModal, releases } = this.props;
+    const { isReleasesModal, releases, selectedRow } = this.props;
     console.log('PANEL', this.props);
     return (
       <>
@@ -58,8 +59,8 @@ class ReleasesPanel extends Component {
 
           <ReleasesTable
             releases={releases}
-            // selectedRow={selectedRow}
-            // onSelectRow={this.onSelectRow}
+            selectedRow={selectedRow}
+            onSelectRow={this.onSelectRow}
           />
           {isReleasesModal && <ReleaseModal />}
         </Wrapper>
@@ -72,13 +73,11 @@ ReleasesPanel.propTypes = {
   toggleReleaseModal: PropTypes.func.isRequired,
   fetchReleases: PropTypes.func.isRequired,
   // createFeature: PropTypes.func.isRequired,
-  // deleteFeature: PropTypes.func.isRequired,
+  deleteRelease: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
   isReleasesModal: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   releases: PropTypes.array.isRequired,
-  // // eslint-disable-next-line react/forbid-prop-types
-  // selectedRow: PropTypes.object.isRequired,
+  selectedRow: PropTypes.object.isRequired,
 };
 
 const Wrapper = styled.div`

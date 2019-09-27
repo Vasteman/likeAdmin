@@ -60,7 +60,10 @@ class FeaturesTable extends Component {
         width: '20%',
         render: (text, record) => {
           return (
-            <Checkbox checked={record.status} onChange={() => onChangeCheckboxValue(record)} />
+            <Checkbox
+              checked={record.featureStatus}
+              onChange={() => onChangeCheckboxValue(record)}
+            />
           );
         },
       },

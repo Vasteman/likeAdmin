@@ -27,12 +27,10 @@ class FeaturesModal extends Component {
       selectedRow,
       featuresModalState: { action },
       form: { validateFields },
-      fetchReleases,
     } = this.props;
     validateFields();
 
     if (action === 'edit') {
-      fetchReleases({});
       console.log('FETCH DONE');
       console.log('PROPS CDM ', this.props);
       const {
@@ -131,18 +129,12 @@ class FeaturesModal extends Component {
   };
 
   render() {
-    const {
-      isFeaturesModal,
-      form,
-      releases,
-      featuresModalState: { action },
-    } = this.props;
+    const { isFeaturesModal, form, releases } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureId, featureName, featureStatus, releaseName } = this.state;
+    const { featureName, featureStatus, releaseName } = this.state;
     console.log('releases', releases);
     console.log('PROOOPS', this.props);
 
-    const featureIdError = isFieldTouched('featureId') && getFieldError('featureId');
     const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
     const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
     const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
@@ -156,66 +148,21 @@ class FeaturesModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <StyledForm>
-          <FeatureWrapper>
-            {action === 'create' && (
-              <FormItem validateStatus={featureIdError ? 'error' : ''} help={featureIdError || ''}>
-                {getFieldDecorator('featureId', {
-                  rules: [{ required: true, message: 'ID фичи является обязательным!' }],
-                })(
-                  <WrapperForLineInput>
-                    <Label> ID </Label>
-                    <Input
-                      value={featureId}
-                      onChange={elem => this.ChangeField('featureId', elem.target.value)}
-                    />
-                  </WrapperForLineInput>
-                )}
-              </FormItem>
+          <FormItem validateStatus={featureNameError ? 'error' : ''} help={featureNameError || ''}>
+            {getFieldDecorator('featureName', {
+              rules: [{ required: true, message: 'Имя фичи является обязательным!' }],
+            })(
+              <WrapperForNameFeature>
+                <Label> Название фичи </Label>
+                <Input
+                  value={featureName}
+                  onChange={elem => this.ChangeField('featureName', elem.target.value)}
+                />
+              </WrapperForNameFeature>
             )}
-            <FormItem
-              validateStatus={featureNameError ? 'error' : ''}
-              help={featureNameError || ''}
-            >
-              {getFieldDecorator('featureName', {
-                rules: [{ required: true, message: 'Имя фичи является обязательным!' }],
-              })(
-                <WrapperForLineInput>
-                  <Label> Название фичи </Label>
-                  <Input
-                    value={featureName}
-                    onChange={elem => this.ChangeField('featureName', elem.target.value)}
-                  />
-                </WrapperForLineInput>
-              )}
-            </FormItem>
+          </FormItem>
 
-            <FormItem
-              validateStatus={featureStatusError ? 'error' : ''}
-              help={featureStatusError || ''}
-            >
-              {getFieldDecorator('featureStatus', {
-                rules: [{ required: false, message: 'Статус является обязательным!' }],
-                // initialValue: STATUS_TYPE_OF_LIKE__OPTIONS[0].value,
-              })(
-                <WrapperForLineInput>
-                  <Label> Статус </Label>
-                  <StyledSelect
-                    value={featureStatus}
-                    placeholder="Статус"
-                    onChange={value => this.ChangeField('featureStatus', value)}
-                  >
-                    {STATUS_FEATURES_OPTIONS.map(option => (
-                      <Select.Option value={option.value} key={option.value}>
-                        {option.label}
-                      </Select.Option>
-                    ))}
-                  </StyledSelect>
-                </WrapperForLineInput>
-              )}
-            </FormItem>
-          </FeatureWrapper>
-
-          <ReleaseWrapper>
+          <WrapperForSelectLine>
             <FormItem
               validateStatus={releaseNameError ? 'error' : ''}
               help={releaseNameError || ''}
@@ -239,7 +186,31 @@ class FeaturesModal extends Component {
                 </WrapperForLineInput>
               )}
             </FormItem>
-          </ReleaseWrapper>
+
+            <FormItem
+              validateStatus={featureStatusError ? 'error' : ''}
+              help={featureStatusError || ''}
+            >
+              {getFieldDecorator('featureStatus', {
+                rules: [{ required: false, message: 'Статус является обязательным!' }],
+              })(
+                <WrapperForLineInput>
+                  <Label> Статус </Label>
+                  <StyledSelect
+                    value={featureStatus}
+                    placeholder="Статус"
+                    onChange={value => this.ChangeField('featureStatus', value)}
+                  >
+                    {STATUS_FEATURES_OPTIONS.map(option => (
+                      <Select.Option value={option.value} key={option.value}>
+                        {option.label}
+                      </Select.Option>
+                    ))}
+                  </StyledSelect>
+                </WrapperForLineInput>
+              )}
+            </FormItem>
+          </WrapperForSelectLine>
         </StyledForm>
       </Wrapper>
     );
@@ -249,22 +220,19 @@ FeaturesModal.propTypes = {
   isFeaturesModal: PropTypes.bool.isRequired,
   toggleFeaturesModal: PropTypes.func.isRequired,
   createFeature: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   featuresModalState: PropTypes.object.isRequired,
   // getFieldDecorator: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   form: PropTypes.object.isRequired,
   validateFields: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
-  fetchReleases: PropTypes.func.isRequired,
   releases: PropTypes.array.isRequired,
 };
 
 const StyledForm = styled(Form)`
-  display: flex;
-  justify-content: space-between;
+  width: 700px;
+  height: 150px;
 `;
+
 const Wrapper = styled(Modal)`
   display: flex;
   .ant-btn-primary {
@@ -277,49 +245,43 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-const FeatureWrapper = styled.div`
-  width: 350px;
-`;
-
-const ReleaseWrapper = styled.div`
-  width: 350px;
-  margin-left: 50px;
+const WrapperForNameFeature = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 const WrapperForLineInput = styled.div`
   display: flex;
-  height: 35px;
+  width: 300px;
   .ant-input {
-    width: 140px;
     margin-left: 50px;
   }
 
   .ant-select {
-    margin-left: 50px;
+    //margin-left: 35px;
   }
 `;
 
-// const WrapperForDate = styled.div`
-//   display: flex;
-// `;
-
+const WrapperForSelectLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 const Label = styled.div`
   width: 200px;
   height: 30px;
-  border: 1px solid red;
 `;
 
 const StyledButtonPrimary = styled(Button)`
   .ant-btn-primary {
     backgorund-color: #3fcbff;
     border-color: #3fcbff;
-    border: 1px solid black;
+    // border: 1px solid black;
   }
 `;
 
 const StyledSelect = styled(Select)`
   .ant-select-selection {
-    width: 140px;
-    margin-left: 60px;
+    width: 100px;
+    margin-left: 50px;
   }
 `;
 
