@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Button, Popconfirm, Icon, Form, Input, DatePicker } from 'antd';
@@ -31,11 +32,11 @@ class ReleasesModal extends Component {
 
   onOK = () => {
     const {
-      createFeature,
+      createRelease,
       releasesModalState: { action },
     } = this.props;
 
-    if (action === 'create' || action === 'edit') createFeature(this.state);
+    if (action === 'create' || action === 'edit') createRelease(this.state);
     this.onCancel();
   };
 
@@ -87,16 +88,6 @@ class ReleasesModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
-    // const {
-    //   form: { setFieldsValue },
-    // } = this.props;
-
-    // console.log('fieldName', fieldName);
-    // console.log('value', value);
-    // if (fieldName === 'emojiActive') {
-    //   setFieldsValue({ fieldName: value });
-    // }
-    // fieldName === 'releaseDate' ? value: value.utc().format() : value; DODELAT!!!
     this.setState({
       [fieldName]: value,
     });
@@ -107,10 +98,9 @@ class ReleasesModal extends Component {
     console.log('isReleasesModal', isReleasesModal);
 
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { releaseId, releaseName, releaseDate } = this.state;
+    const { releaseName, releaseDate } = this.state;
     console.log('STATE', this.state);
 
-    const releaseIdError = isFieldTouched('releaseId') && getFieldError('releaseId');
     const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
     const releaseDateError = isFieldTouched('releaseDate') && getFieldError('releaseDate');
 
@@ -123,20 +113,6 @@ class ReleasesModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <StyledForm>
-          <FormItem validateStatus={releaseIdError ? 'error' : ''} help={releaseIdError || ''}>
-            {getFieldDecorator('releaseId', {
-              rules: [{ required: true, message: 'ID релиза является обязательным!' }],
-            })(
-              <WrapperForLineInput>
-                <Label> ID </Label>
-                <Input
-                  value={releaseId}
-                  onChange={elem => this.ChangeField('releaseId', elem.target.value)}
-                />
-              </WrapperForLineInput>
-            )}
-          </FormItem>
-
           <FormItem validateStatus={releaseNameError ? 'error' : ''} help={releaseNameError || ''}>
             {getFieldDecorator('releaseName', {
               rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
@@ -156,7 +132,7 @@ class ReleasesModal extends Component {
               rules: [{ required: true, message: 'Выберите дату!' }],
             })(
               <WrapperForDate>
-                <Label> Дата релиза(TFS) </Label>
+                <Label> Дата релиза </Label>
                 <DatePicker
                   allowClear={false}
                   // format={datesFormatsArray}
@@ -177,14 +153,10 @@ class ReleasesModal extends Component {
 ReleasesModal.propTypes = {
   isReleasesModal: PropTypes.bool.isRequired,
   toggleReleaseModal: PropTypes.func.isRequired,
-  createFeature: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+  createRelease: PropTypes.func.isRequired,
   releasesModalState: PropTypes.object.isRequired,
-  // getFieldDecorator: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   form: PropTypes.object.isRequired,
   validateFields: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
 };
 

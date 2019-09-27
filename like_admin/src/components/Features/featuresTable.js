@@ -58,6 +58,7 @@ class FeaturesTable extends Component {
         dataIndex: 'featureStatus',
         key: 'featureStatus',
         width: '20%',
+        sorter: (first, second) => first.featureStatus - second.featureStatus,
         render: (text, record) => {
           return (
             <Checkbox

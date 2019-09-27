@@ -116,7 +116,7 @@ class TypesOfLikesTable extends Component {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
       },
-      type: 'radio',
+      // type: 'radio',
     };
 
     return (

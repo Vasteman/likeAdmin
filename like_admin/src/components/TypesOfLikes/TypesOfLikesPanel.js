@@ -52,6 +52,7 @@ class TypesOfLikesPanel extends Component {
 
   render() {
     const { typesOfLikes, isTypesOfLikesModal, selectedRow } = this.props;
+    console.log('selectedRow', selectedRow);
     return (
       <>
         <TopMenu />
@@ -62,18 +63,20 @@ class TypesOfLikesPanel extends Component {
               <StyledIcon type="plus" onClick={this.onCreateType} />
               <StyledIcon type="edit" onClick={this.onEditType} />
 
-              <Popconfirm
-                key={1}
-                title="Уверены в удалении?"
-                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                placement="bottomRight"
-                onConfirm={this.onDeleteType}
-                onCancel={() => null}
-                okText="Да"
-                cancelText="Нет"
-              >
-                <StyledIcon type="delete" />
-              </Popconfirm>
+              {Object.keys(selectedRow).length !== 0 && (
+                <Popconfirm
+                  key={1}
+                  title="Уверены в удалении?"
+                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  placement="bottomRight"
+                  onConfirm={this.onDeleteType}
+                  onCancel={() => null}
+                  okText="Да"
+                  cancelText="Нет"
+                >
+                  <StyledIcon type="delete" />
+                </Popconfirm>
+              )}
             </WrapperForIcon>
           </Header>
           <TypesOfLikesTable

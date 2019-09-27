@@ -1,11 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-// import {
-
-// } from 'reducers/TypesOfLikes/typesOfLikesPanelReducer';
 import { toggleReleaseModal } from 'reducers/Releases/releasesModalReducer';
-// import { createRelease } from 'reducers/';
+import { createRelease } from 'reducers/Releases/releasesPanelReducer';
 
 import ReleasesModal from './releasesModal';
 
@@ -15,7 +12,8 @@ const mapStateToProps = state => ({
   selectedRow: state.releasesPanel.selectedRow,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleReleaseModal }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ toggleReleaseModal, createRelease }, dispatch);
 
 export default connect(
   mapStateToProps,
