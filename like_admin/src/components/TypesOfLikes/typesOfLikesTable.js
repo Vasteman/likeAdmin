@@ -3,6 +3,37 @@ import styled from 'styled-components';
 import { Table, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
+const dataSource = [
+  {
+    typeId: '1',
+    typeName: 'First',
+    emojiName: 'emoji1',
+    status: true,
+    author: 'emojiAuthor',
+  },
+  {
+    typeId: '2',
+    typeName: 'First2',
+    emojiName: 'emoji12',
+    status: false,
+    author: 'emojiAuthor2',
+  },
+  {
+    typeId: '11',
+    typeName: 'Firs1t',
+    emojiName: 'emoji11',
+    status: true,
+    author: 'emojiAutho1r',
+  },
+  {
+    typeId: '33',
+    typeName: 'Firs13333t',
+    emojiName: 'trsttst',
+    status: true,
+    author: 'emojiAutho1333333r',
+  },
+];
+
 class TypesOfLikesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
@@ -10,13 +41,11 @@ class TypesOfLikesTable extends Component {
   };
 
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
     const { typesOfLikes } = this.props;
     this.createTable(typesOfLikes);
   }
 
   componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line no-shadow
     const { typesOfLikes } = nextProps;
     if (typesOfLikes) this.createTable(typesOfLikes);
   }
@@ -36,8 +65,9 @@ class TypesOfLikesTable extends Component {
     });
   };
 
-  createTable = typesOfLikes => {
-    this.dataSource = this.createDataSource(typesOfLikes);
+  createTable = () => {
+    // typesOfLikes вернуть в скобки
+    // this.dataSource = this.createDataSource(typesOfLikes);
 
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
@@ -64,6 +94,7 @@ class TypesOfLikesTable extends Component {
         dataIndex: 'status',
         key: 'status',
         width: '20%',
+        sorter: (first, second) => first.status - second.status,
         render: (text, record) => {
           return (
             <Checkbox checked={record.status} onChange={() => onChangeCheckboxValue(record)} />
@@ -80,7 +111,7 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, typesOfLikes } = this.props;
+    const { onSelectRow } = this.props; // typesOfLikes
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
@@ -90,16 +121,16 @@ class TypesOfLikesTable extends Component {
 
     return (
       <Wrapper>
-        {typesOfLikes && (
-          <StyledTable
-            rowSelection={rowSelection}
-            hideDefaultSelections
-            bordered
-            dataSource={this.dataSource}
-            columns={this.columns}
-            pagination={false}
-          />
-        )}
+        {/* {typesOfLikes && ( */}
+        <StyledTable
+          rowSelection={rowSelection}
+          hideDefaultSelections
+          bordered
+          dataSource={dataSource}
+          columns={this.columns}
+          pagination={false}
+        />
+        {/* )} */}
       </Wrapper>
     );
   }
@@ -113,7 +144,6 @@ TypesOfLikesTable.propTypes = {
 };
 
 const Wrapper = styled.div`
-  // background-color: white;
   font-family: PT_Sans-Web-Regular;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.78);
   .ant-checkbox-input {
