@@ -1,26 +1,14 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Modal, Button, Popconfirm, Icon, Form, Input, Select } from 'antd';
+import { Modal, Button, Popconfirm, Icon, Form, Input, Select, Switch } from 'antd';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
 
 const FormItem = Form.Item;
 
-const STATUS_FEATURES_OPTIONS = [
-  {
-    value: true,
-    label: 'Вкл',
-  },
-  {
-    value: false,
-    label: 'Выкл',
-  },
-];
-
 class FeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
-  state = {};
+  state = { featureStatus: false };
 
   componentDidMount() {
     const {
@@ -152,13 +140,13 @@ class FeaturesModal extends Component {
             {getFieldDecorator('featureName', {
               rules: [{ required: true, message: 'Имя фичи является обязательным!' }],
             })(
-              <WrapperForNameFeature>
+              <WrapperForFeatureInput>
                 <Label> Название фичи </Label>
                 <Input
                   value={featureName}
                   onChange={elem => this.ChangeField('featureName', elem.target.value)}
                 />
-              </WrapperForNameFeature>
+              </WrapperForFeatureInput>
             )}
           </FormItem>
 
@@ -170,11 +158,11 @@ class FeaturesModal extends Component {
               {getFieldDecorator('releaseNameError', {
                 rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
               })(
-                <WrapperForLineInput>
+                <WrapperForReleaseName>
                   <Label> Название релиза</Label>
                   <StyledSelect
                     value={releaseName}
-                    placeholder="Релиз"
+                    placeholder="Выберите релиз"
                     onChange={value => this.ChangeField('releaseName', value)}
                   >
                     {releases.map(release => (
@@ -183,7 +171,7 @@ class FeaturesModal extends Component {
                       </Select.Option>
                     ))}
                   </StyledSelect>
-                </WrapperForLineInput>
+                </WrapperForReleaseName>
               )}
             </FormItem>
 
@@ -194,20 +182,15 @@ class FeaturesModal extends Component {
               {getFieldDecorator('featureStatus', {
                 rules: [{ required: false, message: 'Статус является обязательным!' }],
               })(
-                <WrapperForLineInput>
-                  <Label> Статус </Label>
-                  <StyledSelect
+                <WrapperForStatus>
+                  <Label> Активно </Label>
+                  <Switch
                     value={featureStatus}
-                    placeholder="Статус"
+                    defaultChecked={false}
+                    // placeholder="Выберите статус"
                     onChange={value => this.ChangeField('featureStatus', value)}
-                  >
-                    {STATUS_FEATURES_OPTIONS.map(option => (
-                      <Select.Option value={option.value} key={option.value}>
-                        {option.label}
-                      </Select.Option>
-                    ))}
-                  </StyledSelect>
-                </WrapperForLineInput>
+                  />
+                </WrapperForStatus>
               )}
             </FormItem>
           </WrapperForSelectLine>
@@ -231,6 +214,9 @@ FeaturesModal.propTypes = {
 const StyledForm = styled(Form)`
   width: 700px;
   height: 150px;
+  .ant-form-item .ant-switch {
+    margin: 10px 0 4px;
+  }
 `;
 
 const Wrapper = styled(Modal)`
@@ -245,19 +231,29 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-const WrapperForNameFeature = styled.div`
+const WrapperForFeatureInput = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const WrapperForLineInput = styled.div`
+const WrapperForReleaseName = styled.div`
   display: flex;
   width: 300px;
+
+  .ant-select {
+    width: 150px;
+  }
+`;
+
+const WrapperForStatus = styled.div`
+  display: flex;
+  width: 300px;
+  margin-left: 50px;
+
   .ant-input {
     margin-left: 50px;
   }
 
   .ant-select {
-    //margin-left: 35px;
   }
 `;
 
@@ -268,20 +264,20 @@ const WrapperForSelectLine = styled.div`
 const Label = styled.div`
   width: 200px;
   height: 30px;
+  margin-right: 10px;
 `;
 
 const StyledButtonPrimary = styled(Button)`
   .ant-btn-primary {
     backgorund-color: #3fcbff;
     border-color: #3fcbff;
-    // border: 1px solid black;
   }
 `;
 
 const StyledSelect = styled(Select)`
   .ant-select-selection {
-    width: 100px;
-    margin-left: 50px;
+    width: 160px;
+    margin-left: 15px;
   }
 `;
 
