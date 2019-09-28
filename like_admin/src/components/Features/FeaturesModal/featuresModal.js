@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 class FeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
-  state = { featureStatus: false };
+  state = { IsLikeActive: false };
 
   componentDidMount() {
     const {
@@ -101,12 +101,12 @@ class FeaturesModal extends Component {
   render() {
     const { isFeaturesModal, form, releases } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureName, featureStatus, releaseName } = this.state;
+    const { featureName, IsLikeActive, releaseName } = this.state;
     console.log('releases', releases);
     console.log('PROOOPS', this.props);
 
     const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
-    const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
+    const featureStatusError = isFieldTouched('IsLikeActive') && getFieldError('IsLikeActive');
     const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
 
     return (
@@ -162,14 +162,14 @@ class FeaturesModal extends Component {
               validateStatus={featureStatusError ? 'error' : ''}
               help={featureStatusError || ''}
             >
-              {getFieldDecorator('featureStatus', {
+              {getFieldDecorator('IsLikeActive', {
                 rules: [{ required: false, message: 'Статус является обязательным!' }],
               })(
                 <WrapperForStatus>
                   <Label> Активно </Label>
                   <Switch
-                    checked={featureStatus}
-                    onChange={value => this.ChangeField('featureStatus', value)}
+                    checked={IsLikeActive}
+                    onChange={value => this.ChangeField('IsLikeActive', value)}
                   />
                 </WrapperForStatus>
               )}
