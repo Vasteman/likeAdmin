@@ -7,6 +7,7 @@ import TopMenu from '../TopMenu';
 import ReleasesTable from './releasesTable';
 import ReleasesFilters from './releasesFilters';
 import ReleaseModal from './ReleasesModal';
+import ListOfAvailableFeaturesModal from './ListOfAvailableFeaturesModal';
 
 class ReleasesPanel extends Component {
   componentDidMount() {
@@ -29,7 +30,6 @@ class ReleasesPanel extends Component {
   onDeleteRelease = () => {
     const { deleteRelease, selectedRow } = this.props;
     if (Object.keys(selectedRow).length !== 0) {
-      console.log('SELECTED ROW', selectedRow);
       deleteRelease({ releaseId: selectedRow.releaseId });
     }
   };
@@ -40,8 +40,13 @@ class ReleasesPanel extends Component {
   };
 
   render() {
-    const { isReleasesModal, releases, selectedRow } = this.props;
-    console.log('PANEL', this.props);
+    const {
+      isReleasesModal,
+      releases,
+      selectedRow,
+      isListOfAvailableFeaturesModal,
+      toggleListOfAvailableFeaturesModal,
+    } = this.props;
     return (
       <>
         <TopMenu />
@@ -61,8 +66,10 @@ class ReleasesPanel extends Component {
             releases={releases}
             selectedRow={selectedRow}
             onSelectRow={this.onSelectRow}
+            toggleListOfAvailableFeaturesModal={toggleListOfAvailableFeaturesModal}
           />
           {isReleasesModal && <ReleaseModal />}
+          {isListOfAvailableFeaturesModal && <ListOfAvailableFeaturesModal />}
         </Wrapper>
       </>
     );
@@ -71,11 +78,13 @@ class ReleasesPanel extends Component {
 
 ReleasesPanel.propTypes = {
   toggleReleaseModal: PropTypes.func.isRequired,
+  toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
   fetchReleases: PropTypes.func.isRequired,
   // createFeature: PropTypes.func.isRequired,
   deleteRelease: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
   isReleasesModal: PropTypes.bool.isRequired,
+  isListOfAvailableFeaturesModal: PropTypes.bool.isRequired,
   releases: PropTypes.array.isRequired,
   selectedRow: PropTypes.object.isRequired,
 };

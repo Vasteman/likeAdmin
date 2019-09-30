@@ -145,7 +145,6 @@ export default class RangePicker extends PureComponent {
     const {
       value: { from, to },
     } = this.props;
-    console.log('Props RP', this.props);
     const disabledNextChange = to.isSame(moment(), 'day');
 
     return (

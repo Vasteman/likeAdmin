@@ -12,7 +12,6 @@ class FeaturesPanel extends Component {
   componentDidMount() {
     const { fetchFeatures } = this.props;
     fetchFeatures({});
-    // fetchReleases({});
   }
 
   onCreateFeature = () => {
@@ -64,7 +63,6 @@ class FeaturesPanel extends Component {
 
   render() {
     const { features, isFeaturesModal, selectedRow, fetchFeatures } = this.props;
-    console.log('PANEL', this.props);
     return (
       <>
         <TopMenu />

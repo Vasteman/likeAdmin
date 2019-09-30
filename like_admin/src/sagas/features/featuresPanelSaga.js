@@ -28,7 +28,7 @@ export function* fetchFeaturesSaga() {
   try {
     const { data } = yield call(fetchFeatures, {});
     const { Data: features } = data; // typesOfLikes - renaming
-    console.log('data', data);
+    console.log('data features saga', data);
     if (data.IsSuccess) {
       yield put({ type: FETCH_FEATURES_SUCCESS, payload: { features } });
     } else {

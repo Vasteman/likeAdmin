@@ -7,7 +7,7 @@ import featuresPanel from './Features/featuresPanelReducer';
 import featuresModal from './Features/featuresModalReducer';
 
 import releasesPanel from './Releases/releasesPanelReducer';
-import releasesModal from './Releases/releasesModalReducer';
+import releasesModal from './Releases/releasesModalsReducer';
 
 import userData from './Authorization';
 

@@ -89,7 +89,7 @@ class FeaturesTable extends Component {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
       },
-      type: 'radio',
+      type: 'checkbox',
     };
 
     console.log('state render', this.state);

@@ -85,7 +85,6 @@ export default handleActions(
     },
 
     [SELECT_ROW_OF_FEATURES_TABLE]: (state, { payload: { selectedRow } }) => {
-      // console.log('newType', newType);
       console.log('selectedRow reducer', selectedRow);
       return {
         ...state,

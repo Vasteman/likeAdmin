@@ -26,7 +26,6 @@ class ReleasesTable extends Component {
         releaseId: release.TfsReleaseId,
         releaseName: release.TfsReleaseName,
       };
-      console.log('item', item);
       return item;
     });
   };
@@ -63,13 +62,18 @@ class ReleasesTable extends Component {
     ];
   };
 
+  onListOfAvailableFeaturesModalOpen = () => {
+    const { toggleListOfAvailableFeaturesModal } = this.props;
+    toggleListOfAvailableFeaturesModal({});
+  };
+
   render() {
     const { onSelectRow, releases } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
       },
-      type: 'radio',
+      type: 'checkbox',
     };
 
     return (
@@ -78,6 +82,9 @@ class ReleasesTable extends Component {
           <StyledTable
             rowSelection={rowSelection}
             bordered
+            onRow={record => ({
+              onClick: () => this.onListOfAvailableFeaturesModalOpen(record),
+            })}
             dataSource={this.dataSource}
             columns={this.columns}
             pagination={false}
@@ -92,6 +99,7 @@ ReleasesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   releases: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
+  toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -107,6 +115,13 @@ const StyledTable = styled(Table)`
   .ant-table-tbody > tr > td {
     text-align: center;
     color: #000;
+  }
+
+  .ant-table-row.ant-table-row-level-0 {
+    td {
+      cursor: pointer;
+      word-break: break-word;
+    }
   }
 `;
 export default ReleasesTable;

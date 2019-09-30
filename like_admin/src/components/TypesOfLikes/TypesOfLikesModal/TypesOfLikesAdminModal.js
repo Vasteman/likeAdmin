@@ -103,7 +103,7 @@ class TypesOfLikesAdminModal extends Component {
     console.log('state MODAL', this.state);
     return (
       <Wrapper
-        title="Тип лайков"
+        title="Добавление типа лайка"
         visible={isTypesOfLikesModal}
         onCancel={this.onCancel}
         width={750}
@@ -184,6 +184,9 @@ const Wrapper = styled(Modal)`
   }
   .ant-form-item .ant-switch {
     margin: 2px 0 4px 50px;
+  }
+  .ant-modal-title {
+    font-family: T2_DisplaySerif_Bold_Short;
   }
 `;
 

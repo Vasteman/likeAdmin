@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
   typesOfLikes: state.typesOfLikesPanel.typesOfLikes, // state.название_из_rootReducer
   isTypesOfLikesModal: state.typesOfLikesModal.isTypesOfLikesModal,
   selectedRow: state.typesOfLikesPanel.selectedRow,
+  isLoadingTypesOfLikesTable: state.typesOfLikesPanel.isLoadingTypesOfLikesTable,
 });
 
 const mapDispatchToProps = dispatch =>

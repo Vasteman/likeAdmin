@@ -51,7 +51,12 @@ class TypesOfLikesPanel extends Component {
   };
 
   render() {
-    const { typesOfLikes, isTypesOfLikesModal, selectedRow } = this.props;
+    const {
+      typesOfLikes,
+      isTypesOfLikesModal,
+      selectedRow,
+      isLoadingTypesOfLikesTable,
+    } = this.props;
     console.log('selectedRow', selectedRow);
     return (
       <>
@@ -63,7 +68,7 @@ class TypesOfLikesPanel extends Component {
               <StyledIcon type="plus" onClick={this.onCreateType} />
               <StyledIcon type="edit" onClick={this.onEditType} />
 
-              {Object.keys(selectedRow).length !== 0 && (
+              {typesOfLikes && (
                 <Popconfirm
                   key={1}
                   title="Уверены в удалении?"
@@ -84,6 +89,7 @@ class TypesOfLikesPanel extends Component {
             onSelectRow={this.onSelectRow}
             selectedRow={selectedRow}
             onChangeCheckboxValue={this.onChangeCheckboxValue}
+            isLoadingTypesOfLikesTable={isLoadingTypesOfLikesTable}
           />
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
@@ -100,6 +106,7 @@ TypesOfLikesPanel.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   isTypesOfLikesModal: PropTypes.bool.isRequired,
+  isLoadingTypesOfLikesTable: PropTypes.bool.isRequired,
   selectRow: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,

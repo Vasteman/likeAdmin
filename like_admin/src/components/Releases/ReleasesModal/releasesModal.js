@@ -115,7 +115,7 @@ class ReleasesModal extends Component {
         <StyledForm>
           <FormItem validateStatus={releaseNameError ? 'error' : ''} help={releaseNameError || ''}>
             {getFieldDecorator('releaseName', {
-              rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
+              rules: [{ required: true, message: 'Имя релиза является обязательным!' }],
             })(
               <WrapperForLineInput>
                 <Label> Название релиза </Label>
@@ -129,7 +129,7 @@ class ReleasesModal extends Component {
 
           <FormItem validateStatus={releaseDateError ? 'error' : ''} help={releaseDateError || ''}>
             {getFieldDecorator('releaseDateError', {
-              rules: [{ required: true, message: 'Выберите дату!' }],
+              rules: [{ required: false, message: 'Выберите дату!' }],
             })(
               <WrapperForDate>
                 <Label> Дата релиза </Label>
@@ -169,6 +169,9 @@ const Wrapper = styled(Modal)`
   .ant-btn-sm {
     background-color: #3fcbff;
     border-color: #3fcbff;
+  }
+  .ant-modal-title {
+    font-family: T2_DisplaySerif_Bold_Short;
   }
 `;
 

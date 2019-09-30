@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { toggleReleaseModal } from 'reducers/Releases/releasesModalReducer';
+import { toggleReleaseModal } from 'reducers/Releases/releasesModalsReducer';
 import { createRelease } from 'reducers/Releases/releasesPanelReducer';
 
 import ReleasesModal from './releasesModal';

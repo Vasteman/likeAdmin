@@ -5,6 +5,7 @@ const initialState = {
   selectedRow: {},
   isCreateTypeError: false,
   isDeleteTypeError: false,
+  isLoadingTypesOfLikesTable: false,
 };
 
 export const FETCH_TYPES_OF_LIKES = 'tol/FETCH_TYPES_OF_LIKES';
@@ -34,6 +35,7 @@ export default handleActions(
     [FETCH_TYPES_OF_LIKES]: state => {
       return {
         ...state,
+        isLoadingTypesOfLikesTable: true,
         typesOfLikes: null,
       };
     },
@@ -42,6 +44,7 @@ export default handleActions(
       return {
         ...state,
         typesOfLikes,
+        isLoadingTypesOfLikesTable: false,
       };
     },
 
@@ -49,6 +52,7 @@ export default handleActions(
       return {
         ...state,
         typesOfLikesError: data,
+        isLoadingTypesOfLikesTable: false,
       };
     },
 
@@ -56,6 +60,7 @@ export default handleActions(
       return {
         ...state,
         typesOfLikesError: data,
+        isLoadingTypesOfLikesTable: false,
       };
     },
 

@@ -211,6 +211,9 @@ const Wrapper = styled(Modal)`
     background-color: #3fcbff;
     border-color: #3fcbff;
   }
+  .ant-modal-title {
+    font-family: T2_DisplaySerif_Bold_Short;
+  }
 `;
 
 const WrapperForFeatureInput = styled.div`

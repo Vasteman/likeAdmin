@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { toggleReleaseModal } from 'reducers/Releases/releasesModalReducer';
+import {
+  toggleReleaseModal,
+  toggleListOfAvailableFeaturesModal,
+} from 'reducers/Releases/releasesModalsReducer';
 
 import {
   fetchReleases,
@@ -15,6 +18,7 @@ import ReleasesPanel from './releasesPanel';
 const mapStateToProps = state => ({
   releases: state.releasesPanel.releases,
   isReleasesModal: state.releasesModal.isReleasesModal,
+  isListOfAvailableFeaturesModal: state.releasesModal.isListOfAvailableFeaturesModal,
   selectedRow: state.releasesPanel.selectedRow,
 });
 
@@ -26,6 +30,7 @@ const mapDispatchToProps = dispatch =>
       selectRow,
       deleteRelease,
       createRelease,
+      toggleListOfAvailableFeaturesModal,
     },
     dispatch
   );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table, Checkbox } from 'antd';
+import { Table, Checkbox, Spin, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
@@ -80,25 +80,29 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, typesOfLikes } = this.props;
+    const { onSelectRow, typesOfLikes, isLoadingTypesOfLikesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
       },
-      // type: 'radio',
+      type: 'checkbox',
     };
 
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+    console.log('isLoadingTypesOfLikesTable', isLoadingTypesOfLikesTable);
     return (
       <Wrapper>
         {typesOfLikes && (
-          <StyledTable
-            rowSelection={rowSelection}
-            hideDefaultSelections
-            bordered
-            dataSource={this.dataSource}
-            columns={this.columns}
-            pagination={false}
-          />
+          <Spin spinning={isLoadingTypesOfLikesTable} indicator={antIcon}>
+            <StyledTable
+              rowSelection={rowSelection}
+              hideDefaultSelections
+              bordered
+              dataSource={this.dataSource}
+              columns={this.columns}
+              pagination={false}
+            />
+          </Spin>
         )}
       </Wrapper>
     );
@@ -110,6 +114,7 @@ TypesOfLikesTable.propTypes = {
   typesOfLikes: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
   onChangeCheckboxValue: PropTypes.func.isRequired,
+  isLoadingTypesOfLikesTable: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
