@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Checkbox } from 'antd';
+import { Input, Button } from 'antd';
 // import PropTypes from 'prop-types';
 import RangePicker from 'components/RangePicker';
 import moment from 'moment';
@@ -53,8 +53,6 @@ class ReleasesFilters extends Component {
               />
               <StyledButton type="primary"> Найти </StyledButton>
               <StyledButton type="default"> Очистить </StyledButton>
-              <StyledTitle> Показать активные </StyledTitle>
-              <Checkbox> </Checkbox>
             </WrapperForRangePicker>
           </WrapperForAllFilters>
         </Wrapper>
@@ -79,9 +77,6 @@ const Wrapper = styled.div`
 
   .ant-checkbox-inner {
     margin-top: 15px;
-  }
-  .ant-checkbox-wrapper {
-    margin-left: 10px;
   }
 `;
 

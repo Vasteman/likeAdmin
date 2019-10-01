@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Button, Popconfirm, Icon, Form, Checkbox, Table, Input, Collapse } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 let gridData = [];
 let arrayForSelectedRows = [];
@@ -35,6 +36,7 @@ class ListOfAvailableFeaturesModal extends Component {
     // } = this.props;
 
     // if (action === 'create' || action === 'edit') createRelease(this.state);
+    arrayForSelectedRows = [];
     this.onCancel();
   };
 
@@ -44,12 +46,7 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   renderFooterButtons = () => {
-    // const {
-    //   form: { getFieldsError },
-    // } = this.props;
-
-    // // const disabledButtonPrimary == ? this.hasErrors(getFieldsError()) : false;
-
+    const disabledButtonPrimary = Object.keys(arrayForSelectedRows).length === 0;
     return [
       <Popconfirm
         key={1}
@@ -64,7 +61,12 @@ class ListOfAvailableFeaturesModal extends Component {
           Закрыть
         </Button>
       </Popconfirm>,
-      <StyledButtonPrimary type="primary" icon="poweroff" disabled onClick={this.onOK}>
+      <StyledButtonPrimary
+        type="primary"
+        icon="poweroff"
+        disabled={disabledButtonPrimary}
+        onClick={this.onOK}
+      >
         Сохранить
       </StyledButtonPrimary>,
     ];
@@ -102,7 +104,6 @@ class ListOfAvailableFeaturesModal extends Component {
         key: i,
         author: features[i].FeatureAuthor,
         featureDate: features[i].FeatureDate,
-        featureId: features[i].FeatureId,
         featureName: features[i].FeatureName,
         featureStatus: features[i].IsLikeActive,
       });
@@ -115,16 +116,10 @@ class ListOfAvailableFeaturesModal extends Component {
 
     this.columns = [
       {
-        title: 'ID',
-        dataIndex: 'featureId',
-        key: 'featureId',
-        width: '15%',
-      },
-      {
         title: 'Название',
         dataIndex: 'featureName',
         key: 'featureName',
-        width: '30%',
+        width: '40%',
       },
       {
         title: 'Активно',
@@ -141,6 +136,9 @@ class ListOfAvailableFeaturesModal extends Component {
         dataIndex: 'featureDate',
         key: 'featureDate',
         width: '30%',
+        render: value => {
+          return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
+        },
       },
     ];
   };
@@ -152,8 +150,8 @@ class ListOfAvailableFeaturesModal extends Component {
 
   onSelectChange = selectedRowKeys => {
     arrayForSelectedRows = [];
-    selectedRowKeys.map(item => {
-      return arrayForSelectedRows.push(gridData[item]);
+    selectedRowKeys.map(index => {
+      return arrayForSelectedRows.push(gridData[index]);
     });
 
     this.setState({ selectedRowKeys });
@@ -195,9 +193,6 @@ class ListOfAvailableFeaturesModal extends Component {
                 onChange={elem => this.ChangeField('featureName', elem.target.value)}
               />
               <StyledButtonPrimary type="primary"> Найти </StyledButtonPrimary>
-              {/* <Button type="default" onClick={this.addFeaturesIntoRelease}>
-                Добавить выбранные
-              </Button> */}
             </WrapperForSearchLine>
 
             <Collapse bordered={false}>
@@ -304,6 +299,15 @@ const StyledTable = styled(Table)`
   .ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th {
     text-align: center;
     color: #000;
+    background-color: #ecf9ff;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #44caff;
+    border-color: #44caff;
+  }
+
+  .ant-table-small > .ant-table-content .ant-table-header {
     background-color: #ecf9ff;
   }
 `;

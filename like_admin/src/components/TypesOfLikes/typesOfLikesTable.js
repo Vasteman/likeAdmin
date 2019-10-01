@@ -138,5 +138,9 @@ const StyledTable = styled(Table)`
   .ant-checkbox-input {
     background-color: #ecf9ff;
   }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #44caff;
+    border-color: #44caff;
+  }
 `;
 export default TypesOfLikesTable;

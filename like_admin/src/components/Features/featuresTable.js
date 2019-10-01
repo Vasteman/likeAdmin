@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Table, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 class FeaturesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -73,6 +74,9 @@ class FeaturesTable extends Component {
         dataIndex: 'featureDate',
         key: 'featureDate',
         width: '18%',
+        render: value => {
+          return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
+        },
       },
       {
         title: 'Автор',
@@ -130,6 +134,10 @@ const StyledTable = styled(Table)`
   .ant-table-tbody > tr > td {
     text-align: center;
     color: #000;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #44caff;
+    border-color: #44caff;
   }
 `;
 export default FeaturesTable;

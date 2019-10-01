@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 class ReleasesTable extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -34,6 +35,8 @@ class ReleasesTable extends Component {
     this.dataSource = this.createDataSource(releases);
 
     // const { onChangeCheckboxValue } = this.props;
+    const { Cell } = Table.Column;
+    console.log('Cell', Cell);
     this.columns = [
       {
         title: 'ID',
@@ -52,6 +55,9 @@ class ReleasesTable extends Component {
         dataIndex: 'releaseDate',
         key: 'releaseDate',
         width: '30%',
+        render: value => {
+          return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
+        },
       },
       {
         title: 'Автор',
@@ -121,6 +127,16 @@ const StyledTable = styled(Table)`
     td {
       cursor: pointer;
       word-break: break-word;
+    }
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #44caff;
+    border-color: #44caff;
+  }
+  .ant-checkbox-input {
+    :hover {
+      border-color: #44caff;
     }
   }
 `;

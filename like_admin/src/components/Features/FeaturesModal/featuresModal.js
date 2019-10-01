@@ -101,7 +101,7 @@ class FeaturesModal extends Component {
   render() {
     const { isFeaturesModal, form, releases } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureName, IsLikeActive, releaseName } = this.state;
+    const { featureName, IsLikeActive, TfsReleaseId } = this.state;
     console.log('releases', releases);
     console.log('PROOOPS', this.props);
 
@@ -143,9 +143,9 @@ class FeaturesModal extends Component {
                 <WrapperForReleaseName>
                   <Label> Название релиза</Label>
                   <StyledSelect
-                    value={releaseName}
+                    value={TfsReleaseId}
                     placeholder="Выберите релиз"
-                    onChange={value => this.ChangeField('releaseName', value)}
+                    onChange={value => this.ChangeField('TfsReleaseId', value)}
                   >
                     {releases &&
                       releases.map(release => (

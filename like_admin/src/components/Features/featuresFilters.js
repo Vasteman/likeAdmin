@@ -112,11 +112,12 @@ const Wrapper = styled.div`
     color: #000;
   }
 
-  .ant-checkbox-inner {
+  .ant-checkbox {
     margin-top: 15px;
   }
-  .ant-checkbox-wrapper {
-    margin-left: 10px;
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #44caff;
+    border-color: #44caff;
   }
 `;
 
