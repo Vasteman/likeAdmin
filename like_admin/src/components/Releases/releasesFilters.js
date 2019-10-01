@@ -30,6 +30,14 @@ class ReleasesFilters extends Component {
     });
   };
 
+  handleClear = () => {
+    console.log('1111');
+    this.setState({
+      datePeriodStart: moment().subtract(1, 'month'),
+      datePeriodFinish: moment(),
+    });
+  };
+
   render() {
     const { datePeriodStart, datePeriodFinish } = this.state;
     return (
@@ -50,9 +58,8 @@ class ReleasesFilters extends Component {
                 onChange={({ from, to }) =>
                   this.changeDate({ datePeriodStart: from, datePeriodFinish: to })
                 }
+                handleClear={this.handleClear}
               />
-              <StyledButton type="primary"> Найти </StyledButton>
-              <StyledButton type="default"> Очистить </StyledButton>
             </WrapperForRangePicker>
           </WrapperForAllFilters>
         </Wrapper>

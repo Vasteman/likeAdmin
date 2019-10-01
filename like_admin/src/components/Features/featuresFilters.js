@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Checkbox } from 'antd';
-// import PropTypes from 'prop-types';
+import { Input, Button, Checkbox, Form } from 'antd';
+import PropTypes from 'prop-types';
 import RangePicker from 'components/RangePicker';
 import moment from 'moment';
 
@@ -47,53 +47,76 @@ class FeaturesFilters extends Component {
 
   ChangeField = (fieldName, value) => {
     this.setState({
-      fieldName: value,
+      [fieldName]: value,
     });
   };
 
   onClearInputForFeatureName = () => {
+    const {
+      form: { resetFields },
+    } = this.props;
+
     this.setState({
       featureName: '',
     });
+    resetFields();
     console.log('STATE onClearInputForFeatureName', this.state);
+  };
+
+  handleClear = () => {
+    console.log('1111');
+    this.setState({
+      datePeriodStart: moment().subtract(1, 'month'),
+      datePeriodFinish: moment(),
+    });
   };
 
   render() {
     const { datePeriodStart, datePeriodFinish } = this.state;
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
+
     return (
-      <>
+      <StyledForm>
         <Wrapper>
           <WrapperForAllFilters>
-            <WrapperForInputFilter>
-              <StyledTitle> Название </StyledTitle>
-              <Input
-                placeholder="Название"
-                onChange={elem => this.ChangeField('featureName', elem.target.value)}
-              />
-              <StyledButton type="primary" onClick={this.onSearchFeaturesByName}>
-                Найти
-              </StyledButton>
+            <Form.Item>
+              {getFieldDecorator('featureName', { rules: [] })(
+                <WrapperForInputFilter>
+                  <StyledTitle> Название </StyledTitle>
+                  <Input
+                    placeholder="Название"
+                    onChange={elem => this.ChangeField('featureName', elem.target.value)}
+                  />
+                  <StyledButton type="primary" onClick={this.onSearchFeaturesByName}>
+                    Найти
+                  </StyledButton>
+                </WrapperForInputFilter>
+              )}
+            </Form.Item>
+
+            <Form.Item>
               <StyledButton type="default" onClick={this.onClearInputForFeatureName}>
                 Очистить
               </StyledButton>
-            </WrapperForInputFilter>
+            </Form.Item>
 
-            <WrapperForRangePicker>
+            <WrapperForPeriodFilters>
               <StyledTitlePeriod> Период </StyledTitlePeriod>
               <RangePicker
                 value={{ from: datePeriodStart, to: datePeriodFinish }}
                 onChange={({ from, to }) =>
                   this.changeDate({ datePeriodStart: from, datePeriodFinish: to })
                 }
+                handleClear={this.handleClear}
               />
-              <StyledButton type="primary"> Найти </StyledButton>
-              <StyledButton type="default"> Очистить </StyledButton>
               <StyledTitle> Показать активные </StyledTitle>
               <Checkbox onChange={this.onChangeCheckbox} />
-            </WrapperForRangePicker>
+            </WrapperForPeriodFilters>
           </WrapperForAllFilters>
         </Wrapper>
-      </>
+      </StyledForm>
     );
   }
 }
@@ -101,7 +124,11 @@ class FeaturesFilters extends Component {
 FeaturesFilters.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   // features: PropTypes.array.isRequired,
+  resetFields: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  form: PropTypes.object.isRequired,
 };
+const StyledForm = styled(Form)``;
 
 const Wrapper = styled.div`
   font-family: PT_Sans-Web-Regular;
@@ -151,7 +178,7 @@ const WrapperForAllFilters = styled.div`
   }
 `;
 
-const WrapperForRangePicker = styled.div`
+const WrapperForPeriodFilters = styled.div`
   display: flex;
   margin: 3px 0px 0px 0px;
 `;
@@ -161,9 +188,10 @@ const StyledButton = styled(Button)`
 `;
 
 const WrapperForInputFilter = styled.div`
+  border: 1px solid red;
   display: flex;
   height: 40px;
   justify-content: space-between;
 `;
 
-export default FeaturesFilters;
+export default Form.create()(FeaturesFilters);

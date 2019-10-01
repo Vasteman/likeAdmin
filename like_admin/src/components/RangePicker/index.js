@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -141,12 +142,20 @@ export default class RangePicker extends PureComponent {
     }
   };
 
+  onSearchByPeriod = (from, to) => {
+    console.log('from', from);
+    console.log('to', to);
+  };
+
   render() {
     const {
       value: { from, to },
+      handleClear,
     } = this.props;
     const disabledNextChange = to.isSame(moment(), 'day');
 
+    console.log('from render', from);
+    console.log('to render', to);
     return (
       <Wrapper>
         <Select
@@ -195,19 +204,25 @@ export default class RangePicker extends PureComponent {
             <Icon type="right" />
           </Button>
         </StyleButtonGroup>
+        <StyledButton type="primary" onClick={() => this.onSearchByPeriod(from, to)}>
+          Найти
+        </StyledButton>
+        <StyledButton type="default" onClick={handleClear}>
+          Очистить
+        </StyledButton>
       </Wrapper>
     );
   }
 }
 
 RangePicker.propTypes = {
-  // eslint-disable-next-line react/require-default-props
   value: PropTypes.shape({
     from: PropTypes.instanceOf(moment).isRequired,
     to: PropTypes.instanceOf(moment).isRequired,
   }),
   onChange: PropTypes.func.isRequired,
   limitMonth: PropTypes.number.isRequired,
+  handleClear: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -231,7 +246,6 @@ const Wrapper = styled.div`
   .ant-btn-group {
     position: relative;
     display: flex;
-    margin: 0px 0px 5px 10px;
   }
 
   .ant-select-disabled .ant-select-selection {
@@ -267,13 +281,12 @@ const Label = styled.label`
 `;
 
 const StyledPicker = styled(DatePicker)`
-  margin: 0px 0px 0px 10px;
+  // margin: 0px 0px 0px 10px;
   width: 135px;
 `;
 
 const StyleButtonGroup = styled(ButtonGroup)`
-  margin: 5px 0px 0px 30px;
-  // display: inherit;
+  margin: -3px 10px 0px 10px;
   height: 25px;
 
   & button {
@@ -281,4 +294,8 @@ const StyleButtonGroup = styled(ButtonGroup)`
     padding: 0;
     padding-top: 2px;
   }
+`;
+
+const StyledButton = styled(Button)`
+  height: 32px;
 `;
