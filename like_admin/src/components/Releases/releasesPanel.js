@@ -46,12 +46,14 @@ class ReleasesPanel extends Component {
       selectedRow,
       isListOfAvailableFeaturesModal,
       toggleListOfAvailableFeaturesModal,
+      fetchReleases,
     } = this.props;
+    console.log('isReleasesModal', isReleasesModal);
     return (
       <>
         <TopMenu />
         <Wrapper>
-          <ReleasesFilters />
+          <ReleasesFilters fetchReleases={fetchReleases} />
 
           <HeaderForTable>
             <Title> Релизы </Title>

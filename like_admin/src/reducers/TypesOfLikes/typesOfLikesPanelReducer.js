@@ -48,18 +48,18 @@ export default handleActions(
       };
     },
 
-    [FETCH_TYPES_OF_LIKES_ERROR]: (state, { payload: { data } }) => {
+    [FETCH_TYPES_OF_LIKES_ERROR]: (state, { message }) => {
       return {
         ...state,
-        typesOfLikesError: data,
+        typesOfLikesError: message,
         isLoadingTypesOfLikesTable: false,
       };
     },
 
-    [FETCH_TYPES_OF_LIKES_FAILURE]: (state, { payload: { data } }) => {
+    [FETCH_TYPES_OF_LIKES_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        typesOfLikesError: data,
+        typesOfLikesError: message,
         isLoadingTypesOfLikesTable: false,
       };
     },
@@ -100,17 +100,17 @@ export default handleActions(
       };
     },
 
-    [CREATE_TYPE_OF_LIKE_ERROR]: (state, { payload: { data } }) => {
+    [CREATE_TYPE_OF_LIKE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isCreateTypeError: data,
+        createTypeError: message,
       };
     },
 
-    [CREATE_TYPE_OF_LIKE_FAILURE]: (state, { payload: { data } }) => {
+    [CREATE_TYPE_OF_LIKE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isCreateTypeError: data,
+        createTypeError: message,
       };
     },
 
@@ -128,17 +128,17 @@ export default handleActions(
       };
     },
 
-    [DELETE_TYPE_OF_LIKE_ERROR]: (state, { payload: { data } }) => {
+    [DELETE_TYPE_OF_LIKE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isDeleteTypeError: data,
+        deleteTypeError: message,
       };
     },
 
-    [DELETE_TYPE_OF_LIKE_FAILURE]: (state, { payload: { data } }) => {
+    [DELETE_TYPE_OF_LIKE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isDeleteTypeError: data,
+        deleteTypeError: message,
       };
     },
   },

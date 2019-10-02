@@ -1,5 +1,4 @@
 import { call, put } from 'redux-saga/effects';
-import moment from 'moment';
 import { notification } from 'antd';
 import api from 'utils/api';
 
@@ -20,30 +19,26 @@ import {
 
 const { fetchReleases, deleteReleases, createReleases } = api;
 
-export function* fetchReleasesSaga() {
+export function* fetchReleasesSaga({ payload }) {
   try {
-    const { data } = yield call(fetchReleases, {});
-    const { Data: releases } = data;
-    console.log('data', data);
+    const { data } = yield call(fetchReleases, payload);
     if (data.IsSuccess) {
+      const { Data: releases } = data;
       yield put({ type: FETCH_RELEASES_SUCCESS, payload: { releases } });
     } else {
       yield put({ type: FETCH_RELEASES_ERROR, payload: {} });
     }
   } catch (ex) {
     yield put({ type: FETCH_RELEASES_FAILURE, message: ex.message });
-    console.log('ERROOOOOOR');
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка при получении данных!`,
+      description: ex.message,
     });
   }
 }
 
 export function* deleteReleasesSaga({ payload }) {
   try {
-    console.log('payload', payload);
-
     const { data } = yield call(deleteReleases, payload);
 
     if (data.IsSuccess) {
@@ -55,24 +50,22 @@ export function* deleteReleasesSaga({ payload }) {
       });
     } else {
       yield put({ type: DELETE_RELEASE_ERROR });
-      notification.success({
-        message: 'Релизы',
-        description: 'Что-то пошло не так...',
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
       });
     }
   } catch (ex) {
     yield put({ type: DELETE_RELEASE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка!`,
+      description: ex.message,
     });
   }
 }
 
 export function* createReleasesSaga({ payload }) {
   try {
-    console.log('payload', payload);
-
     const { data } = yield call(createReleases, payload);
 
     if (data.IsSuccess) {
@@ -84,12 +77,16 @@ export function* createReleasesSaga({ payload }) {
       yield put({ type: FETCH_RELEASES });
     } else {
       yield put({ type: CREATE_RELEASE_ERROR });
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
+      });
     }
   } catch (ex) {
     yield put({ type: CREATE_RELEASE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка!`,
+      description: ex.message,
     });
   }
 }

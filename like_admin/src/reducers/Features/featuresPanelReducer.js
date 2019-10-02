@@ -3,14 +3,15 @@ import { handleActions, createAction } from 'redux-actions';
 const initialState = {
   features: [],
   selectedRow: {},
-  isCreateFeatureError: false,
-  isDeleteFeatureError: false,
+  fetchFeaturesErrorInfo: null,
+  createFeatureErrorInfo: null, // wtf
+  deleteFeatureErrorInfo: null,
 };
 
 export const FETCH_FEATURES = 'features/FETCH_FEATURES';
-export const FETCH_FEATURES_ERROR = 'features/FETCH_TYPES_OF_LIKES_ERROR';
-export const FETCH_FEATURES_SUCCESS = 'features/FETCH_TYPES_OF_LIKES_SUCCESS';
-export const FETCH_FEATURES_FAILURE = 'features/FETCH_TYPES_OF_LIKES_FAILURE';
+export const FETCH_FEATURES_ERROR = 'features/FETCH_FEATURES_ERROR';
+export const FETCH_FEATURES_SUCCESS = 'features/FETCH_FEATURES_SUCCESS';
+export const FETCH_FEATURES_FAILURE = 'features/FETCH_FEATURES_FAILURE';
 export const fetchFeatures = createAction(FETCH_FEATURES);
 
 export const CREATE_FEATURE = 'features/CREATE_FEATURE';
@@ -44,17 +45,17 @@ export default handleActions(
       };
     },
 
-    [FETCH_FEATURES_ERROR]: (state, { payload: { data } }) => {
+    [FETCH_FEATURES_ERROR]: (state, { message }) => {
       return {
         ...state,
-        features: data,
+        fetchFeaturesErrorInfo: message,
       };
     },
 
-    [FETCH_FEATURES_FAILURE]: (state, { payload: { data } }) => {
+    [FETCH_FEATURES_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        features: data,
+        fetchFeaturesErrorInfo: message,
       };
     },
 
@@ -70,17 +71,17 @@ export default handleActions(
       };
     },
 
-    [CREATE_FEATURE_ERROR]: (state, { payload: { data } }) => {
+    [CREATE_FEATURE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isCreateFeatureError: data,
+        createFeatureErrorInfo: message,
       };
     },
 
-    [CREATE_FEATURE_FAILURE]: (state, { payload: { data } }) => {
+    [CREATE_FEATURE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isCreateFeatureError: data,
+        createFeatureErrorInfo: message,
       };
     },
 
@@ -106,17 +107,17 @@ export default handleActions(
       };
     },
 
-    [DELETE_FEATURE_ERROR]: (state, { payload: { data } }) => {
+    [DELETE_FEATURE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isDeleteFeatureError: data,
+        deleteFeatureErrorInfo: message,
       };
     },
 
-    [DELETE_FEATURE_FAILURE]: (state, { payload: { data } }) => {
+    [DELETE_FEATURE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isDeleteFeatureError: data,
+        deleteFeatureErrorInfo: message,
       };
     },
   },

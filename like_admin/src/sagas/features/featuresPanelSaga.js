@@ -1,5 +1,4 @@
 import { call, put } from 'redux-saga/effects';
-import moment from 'moment';
 import { notification } from 'antd';
 import api from 'utils/api';
 
@@ -20,51 +19,48 @@ import {
 
 const { fetchFeatures, createFeature, deleteFeature } = api;
 
-// export const getAdminCategoriesPanelSelectedRow = state => state.typesOfLikesPanel.selectedRow;
-
-export function* fetchFeaturesSaga() {
-  // const selectedRow = yield select(getAdminCategoriesPanelSelectedRow);
-
+export function* fetchFeaturesSaga({ payload }) {
   try {
-    const { data } = yield call(fetchFeatures, {});
-    const { Data: features } = data; // typesOfLikes - renaming
-    console.log('data features saga', data);
+    const { data } = yield call(fetchFeatures, payload);
+
     if (data.IsSuccess) {
+      const { Data: features } = data;
       yield put({ type: FETCH_FEATURES_SUCCESS, payload: { features } });
     } else {
       yield put({ type: FETCH_FEATURES_ERROR, payload: {} });
     }
   } catch (ex) {
     yield put({ type: FETCH_FEATURES_FAILURE, message: ex.message });
-    console.log('ERROOOOOOR');
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка при получении данных!`,
+      description: ex.message,
     });
   }
 }
 
 export function* createFeatureSaga({ payload }) {
   try {
-    console.log('payload', payload);
-
     const { data } = yield call(createFeature, payload);
 
     if (data.IsSuccess) {
       yield put({ type: CREATE_FEATURE_SUCCESS });
       notification.success({
-        message: 'Типы лайков',
+        message: 'Типы фич',
         description: 'Тип фичи успешно создан!',
       });
       yield put({ type: FETCH_FEATURES });
     } else {
       yield put({ type: CREATE_FEATURE_ERROR });
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
+      });
     }
   } catch (ex) {
     yield put({ type: CREATE_FEATURE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка!`,
+      description: ex.message,
     });
   }
 }
@@ -83,16 +79,16 @@ export function* deleteFeatureSaga({ payload }) {
       });
     } else {
       yield put({ type: DELETE_FEATURE_ERROR });
-      notification.success({
-        message: 'Фичи',
-        description: 'Что-то пошло не так...',
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
       });
     }
   } catch (ex) {
     yield put({ type: DELETE_FEATURE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка`,
+      description: ex.message,
     });
   }
 }

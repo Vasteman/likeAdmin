@@ -1,5 +1,4 @@
 import { call, put } from 'redux-saga/effects';
-import moment from 'moment';
 import { notification } from 'antd';
 import api from 'utils/api';
 
@@ -24,35 +23,19 @@ const { fetchTypesOfLikes, createTypeOfLike, deleteTypeOfLike } = api;
 export const getAdminCategoriesPanelSelectedRow = state => state.typesOfLikesPanel.selectedRow;
 
 export function* fetchTypesOfLikesSaga() {
-  // const selectedRow = yield select(getAdminCategoriesPanelSelectedRow);
-
   try {
     const { data } = yield call(fetchTypesOfLikes, {});
-    const { Data: typesOfLikes } = data; // typesOfLikes - renaming
-
     if (data.IsSuccess) {
+      const { Data: typesOfLikes } = data;
       yield put({ type: FETCH_TYPES_OF_LIKES_SUCCESS, payload: { typesOfLikes } });
-
-      // if (Object.keys(selectedRow).length > 0) {
-      //   console.log('selectedRow777', selectedRow);
-      //   const isSelectedRowExistInCategories = typesOfLikes.find(
-      //     item => item.TypeId === selectedRow.key
-      //   );
-
-      //   yield put({
-      //     type: SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
-      //     payload: { selectedRow: null, newType: isSelectedRowExistInCategories || {} },
-      //   });
-      // }
-      // console.log('payload', payload);
     } else {
       yield put({ type: FETCH_TYPES_OF_LIKES_ERROR, payload: {} });
     }
   } catch (ex) {
     yield put({ type: FETCH_TYPES_OF_LIKES_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка при получении данных!`,
+      description: ex.message,
     });
   }
 }
@@ -72,12 +55,16 @@ export function* createTypeOfLikeSaga({ payload }) {
       yield put({ type: FETCH_TYPES_OF_LIKES });
     } else {
       yield put({ type: CREATE_TYPE_OF_LIKE_ERROR });
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
+      });
     }
   } catch (ex) {
     yield put({ type: CREATE_TYPE_OF_LIKE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка!`,
+      description: ex.message,
     });
   }
 }
@@ -98,16 +85,16 @@ export function* deleteTypeOfLikeSaga({ payload }) {
       });
     } else {
       yield put({ type: DELETE_TYPE_OF_LIKE_ERROR });
-      notification.success({
-        message: 'Типы лайков',
-        description: 'Что-то пошло не так...',
+      notification.error({
+        message: `Ошибка`,
+        description: 'Ошибка изменения данных!',
       });
     }
   } catch (ex) {
     yield put({ type: DELETE_TYPE_OF_LIKE_FAILURE, message: ex.message });
     notification.error({
-      message: `Ошибка ${moment().format('HH:mm DD.MM.YYYY')}`,
-      description: ex,
+      message: `Ошибка`,
+      description: ex.message,
     });
   }
 }

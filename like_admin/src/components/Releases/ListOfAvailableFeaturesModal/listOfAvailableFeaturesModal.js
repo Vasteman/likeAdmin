@@ -31,9 +31,7 @@ class ListOfAvailableFeaturesModal extends Component {
   }
 
   onOK = () => {
-    // const {
-    //   createRelease,
-    // } = this.props;
+    // const { createRelease,} = this.props;
 
     // if (action === 'create' || action === 'edit') createRelease(this.state);
     arrayForSelectedRows = [];
@@ -190,6 +188,7 @@ class ListOfAvailableFeaturesModal extends Component {
               <LabelForName> Название </LabelForName>
               <Input
                 placeholder="Название"
+                allowClear
                 onChange={elem => this.ChangeField('featureName', elem.target.value)}
               />
               <StyledButtonPrimary type="primary"> Найти </StyledButtonPrimary>

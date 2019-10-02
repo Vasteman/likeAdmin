@@ -9,7 +9,9 @@ import {
 import { fetchReleasesSaga, deleteReleasesSaga, createReleasesSaga } from './releasesPanelSaga';
 
 export default function*() {
-  yield all([takeEvery(FETCH_RELEASES, fetchReleasesSaga)]);
-  yield all([takeEvery(DELETE_RELEASE, deleteReleasesSaga)]);
-  yield all([takeEvery(CREATE_RELEASE, createReleasesSaga)]);
+  yield all([
+    takeEvery(FETCH_RELEASES, fetchReleasesSaga),
+    takeEvery(DELETE_RELEASE, deleteReleasesSaga),
+    takeEvery(CREATE_RELEASE, createReleasesSaga),
+  ]);
 }

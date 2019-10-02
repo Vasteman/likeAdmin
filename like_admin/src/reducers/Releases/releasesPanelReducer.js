@@ -3,8 +3,9 @@ import { handleActions, createAction } from 'redux-actions';
 const initialState = {
   releases: [],
   selectedRow: {},
-  isCreateReleaseError: false,
-  isDeleteReleaseError: false,
+  fetchReleaseError: false,
+  createReleaseError: false,
+  deleteReleaseError: false,
 };
 
 export const FETCH_RELEASES = 'releases/FETCH_RELEASES';
@@ -44,17 +45,17 @@ export default handleActions(
       };
     },
 
-    [FETCH_RELEASES_ERROR]: (state, { payload: { data } }) => {
+    [FETCH_RELEASES_ERROR]: (state, { message }) => {
       return {
         ...state,
-        releases: data,
+        fetchReleaseError: message,
       };
     },
 
-    [FETCH_RELEASES_FAILURE]: (state, { payload: { data } }) => {
+    [FETCH_RELEASES_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        releases: data,
+        fetchReleaseError: message,
       };
     },
     [CREATE_RELEASE]: state => {
@@ -69,17 +70,17 @@ export default handleActions(
       };
     },
 
-    [CREATE_RELEASE_ERROR]: (state, { payload: { data } }) => {
+    [CREATE_RELEASE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isCreateReleaseError: data,
+        createReleaseError: message,
       };
     },
 
-    [CREATE_RELEASE_FAILURE]: (state, { payload: { data } }) => {
+    [CREATE_RELEASE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isCreateReleaseError: data,
+        createReleaseError: message,
       };
     },
 
@@ -106,17 +107,17 @@ export default handleActions(
       };
     },
 
-    [DELETE_RELEASE_ERROR]: (state, { payload: { data } }) => {
+    [DELETE_RELEASE_ERROR]: (state, { message }) => {
       return {
         ...state,
-        isDeleteReleaseError: data,
+        deleteReleaseError: message,
       };
     },
 
-    [DELETE_RELEASE_FAILURE]: (state, { payload: { data } }) => {
+    [DELETE_RELEASE_FAILURE]: (state, { message }) => {
       return {
         ...state,
-        isDeleteReleaseError: data,
+        deleteReleaseError: message,
       };
     },
   },
