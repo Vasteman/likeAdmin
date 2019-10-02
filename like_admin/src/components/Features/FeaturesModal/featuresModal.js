@@ -22,13 +22,13 @@ class FeaturesModal extends Component {
     fetchReleases({});
 
     if (action === 'edit') {
-      const { featureName, featureStatus, tfsReleaseId, releaseName } = selectedRow;
+      console.log('SELECTED ROW', selectedRow);
+      const { featureName, featureStatus } = selectedRow;
 
       this.setState({
         featureName,
         featureStatus,
-        tfsReleaseId,
-        releaseName,
+        TfsReleaseName: null,
       });
     }
   }
@@ -101,12 +101,12 @@ class FeaturesModal extends Component {
   render() {
     const { isFeaturesModal, form, releases } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureName, IsLikeActive, TfsReleaseId } = this.state;
+    const { featureName, featureStatus, TfsReleaseId } = this.state;
     console.log('releases', releases);
     console.log('PROOOPS', this.props);
 
     const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
-    const featureStatusError = isFieldTouched('IsLikeActive') && getFieldError('IsLikeActive');
+    const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
     const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
 
     return (
@@ -162,14 +162,14 @@ class FeaturesModal extends Component {
               validateStatus={featureStatusError ? 'error' : ''}
               help={featureStatusError || ''}
             >
-              {getFieldDecorator('IsLikeActive', {
+              {getFieldDecorator('featureStatus', {
                 rules: [{ required: false, message: 'Статус является обязательным!' }],
               })(
                 <WrapperForStatus>
                   <Label> Активно </Label>
                   <Switch
-                    checked={IsLikeActive}
-                    onChange={value => this.ChangeField('IsLikeActive', value)}
+                    checked={featureStatus}
+                    onChange={value => this.ChangeField('featureStatus', value)}
                   />
                 </WrapperForStatus>
               )}
