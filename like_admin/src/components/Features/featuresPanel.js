@@ -29,7 +29,6 @@ class FeaturesPanel extends Component {
   onDeleteFeature = () => {
     const { deleteFeature, selectedRow } = this.props;
     if (Object.keys(selectedRow).length !== 0) {
-      console.log('SELECTED ROW', selectedRow);
       deleteFeature({ FeatureId: selectedRow.FeatureId });
     }
   };
@@ -41,7 +40,6 @@ class FeaturesPanel extends Component {
 
   onChangeCheckboxValue = record => {
     const { createFeature } = this.props;
-    console.log('RECORD', record);
     const {
       FeatureId,
       FeatureName,
@@ -114,7 +112,6 @@ class FeaturesPanel extends Component {
 FeaturesPanel.propTypes = {
   toggleFeaturesModal: PropTypes.func.isRequired,
   fetchFeatures: PropTypes.func.isRequired,
-  // fetchReleases: PropTypes.func.isRequired,
   createFeature: PropTypes.func.isRequired,
   deleteFeature: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,

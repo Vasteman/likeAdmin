@@ -66,7 +66,6 @@ export default handleActions(
 
     [SELECT_ROW_OF_TYPES_OF_LIKES_TABLE]: (state, { payload: { selectedRow } }) => {
       // console.log('newType', newType);
-      console.log('selectedRow reducer', selectedRow);
       // if (!selectedRow && newType) {
       //   const newSelectedRow = {
       //     typeId: newType.TypeId,
@@ -88,7 +87,6 @@ export default handleActions(
     },
 
     [CREATE_TYPE_OF_LIKE]: state => {
-      // console.log('CREATE_TYPE_OF_LIKE', state);
       return {
         ...state,
       };
@@ -115,14 +113,12 @@ export default handleActions(
     },
 
     [DELETE_TYPE_OF_LIKE]: state => {
-      console.log('DELETE_TYPE_OF_LIKE', state);
       return {
         ...state,
       };
     },
 
     [DELETE_TYPE_OF_LIKE_SUCCESS]: state => {
-      console.log('DELETE_TYPE_OF_LIKE_SUCCESS');
       return {
         ...state,
       };

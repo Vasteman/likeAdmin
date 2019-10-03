@@ -67,7 +67,6 @@ export function* createFeatureSaga({ payload }) {
 
 export function* deleteFeatureSaga({ payload }) {
   try {
-    console.log('payload delete', payload);
     const { data } = yield call(deleteFeature, payload);
 
     if (data.IsSuccess) {

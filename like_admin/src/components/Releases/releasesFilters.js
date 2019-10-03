@@ -31,7 +31,6 @@ class ReleasesFilters extends Component {
   };
 
   handleClear = () => {
-    console.log('1111');
     this.setState({
       datePeriodStart: moment().subtract(1, 'month'),
       datePeriodFinish: moment(),
@@ -51,15 +50,13 @@ class ReleasesFilters extends Component {
     } = this.props;
 
     this.setState({
-      featureName: '',
+      releaseName: '',
     });
     resetFields();
     fetchReleases({});
-    console.log('STATE onClearInputForFeatureName', this.state);
   };
 
   handleClear = () => {
-    console.log('1111');
     this.setState({
       datePeriodStart: moment().subtract(1, 'month'),
       datePeriodFinish: moment(),
@@ -78,7 +75,6 @@ class ReleasesFilters extends Component {
   onSearchReleasesByName = () => {
     const { releaseName } = this.state;
     const { fetchReleases } = this.props;
-    console.log('releaseName', releaseName);
     if (releaseName) fetchReleases({ releaseName });
     this.setState({ releaseName: '' });
   };
@@ -138,6 +134,7 @@ ReleasesFilters.propTypes = {
 };
 
 const StyledForm = styled(Form)`
+  border: 1px solid blue;
   font-family: T2_DisplaySerif_Regular;
   justify-content: space-between;
   height: 90px;
@@ -157,13 +154,13 @@ const StyledForm = styled(Form)`
   .ant-input {
     font-family: PT_Sans-Web-Regular;
     margin: 3px 0px 0px 10px;
-    width: 1400px;
+    // width: 1400px;
     // @media (max-width: 1280px) {
     //   width: 700px;
     // }
-    @media (max-width: 1368px) {
-      width: 750px;
-    margin-right: 80px;
+    // @media (max-width: 1368px) {
+    //   width: 750px;
+    // //margin-right: 80px;
   }
     }
   }
@@ -183,22 +180,25 @@ const StyledForm = styled(Form)`
 `;
 
 const StyledTitle = styled.div`
-  width: 150px;
+  width: 100px;
   font-size: 16px;
   height: 24px;
   margin: 8px 0px 0px 10px;
+  border: 1px solid red;
 `;
 
 const StyledTitlePeriod = styled.div`
   font-size: 16px;
-  margin: 0px 140px 0px 10px;
+  // margin: 0px 140px 0px 10px;
   padding-top: 5px;
-  @media (max-width: 1280px) {
-    margin: 0px 140px 0px 10px;
-  }
-  @media (max-width: 1368px) {
-    margin: 0px 140px 0px 10px;
-  }
+  border: 1px solid green;
+  width: 100px;
+  // @media (max-width: 1280px) {
+  //   margin: 0px 140px 0px 10px;
+  // }
+  // @media (max-width: 1368px) {
+  //   margin: 0px 140px 0px 10px;
+  // }
 `;
 
 const WrapperForPeriodFilters = styled.div`
@@ -213,7 +213,10 @@ const StyledButton = styled(Button)`
 const WrapperForInputFilter = styled.div`
   display: flex;
   height: 40px;
-  justify-content: space-between;
+  justify-content: space-around;
+  .ant-input {
+    margin-left: 50px;
+  }
 `;
 
 export default Form.create()(ReleasesFilters);

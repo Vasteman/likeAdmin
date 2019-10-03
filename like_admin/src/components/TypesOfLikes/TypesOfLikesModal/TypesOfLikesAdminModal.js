@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Input, Button, Popconfirm, Icon, Form, Switch } from 'antd';
@@ -18,7 +19,6 @@ class TypesOfLikesAdminModal extends Component {
     validateFields();
 
     if (action === 'edit') {
-      console.log('selectedRow', selectedRow);
       const { TypeId, EmojiName, EmojiId, EmojiActive } = selectedRow;
       this.setState({
         TypeId,
@@ -46,9 +46,6 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   hasErrors = fieldsError => {
-    console.log('fieldsError', fieldsError);
-    console.log('hasErrors', Object.keys(fieldsError).some(field => fieldsError[field]));
-
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
 
@@ -93,15 +90,14 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   render() {
-    const { isTypesOfLikesModal, form, selectedRow } = this.props;
+    const { isTypesOfLikesModal, form } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { EmojiName, EmojiId, EmojiActive } = this.state;
 
     const emojiNameError = isFieldTouched('EmojiName') && getFieldError('EmojiName');
     const emojiIdError = isFieldTouched('EmojiId') && getFieldError('EmojiId');
     const emojiActiveError = isFieldTouched('EmojiActive') && getFieldError('EmojiActive');
-    console.log('selectedRow', selectedRow);
-    console.log('state MODAL', this.state);
+
     return (
       <Wrapper
         title="Добавление типа лайка"
@@ -163,12 +159,9 @@ TypesOfLikesAdminModal.propTypes = {
   isTypesOfLikesModal: PropTypes.bool.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
   createTypeOfLike: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   typesOfLikesModalState: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
   getFieldDecorator: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   form: PropTypes.object.isRequired,
   validateFields: PropTypes.func.isRequired,
   action: PropTypes.string.isRequired,
@@ -226,8 +219,6 @@ const WrapperForStatus = styled.div`
 `;
 
 const StyledSwitch = styled(Switch)``;
-
 const StyledButtonPrimary = styled(Button)``;
 
-// export default TypesOfLikesAdminModal;
 export default Form.create()(TypesOfLikesAdminModal);

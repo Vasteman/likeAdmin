@@ -32,7 +32,6 @@ class FeaturesFilters extends Component {
   };
 
   onChangeCheckbox = event => {
-    console.log('checked', event.target.checked);
     const { fetchFeatures } = this.props;
 
     if (event)
@@ -48,7 +47,6 @@ class FeaturesFilters extends Component {
   };
 
   onSearchFeaturesByName = () => {
-    console.log('STATE onSearchFeaturesByName', this.state);
     const { featureName } = this.state;
     const { fetchFeatures } = this.props;
     if (featureName) fetchFeatures({ featureName });
@@ -68,7 +66,6 @@ class FeaturesFilters extends Component {
   };
 
   handleClear = () => {
-    console.log('1111');
     this.setState({
       datePeriodStart: moment().subtract(1, 'month'),
       datePeriodFinish: moment(),
@@ -89,7 +86,6 @@ class FeaturesFilters extends Component {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    console.log('this. state', this.state);
     return (
       <StyledForm>
         <WrapperForInputFilter>
@@ -135,7 +131,6 @@ class FeaturesFilters extends Component {
 }
 
 FeaturesFilters.propTypes = {
-  // features: PropTypes.array.isRequired,
   resetFields: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   fetchFeatures: PropTypes.func.isRequired,

@@ -90,8 +90,6 @@ export default handleActions(
     },
 
     [SELECT_ROW_OF_RELEASES_TABLE]: (state, { payload: { selectedRow } }) => {
-      // console.log('newType', newType);
-      console.log('selectedRow reducer', selectedRow);
       return {
         ...state,
         selectedRow,
@@ -99,14 +97,12 @@ export default handleActions(
     },
 
     [DELETE_RELEASE]: state => {
-      console.log('DELETE_RELEASE', state);
       return {
         ...state,
       };
     },
 
     [DELETE_RELEASE_SUCCESS]: state => {
-      console.log('DELETE_RELEASE_SUCCESS');
       return {
         ...state,
       };

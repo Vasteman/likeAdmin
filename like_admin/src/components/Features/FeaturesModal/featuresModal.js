@@ -22,7 +22,6 @@ class FeaturesModal extends Component {
     fetchReleases({});
 
     if (action === 'edit') {
-      console.log('SELECTED ROW', selectedRow);
       const { FeatureName, IsLikeActive, TfsReleaseId } = selectedRow;
 
       this.setState({
@@ -38,7 +37,6 @@ class FeaturesModal extends Component {
       createFeature,
       featuresModalState: { action },
     } = this.props;
-    console.log('State OK!', this.state);
     const { FeatureName, IsLikeActive, TfsReleaseId } = this.state;
     const featureData = [{ FeatureName, IsLikeActive }];
     if (action === 'create' || action === 'edit') createFeature({ TfsReleaseId, featureData });
@@ -93,7 +91,6 @@ class FeaturesModal extends Component {
     this.setState({
       [fieldName]: value,
     });
-    console.log('State modal!', this.state);
   };
 
   render() {
@@ -181,7 +178,7 @@ FeaturesModal.propTypes = {
   toggleFeaturesModal: PropTypes.func.isRequired,
   createFeature: PropTypes.func.isRequired,
   featuresModalState: PropTypes.object.isRequired,
-  // getFieldDecorator: PropTypes.func.isRequired,
+  getFieldDecorator: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   validateFields: PropTypes.func.isRequired,
   selectedRow: PropTypes.object.isRequired,

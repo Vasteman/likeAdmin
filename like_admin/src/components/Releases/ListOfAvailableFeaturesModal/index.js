@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { createRelease } from 'reducers/Releases/releasesPanelReducer'; // вместо этого нужен другой метод, для связи релиза с фичами
+// import { createRelease } from 'reducers/Releases/releasesPanelReducer'; // вместо этого нужен другой метод, для связи релиза с фичами
 import { toggleListOfAvailableFeaturesModal } from 'reducers/Releases/releasesModalsReducer';
-import { fetchFeatures, selectRow } from 'reducers/Features/featuresPanelReducer';
+import { fetchFeatures, selectRow, createFeature } from 'reducers/Features/featuresPanelReducer';
 
 import ListOfAvailableFeaturesModal from './listOfAvailableFeaturesModal';
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch =>
       toggleListOfAvailableFeaturesModal,
       fetchFeatures,
       selectRow,
-      createRelease,
+      createFeature,
     },
     dispatch
   );

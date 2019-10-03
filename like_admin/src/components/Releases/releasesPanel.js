@@ -34,7 +34,6 @@ class ReleasesPanel extends Component {
 
   onDeleteRelease = () => {
     const { deleteRelease, selectedRow } = this.props;
-    console.log('selRow', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
       deleteRelease({ releaseId: selectedRow.TfsReleaseId });
     }
@@ -55,7 +54,6 @@ class ReleasesPanel extends Component {
       fetchReleases,
       isLoadingReleasesTable,
     } = this.props;
-    console.log('releases', releases);
     return (
       <>
         <TopMenu />
@@ -103,7 +101,6 @@ ReleasesPanel.propTypes = {
   toggleReleaseModal: PropTypes.func.isRequired,
   toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
   fetchReleases: PropTypes.func.isRequired,
-  // createFeature: PropTypes.func.isRequired,
   deleteRelease: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
   isReleasesModal: PropTypes.bool.isRequired,

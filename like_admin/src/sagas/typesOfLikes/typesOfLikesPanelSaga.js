@@ -5,8 +5,8 @@ import api from 'utils/api';
 import {
   FETCH_TYPES_OF_LIKES,
   FETCH_TYPES_OF_LIKES_SUCCESS,
-  FETCH_TYPES_OF_LIKES_ERROR, // error fe
-  FETCH_TYPES_OF_LIKES_FAILURE, // error be
+  FETCH_TYPES_OF_LIKES_ERROR,
+  FETCH_TYPES_OF_LIKES_FAILURE,
   // SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
   // create type of like
   CREATE_TYPE_OF_LIKE_SUCCESS,
@@ -42,8 +42,6 @@ export function* fetchTypesOfLikesSaga() {
 
 export function* createTypeOfLikeSaga({ payload }) {
   try {
-    console.log('payload saga', payload);
-
     const { data } = yield call(createTypeOfLike, payload);
 
     if (data.IsSuccess) {
@@ -71,9 +69,6 @@ export function* createTypeOfLikeSaga({ payload }) {
 
 export function* deleteTypeOfLikeSaga({ payload }) {
   try {
-    // const { typeId } = payload;
-    console.log('payload', payload);
-
     const { data } = yield call(deleteTypeOfLike, payload);
 
     if (data.IsSuccess) {

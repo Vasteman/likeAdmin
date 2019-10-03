@@ -31,7 +31,6 @@ class TypesOfLikesTable extends Component {
           EmojiActive: type.EmojiActive,
           EmojiAuthor: type.EmojiAuthor,
         };
-        console.log('item', item);
         return item;
       });
     }
@@ -44,22 +43,16 @@ class TypesOfLikesTable extends Component {
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
-        title: 'ID',
-        dataIndex: 'TypeId',
-        key: 'TypeId',
-        width: '9%',
-      },
-      {
         title: 'Название типа',
         dataIndex: 'EmojiId',
         key: 'EmojiId',
-        width: '18%',
+        width: '25%',
       },
       {
         title: 'Название Emoji',
         dataIndex: 'EmojiName',
         key: 'EmojiName',
-        width: '18%',
+        width: '25%',
       },
       {
         title: 'Активно',
@@ -77,7 +70,7 @@ class TypesOfLikesTable extends Component {
         title: 'Автор',
         dataIndex: 'EmojiAuthor',
         key: 'EmojiAuthor',
-        width: '35%',
+        width: '30%',
       },
     ];
   };

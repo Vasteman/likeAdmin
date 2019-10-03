@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -40,7 +41,6 @@ class TypesOfLikesPanel extends Component {
     const { createTypeOfLike } = this.props;
     const { TypeId, EmojiName, EmojiId, EmojiActive } = record;
 
-    console.log('record', record);
     const recordDataForRequest = {
       TypeId,
       EmojiName,
@@ -57,7 +57,6 @@ class TypesOfLikesPanel extends Component {
       selectedRow,
       isLoadingTypesOfLikesTable,
     } = this.props;
-    console.log('selectedRow', selectedRow);
     return (
       <>
         <TopMenu />
@@ -105,12 +104,10 @@ TypesOfLikesPanel.propTypes = {
   deleteTypeOfLike: PropTypes.func.isRequired,
   createTypeOfLike: PropTypes.func.isRequired,
   toggleTypesOfLikesModal: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   isTypesOfLikesModal: PropTypes.bool.isRequired,
   isLoadingTypesOfLikesTable: PropTypes.bool.isRequired,
   selectRow: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   selectedRow: PropTypes.object.isRequired,
 };
 

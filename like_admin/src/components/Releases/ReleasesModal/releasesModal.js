@@ -21,9 +21,6 @@ class ReleasesModal extends Component {
 
     if (action === 'edit') {
       const { TfsReleaseId, TfsReleaseName, TfsReleaseDate } = selectedRow;
-      // console.log('moment', moment(TfsReleaseDate).format('DD.MM.YYYY'));
-      console.log('selectedRow', selectedRow);
-      console.log('moment(TfsReleaseDate)', moment(TfsReleaseDate));
       this.setState({
         TfsReleaseId,
         TfsReleaseName,
@@ -49,9 +46,6 @@ class ReleasesModal extends Component {
   };
 
   hasErrors = fieldsError => {
-    console.log('fieldsError', fieldsError);
-    console.log('hasErrors', Object.keys(fieldsError).some(field => fieldsError[field]));
-
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
 
@@ -90,7 +84,6 @@ class ReleasesModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
-    console.log('value date', value);
     // if (fieldName === 'TfsReleaseDate') value = moment(value).format('');
     this.setState({
       [fieldName]: value,
@@ -99,11 +92,8 @@ class ReleasesModal extends Component {
 
   render() {
     const { isReleasesModal, form } = this.props;
-    console.log('isReleasesModal', isReleasesModal);
-
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { TfsReleaseName, TfsReleaseDate } = this.state;
-    console.log('STATE', this.state);
 
     const tfsReleaseNameError = isFieldTouched('TfsReleaseName') && getFieldError('TfsReleaseName');
     const tfsReleaseDateError = isFieldTouched('TfsReleaseDate') && getFieldError('TfsReleaseDate');

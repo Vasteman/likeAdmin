@@ -31,9 +31,19 @@ class ListOfAvailableFeaturesModal extends Component {
   }
 
   onOK = () => {
-    // const { createRelease,} = this.props;
+    const { createFeature, selectedRow } = this.props;
+    console.log('arrayForSelectedRows!!!!', arrayForSelectedRows); // массив выбранных строк
+    const featureData = [{}];
 
-    // if (action === 'create' || action === 'edit') createRelease(this.state);
+    arrayForSelectedRows.map(row => {
+      return featureData.push({
+        FeatureName: row.FeatureName,
+        IsLikeActive: row.IsLikeActive,
+      });
+    });
+    console.log('selectedRow', selectedRow);
+    console.log('featureData', featureData);
+    createFeature({ TfsReleaseId: 1488, featureData });
     arrayForSelectedRows = [];
     this.onCancel();
   };
@@ -81,11 +91,11 @@ class ListOfAvailableFeaturesModal extends Component {
     return features.map(feature => {
       let item = {};
       item = {
-        author: feature.FeatureAuthor,
-        featureDate: feature.FeatureDate,
-        featureId: feature.FeatureId,
-        featureName: feature.FeatureName,
-        featureStatus: feature.IsLikeActive,
+        FeatureAuthor: feature.FeatureAuthor,
+        FeatureDate: feature.FeatureDate,
+        FeatureId: feature.FeatureId,
+        FeatureName: feature.FeatureName,
+        IsLikeActive: feature.IsLikeActive,
       };
       return item;
     });
@@ -97,13 +107,13 @@ class ListOfAvailableFeaturesModal extends Component {
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < features.length; i++) {
-      // массив для того, чтобы сравнивать с ним выбранные строки
+      // массив с ключами для того, чтобы сравнивать с ним выбранные строки
       gridData.push({
         key: i,
-        author: features[i].FeatureAuthor,
-        featureDate: features[i].FeatureDate,
-        featureName: features[i].FeatureName,
-        featureStatus: features[i].IsLikeActive,
+        FeatureAuthor: features[i].FeatureAuthor,
+        FeatureDate: features[i].FeatureDate,
+        FeatureName: features[i].FeatureName,
+        IsLikeActive: features[i].IsLikeActive,
       });
     }
     return gridData;
@@ -115,27 +125,27 @@ class ListOfAvailableFeaturesModal extends Component {
     this.columns = [
       {
         title: 'Название',
-        dataIndex: 'featureName',
-        key: 'featureName',
+        dataIndex: 'FeatureName',
+        key: 'FeatureName',
         width: '40%',
       },
       {
         title: 'Активно',
-        dataIndex: 'featureStatus',
-        key: 'featureStatus',
+        dataIndex: 'IsLikeActive',
+        key: 'IsLikeActive',
         width: '15%',
-        sorter: (first, second) => first.featureStatus - second.featureStatus,
+        sorter: (first, second) => first.IsLikeActive - second.IsLikeActive,
         render: (text, record) => {
-          return <Checkbox checked={record.featureStatus} />;
+          return <Checkbox checked={record.IsLikeActive} />;
         },
       },
       {
         title: 'Дата создания',
-        dataIndex: 'featureDate',
-        key: 'featureDate',
+        dataIndex: 'FeatureDate',
+        key: 'FeatureDate',
         width: '30%',
         render: value => {
-          return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
+          return value ? moment(value).format('DD.MM.YYYY') : '';
         },
       },
     ];
@@ -153,19 +163,13 @@ class ListOfAvailableFeaturesModal extends Component {
     });
 
     this.setState({ selectedRowKeys });
-    console.log('arrayForSelectedRows', arrayForSelectedRows);
     return arrayForSelectedRows;
   };
 
-  addFeaturesIntoRelease = () => {
-    console.log('addFeaturesIntoRelease');
-  };
-
   onSearchFeaturesByName = () => {
-    console.log('STATE onSearchFeaturesByName', this.state);
-    const { featureName } = this.state;
+    const { FeatureName } = this.state;
     const { fetchFeatures } = this.props;
-    if (featureName) fetchFeatures({ featureName });
+    if (FeatureName) fetchFeatures({ FeatureName });
     else fetchFeatures({});
   };
 
@@ -197,7 +201,7 @@ class ListOfAvailableFeaturesModal extends Component {
               <Input
                 placeholder="Название"
                 allowClear
-                onChange={elem => this.ChangeField('featureName', elem.target.value)}
+                onChange={elem => this.ChangeField('FeatureName', elem.target.value)}
               />
               <StyledButtonPrimary type="primary" onClick={this.onSearchFeaturesByName}>
                 Найти
@@ -210,7 +214,7 @@ class ListOfAvailableFeaturesModal extends Component {
                   <StyledTable
                     rowSelection={rowSelection}
                     bordered
-                    dataSource={this.convertDataSourceIntoArray()}
+                    dataSource={this.convertDataSourceIntoArray()} // gridData
                     columns={this.columns}
                     // pagination={{ pageSize: 6 }}
                     scroll={{ y: 190 }}
@@ -246,7 +250,8 @@ ListOfAvailableFeaturesModal.propTypes = {
   features: PropTypes.array.isRequired,
   fetchFeatures: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
-  // selectedRow: PropTypes.object.isRequired,
+  selectedRow: PropTypes.object.isRequired,
+  createFeature: PropTypes.func.isRequired,
 };
 
 const StyledForm = styled(Form)``;

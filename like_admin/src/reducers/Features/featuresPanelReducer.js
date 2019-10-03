@@ -91,7 +91,6 @@ export default handleActions(
     },
 
     [SELECT_ROW_OF_FEATURES_TABLE]: (state, { payload: { selectedRow } }) => {
-      console.log('selectedRow reducer', selectedRow);
       return {
         ...state,
         selectedRow,
@@ -99,14 +98,12 @@ export default handleActions(
     },
 
     [DELETE_FEATURE]: state => {
-      console.log('DELETE_TYPE_OF_LIKE', state);
       return {
         ...state,
       };
     },
 
     [DELETE_FEATURE_SUCCESS]: state => {
-      console.log('DELETE_FEATURE_SUCCESS');
       return {
         ...state,
       };

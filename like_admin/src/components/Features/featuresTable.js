@@ -18,7 +18,6 @@ class FeaturesTable extends Component {
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line no-shadow
     const { features } = nextProps;
-    console.log('nextProps', nextProps);
     if (features) this.createTable(features);
   }
 
@@ -27,13 +26,12 @@ class FeaturesTable extends Component {
       return features.map(feature => {
         let item = {};
         item = {
-          author: feature.FeatureAuthor,
-          featureDate: feature.FeatureDate,
+          FeatureAuthor: feature.FeatureFeatureAuthor,
+          FeatureDate: feature.FeatureDate,
           FeatureId: feature.FeatureId,
           FeatureName: feature.FeatureName,
           IsLikeActive: feature.IsLikeActive,
         };
-        console.log('item', item);
         return item;
       });
     }
@@ -74,8 +72,8 @@ class FeaturesTable extends Component {
       },
       {
         title: 'Дата создания',
-        dataIndex: 'featureDate',
-        key: 'featureDate',
+        dataIndex: 'FeatureDate',
+        key: 'FeatureDate',
         width: '18%',
         render: value => {
           return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
@@ -83,8 +81,8 @@ class FeaturesTable extends Component {
       },
       {
         title: 'Автор',
-        dataIndex: 'author',
-        key: 'author',
+        dataIndex: 'FeatureAuthor',
+        key: 'FeatureAuthor',
         width: '35%',
       },
     ];

@@ -10,9 +10,7 @@ const initialState = {
 
 export default handleActions(
   {
-    // actions for typesOfLikesModal
     [TOGGLE_FEATURES_MODAL]: (state, { payload: { action } }) => {
-      console.log('action features create', action);
       if (action === 'create') {
         return {
           ...state,
@@ -21,7 +19,6 @@ export default handleActions(
         };
       }
       if (action === 'edit') {
-        console.log('action features EDIT', action);
         return {
           ...state,
           isFeaturesModal: !state.isFeaturesModal,

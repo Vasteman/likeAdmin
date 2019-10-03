@@ -145,12 +145,8 @@ export default class RangePicker extends PureComponent {
   render() {
     const {
       value: { from, to },
-      // handleClear,
     } = this.props;
     const disabledNextChange = to.isSame(moment(), 'day');
-
-    console.log('from render', from);
-    console.log('to render', to);
     return (
       <Wrapper>
         <Select
@@ -199,12 +195,6 @@ export default class RangePicker extends PureComponent {
             <Icon type="right" />
           </Button>
         </StyleButtonGroup>
-        {/* <StyledButton type="primary" onClick={() => this.onSearchByPeriod(from, to)}>
-          Найти
-        </StyledButton>
-        <StyledButton type="default" onClick={handleClear}>
-          Очистить
-        </StyledButton> */}
       </Wrapper>
     );
   }
@@ -217,7 +207,6 @@ RangePicker.propTypes = {
   }),
   onChange: PropTypes.func.isRequired,
   limitMonth: PropTypes.number.isRequired,
-  // handleClear: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -290,7 +279,3 @@ const StyleButtonGroup = styled(ButtonGroup)`
     padding-top: 2px;
   }
 `;
-
-// const StyledButton = styled(Button)`
-//   height: 32px;
-// `;

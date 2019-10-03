@@ -15,9 +15,7 @@ const initialState = {
 
 export default handleActions(
   {
-    // actions for typesOfLikesModal
     [TOGGLE_RELEASE_MODAL]: (state, { payload: { action } }) => {
-      console.log('action features create', action);
       if (action === 'create') {
         return {
           ...state,
@@ -26,7 +24,6 @@ export default handleActions(
         };
       }
       if (action === 'edit') {
-        console.log('action features EDIT', action);
         return {
           ...state,
           isReleasesModal: !state.isReleasesModal,
@@ -36,9 +33,7 @@ export default handleActions(
       return { ...state };
     },
 
-    // actions for typesOfLikesModal
     [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state) => {
-      console.log('listOfAvailableFeaturesModal create');
         return {
           ...state,
           isListOfAvailableFeaturesModal: !state.isListOfAvailableFeaturesModal,
