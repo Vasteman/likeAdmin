@@ -33,8 +33,12 @@ class FeaturesFilters extends Component {
 
   onChangeCheckbox = event => {
     console.log('checked', event.target.checked);
-    // const { fetchFeatures } = this.props;
-    // fetchFeatures() передать здесь параметр для отображения по статусу
+    const { fetchFeatures } = this.props;
+
+    if (event)
+      fetchFeatures({
+        isActive: event.target.checked,
+      });
   };
 
   ChangeField = (fieldName, value) => {
@@ -47,18 +51,20 @@ class FeaturesFilters extends Component {
     console.log('STATE onSearchFeaturesByName', this.state);
     const { featureName } = this.state;
     const { fetchFeatures } = this.props;
-    fetchFeatures({ featureName });
+    if (featureName) fetchFeatures({ featureName });
   };
 
   onClearInputForFeatureName = () => {
     const {
       form: { resetFields },
+      fetchFeatures,
     } = this.props;
 
     this.setState({
       featureName: '',
     });
     resetFields();
+    fetchFeatures({});
   };
 
   handleClear = () => {
@@ -73,8 +79,8 @@ class FeaturesFilters extends Component {
     const { datePeriodStart, datePeriodFinish } = this.state;
     const { fetchFeatures } = this.props;
     fetchFeatures({
-      datePeriodStart: moment(datePeriodStart).format('DD.MM.YYYY HH:mm'),
-      datePeriodFinish: moment(datePeriodFinish).format('DD.MM.YYYY HH:mm'),
+      dateFrom: moment(datePeriodStart).format('YYYY-MM-DD'),
+      dateTo: moment(datePeriodFinish).format('YYYY-MM-DD'),
     });
   };
 
@@ -164,7 +170,7 @@ const StyledForm = styled(Form)`
     height: 32px;
     background-color: #3fcbff;
     border-color: #3fcbff;
-    margin: 3px 0px 0px 15px;
+    margin: 3px 0px 0px 25px;
   }
   .ant-btn-default {
     height: 32px;
@@ -184,7 +190,7 @@ const StyledTitlePeriod = styled.div`
   margin: 0px 135px 0px 10px;
   padding-top: 5px;
   @media (max-width: 1280px) {
-    margin: 0px 145px 0px 10px;
+    margin: 0px 140px 0px 10px;
   }
 `;
 

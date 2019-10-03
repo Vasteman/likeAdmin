@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon } from 'antd';
+import { Icon, Popconfirm, Spin } from 'antd';
 import TopMenu from '../TopMenu';
 import ReleasesTable from './releasesTable';
 import ReleasesFilters from './releasesFilters';
@@ -10,6 +10,11 @@ import ReleaseModal from './ReleasesModal';
 import ListOfAvailableFeaturesModal from './ListOfAvailableFeaturesModal';
 
 class ReleasesPanel extends Component {
+  // eslint-disable-next-line react/state-in-constructor
+  // state = {
+  //   selectedRowKeys: [],
+  // };
+
   componentDidMount() {
     const { fetchReleases } = this.props;
     fetchReleases({});
@@ -29,8 +34,9 @@ class ReleasesPanel extends Component {
 
   onDeleteRelease = () => {
     const { deleteRelease, selectedRow } = this.props;
+    console.log('selRow', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
-      deleteRelease({ releaseId: selectedRow.releaseId });
+      deleteRelease({ releaseId: selectedRow.TfsReleaseId });
     }
   };
 
@@ -47,8 +53,9 @@ class ReleasesPanel extends Component {
       isListOfAvailableFeaturesModal,
       toggleListOfAvailableFeaturesModal,
       fetchReleases,
+      isLoadingReleasesTable,
     } = this.props;
-    console.log('isReleasesModal', isReleasesModal);
+    console.log('releases', releases);
     return (
       <>
         <TopMenu />
@@ -60,16 +67,30 @@ class ReleasesPanel extends Component {
             <WrapperForIcon>
               <StyledIcon type="plus" onClick={this.onCreateRelease} />
               <StyledIcon type="edit" onClick={this.onEditRelease} />
-              <StyledIcon type="delete" onClick={this.onDeleteRelease} />
+              <Popconfirm
+                key={1}
+                title="Уверены в удалении?"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                placement="bottomRight"
+                onConfirm={this.onDeleteRelease}
+                onCancel={() => null}
+                okText="Да"
+                cancelText="Нет"
+              >
+                <StyledIcon type="delete" />
+              </Popconfirm>
             </WrapperForIcon>
           </HeaderForTable>
+          <StyledSpin spinning={isLoadingReleasesTable} indicator={<Icon type="loading" spin />}>
+            <ReleasesTable
+              releases={releases}
+              selectedRow={selectedRow}
+              onSelectRow={this.onSelectRow}
+              toggleListOfAvailableFeaturesModal={toggleListOfAvailableFeaturesModal}
+              isLoadingReleasesTable={isLoadingReleasesTable}
+            />
+          </StyledSpin>
 
-          <ReleasesTable
-            releases={releases}
-            selectedRow={selectedRow}
-            onSelectRow={this.onSelectRow}
-            toggleListOfAvailableFeaturesModal={toggleListOfAvailableFeaturesModal}
-          />
           {isReleasesModal && <ReleaseModal />}
           {isListOfAvailableFeaturesModal && <ListOfAvailableFeaturesModal />}
         </Wrapper>
@@ -89,6 +110,7 @@ ReleasesPanel.propTypes = {
   isListOfAvailableFeaturesModal: PropTypes.bool.isRequired,
   releases: PropTypes.array.isRequired,
   selectedRow: PropTypes.object.isRequired,
+  isLoadingReleasesTable: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -131,4 +153,17 @@ const WrapperForIcon = styled.div`
   }
 `;
 
+const StyledSpin = styled(Spin)`
+  .anticon-spin {
+    margin-top: 100px;
+    color: #3fcbff;
+  }
+  .ant-spin-dot {
+    position: relative;
+    display: inline-block;
+    font-size: 80px;
+    width: 1em;
+    height: 1em;
+  }
+`;
 export default ReleasesPanel;

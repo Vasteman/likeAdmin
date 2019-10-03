@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table, Checkbox, Spin, Icon } from 'antd';
+import { Table, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
@@ -21,59 +21,62 @@ class TypesOfLikesTable extends Component {
 
   // нейминг переменных отличается от тех, что в модалке (!)
   createDataSource = typesOfLikes => {
-    return typesOfLikes.map(type => {
-      let item = {};
-      item = {
-        typeId: type.TypeId,
-        typeName: type.EmojiName,
-        emojiName: type.EmojiId,
-        status: type.EmojiActive,
-        author: type.EmojiAuthor,
-      };
-      return item;
-    });
+    if (typesOfLikes) {
+      return typesOfLikes.map(type => {
+        let item = {};
+        item = {
+          TypeId: type.TypeId,
+          EmojiName: type.EmojiName,
+          EmojiId: type.EmojiId,
+          EmojiActive: type.EmojiActive,
+          EmojiAuthor: type.EmojiAuthor,
+        };
+        console.log('item', item);
+        return item;
+      });
+    }
+    return null;
   };
 
   createTable = typesOfLikes => {
-    //  вернуть в скобки
     this.dataSource = this.createDataSource(typesOfLikes);
 
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'typeId',
-        key: 'typeId',
+        dataIndex: 'TypeId',
+        key: 'TypeId',
         width: '9%',
       },
       {
         title: 'Название типа',
-        dataIndex: 'typeName',
-        key: 'typeName',
+        dataIndex: 'EmojiId',
+        key: 'EmojiId',
         width: '18%',
       },
       {
         title: 'Название Emoji',
-        dataIndex: 'emojiName',
-        key: 'emojiName',
+        dataIndex: 'EmojiName',
+        key: 'EmojiName',
         width: '18%',
       },
       {
         title: 'Активно',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'EmojiActive',
+        key: 'EmojiActive',
         width: '20%',
-        sorter: (first, second) => first.status - second.status,
+        sorter: (first, second) => first.EmojiActive - second.EmojiActive,
         render: (text, record) => {
           return (
-            <Checkbox checked={record.status} onChange={() => onChangeCheckboxValue(record)} />
+            <Checkbox checked={record.EmojiActive} onChange={() => onChangeCheckboxValue(record)} />
           );
         },
       },
       {
         title: 'Автор',
-        dataIndex: 'author',
-        key: 'author',
+        dataIndex: 'EmojiAuthor',
+        key: 'EmojiAuthor',
         width: '35%',
       },
     ];
@@ -88,21 +91,17 @@ class TypesOfLikesTable extends Component {
       type: 'checkbox',
     };
 
-    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
-    console.log('isLoadingTypesOfLikesTable', isLoadingTypesOfLikesTable);
     return (
       <Wrapper>
-        {typesOfLikes && (
-          <Spin spinning={isLoadingTypesOfLikesTable} indicator={antIcon}>
-            <StyledTable
-              rowSelection={rowSelection}
-              hideDefaultSelections
-              bordered
-              dataSource={this.dataSource}
-              columns={this.columns}
-              pagination={false}
-            />
-          </Spin>
+        {typesOfLikes && !isLoadingTypesOfLikesTable && (
+          <StyledTable
+            rowSelection={rowSelection}
+            hideDefaultSelections
+            bordered
+            dataSource={this.dataSource}
+            columns={this.columns}
+            pagination={false}
+          />
         )}
       </Wrapper>
     );

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon, Popconfirm } from 'antd';
+import { Icon, Popconfirm, Spin } from 'antd';
 import TopMenu from '../TopMenu';
 import FeaturesTable from './featuresTable';
 import FeaturesFilters from './featuresFilters';
@@ -30,7 +30,7 @@ class FeaturesPanel extends Component {
     const { deleteFeature, selectedRow } = this.props;
     if (Object.keys(selectedRow).length !== 0) {
       console.log('SELECTED ROW', selectedRow);
-      deleteFeature({ featureId: selectedRow.featureId });
+      deleteFeature({ FeatureId: selectedRow.FeatureId });
     }
   };
 
@@ -41,20 +41,21 @@ class FeaturesPanel extends Component {
 
   onChangeCheckboxValue = record => {
     const { createFeature } = this.props;
+    console.log('RECORD', record);
     const {
-      featureId,
-      featureName,
-      featureStatus,
-      tfsReleaseId,
+      FeatureId,
+      FeatureName,
+      IsLikeActive,
+      TfsReleaseId,
       tfsReleaseName,
       tfsReleaseDate,
     } = record;
 
     const recordDataForRequest = {
-      featureId,
-      featureName,
-      featureStatus: !featureStatus,
-      tfsReleaseId,
+      FeatureId,
+      FeatureName,
+      IsLikeActive: !IsLikeActive,
+      TfsReleaseId,
       tfsReleaseName,
       tfsReleaseDate,
     };
@@ -62,7 +63,13 @@ class FeaturesPanel extends Component {
   };
 
   render() {
-    const { features, isFeaturesModal, selectedRow, fetchFeatures } = this.props;
+    const {
+      features,
+      isFeaturesModal,
+      selectedRow,
+      fetchFeatures,
+      isLoadingFeaturesTable,
+    } = this.props;
     return (
       <>
         <TopMenu />
@@ -88,13 +95,15 @@ class FeaturesPanel extends Component {
               </Popconfirm>
             </WrapperForIcon>
           </HeaderForTable>
-
-          <FeaturesTable
-            features={features}
-            selectedRow={selectedRow}
-            onSelectRow={this.onSelectRow}
-            onChangeCheckboxValue={this.onChangeCheckboxValue}
-          />
+          <StyledSpin spinning={isLoadingFeaturesTable} indicator={<Icon type="loading" spin />}>
+            <FeaturesTable
+              features={features}
+              selectedRow={selectedRow}
+              onSelectRow={this.onSelectRow}
+              onChangeCheckboxValue={this.onChangeCheckboxValue}
+              isLoadingFeaturesTable={isLoadingFeaturesTable}
+            />
+          </StyledSpin>
           {isFeaturesModal && <FeaturesModal />}
         </Wrapper>
       </>
@@ -112,6 +121,7 @@ FeaturesPanel.propTypes = {
   isFeaturesModal: PropTypes.bool.isRequired,
   features: PropTypes.array.isRequired,
   selectedRow: PropTypes.object.isRequired,
+  isLoadingFeaturesTable: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -151,6 +161,20 @@ const WrapperForIcon = styled.div`
   .anticon > * {
     line-height: 1;
     color: #000;
+  }
+`;
+
+const StyledSpin = styled(Spin)`
+  .anticon-spin {
+    margin-top: 100px;
+    color: #3fcbff;
+  }
+  .ant-spin-dot {
+    position: relative;
+    display: inline-block;
+    font-size: 80px;
+    width: 1em;
+    height: 1em;
   }
 `;
 

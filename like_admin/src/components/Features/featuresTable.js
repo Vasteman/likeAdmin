@@ -23,18 +23,21 @@ class FeaturesTable extends Component {
   }
 
   createDataSource = features => {
-    return features.map(feature => {
-      let item = {};
-      item = {
-        author: feature.FeatureAuthor,
-        featureDate: feature.FeatureDate,
-        featureId: feature.FeatureId,
-        featureName: feature.FeatureName,
-        featureStatus: feature.IsLikeActive,
-      };
-      console.log('item', item);
-      return item;
-    });
+    if (features) {
+      return features.map(feature => {
+        let item = {};
+        item = {
+          author: feature.FeatureAuthor,
+          featureDate: feature.FeatureDate,
+          FeatureId: feature.FeatureId,
+          FeatureName: feature.FeatureName,
+          IsLikeActive: feature.IsLikeActive,
+        };
+        console.log('item', item);
+        return item;
+      });
+    }
+    return null;
   };
 
   createTable = features => {
@@ -44,26 +47,26 @@ class FeaturesTable extends Component {
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'featureId',
-        key: 'featureId',
+        dataIndex: 'FeatureId',
+        key: 'FeatureId',
         width: '9%',
       },
       {
         title: 'Название',
-        dataIndex: 'featureName',
-        key: 'featureName',
+        dataIndex: 'FeatureName',
+        key: 'FeatureName',
         width: '18%',
       },
       {
         title: 'Активно',
-        dataIndex: 'featureStatus',
-        key: 'featureStatus',
+        dataIndex: 'IsLikeActive',
+        key: 'IsLikeActive',
         width: '20%',
-        sorter: (first, second) => first.featureStatus - second.featureStatus,
+        sorter: (first, second) => first.IsLikeActive - second.IsLikeActive,
         render: (text, record) => {
           return (
             <Checkbox
-              checked={record.featureStatus}
+              checked={record.IsLikeActive}
               onChange={() => onChangeCheckboxValue(record)}
             />
           );
@@ -88,7 +91,7 @@ class FeaturesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, features } = this.props;
+    const { onSelectRow, features, isLoadingFeaturesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
@@ -96,11 +99,9 @@ class FeaturesTable extends Component {
       type: 'checkbox',
     };
 
-    console.log('state render', this.state);
-    console.log('render props', this.props);
     return (
       <Wrapper>
-        {features && (
+        {features && !isLoadingFeaturesTable && (
           <StyledTable
             rowSelection={rowSelection}
             bordered
@@ -119,6 +120,7 @@ FeaturesTable.propTypes = {
   features: PropTypes.array.isRequired,
   onChangeCheckboxValue: PropTypes.func.isRequired,
   onSelectRow: PropTypes.func.isRequired,
+  isLoadingFeaturesTable: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`

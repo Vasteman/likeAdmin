@@ -47,12 +47,14 @@ class ReleasesFilters extends Component {
   onClearInputForReleaseName = () => {
     const {
       form: { resetFields },
+      fetchReleases,
     } = this.props;
 
     this.setState({
       featureName: '',
     });
     resetFields();
+    fetchReleases({});
     console.log('STATE onClearInputForFeatureName', this.state);
   };
 
@@ -68,15 +70,17 @@ class ReleasesFilters extends Component {
     const { datePeriodStart, datePeriodFinish } = this.state;
     const { fetchReleases } = this.props;
     fetchReleases({
-      datePeriodStart: moment(datePeriodStart).format('DD.MM.YYYY HH:mm'),
-      datePeriodFinish: moment(datePeriodFinish).format('DD.MM.YYYY HH:mm'),
+      dateFrom: moment(datePeriodStart).format('YYYY-MM-DD'),
+      dateTo: moment(datePeriodFinish).format('YYYY-MM-DD'),
     });
   };
 
   onSearchReleasesByName = () => {
     const { releaseName } = this.state;
     const { fetchReleases } = this.props;
-    fetchReleases({ releaseName });
+    console.log('releaseName', releaseName);
+    if (releaseName) fetchReleases({ releaseName });
+    this.setState({ releaseName: '' });
   };
 
   render() {
@@ -154,15 +158,20 @@ const StyledForm = styled(Form)`
     font-family: PT_Sans-Web-Regular;
     margin: 3px 0px 0px 10px;
     width: 1400px;
-    @media (max-width: 1280px) {
+    // @media (max-width: 1280px) {
+    //   width: 700px;
+    // }
+    @media (max-width: 1368px) {
       width: 750px;
+    margin-right: 80px;
+  }
     }
   }
   .ant-btn-primary {
     height: 32px;
     background-color: #3fcbff;
     border-color: #3fcbff;
-    margin: 3px 0px 0px 15px;
+    margin: 3px 0px 0px 25px;
   }
   .ant-btn-default {
     height: 32px;
@@ -182,10 +191,13 @@ const StyledTitle = styled.div`
 
 const StyledTitlePeriod = styled.div`
   font-size: 16px;
-  margin: 0px 135px 0px 10px;
+  margin: 0px 140px 0px 10px;
   padding-top: 5px;
   @media (max-width: 1280px) {
-    margin: 0px 145px 0px 10px;
+    margin: 0px 140px 0px 10px;
+  }
+  @media (max-width: 1368px) {
+    margin: 0px 140px 0px 10px;
   }
 `;
 

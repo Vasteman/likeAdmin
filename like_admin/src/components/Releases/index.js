@@ -20,6 +20,7 @@ const mapStateToProps = state => ({
   isReleasesModal: state.releasesModal.isReleasesModal,
   isListOfAvailableFeaturesModal: state.releasesModal.isListOfAvailableFeaturesModal,
   selectedRow: state.releasesPanel.selectedRow,
+  isLoadingReleasesTable: state.releasesPanel.isLoadingReleasesTable,
 });
 
 const mapDispatchToProps = dispatch =>

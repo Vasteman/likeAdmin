@@ -40,7 +40,7 @@ export function* fetchReleasesSaga({ payload }) {
 export function* deleteReleasesSaga({ payload }) {
   try {
     const { data } = yield call(deleteReleases, payload);
-
+    console.log('payload DELETE', payload);
     if (data.IsSuccess) {
       yield put({ type: DELETE_RELEASE_SUCCESS });
       yield put({ type: FETCH_RELEASES });

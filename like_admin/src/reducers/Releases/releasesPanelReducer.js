@@ -3,9 +3,10 @@ import { handleActions, createAction } from 'redux-actions';
 const initialState = {
   releases: [],
   selectedRow: {},
-  fetchReleaseError: false,
-  createReleaseError: false,
-  deleteReleaseError: false,
+  fetchReleaseError: null,
+  createReleaseError: null,
+  deleteReleaseError: null,
+  isLoadingReleasesTable: false,
 };
 
 export const FETCH_RELEASES = 'releases/FETCH_RELEASES';
@@ -35,6 +36,7 @@ export default handleActions(
       return {
         ...state,
         releases: null,
+        isLoadingReleasesTable: true,
       };
     },
 
@@ -42,6 +44,7 @@ export default handleActions(
       return {
         ...state,
         releases,
+        isLoadingReleasesTable: false,
       };
     },
 
@@ -49,6 +52,7 @@ export default handleActions(
       return {
         ...state,
         fetchReleaseError: message,
+        isLoadingReleasesTable: true,
       };
     },
 
@@ -56,6 +60,7 @@ export default handleActions(
       return {
         ...state,
         fetchReleaseError: message,
+        isLoadingReleasesTable: true,
       };
     },
     [CREATE_RELEASE]: state => {

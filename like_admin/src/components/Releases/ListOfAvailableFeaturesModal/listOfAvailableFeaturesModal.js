@@ -161,6 +161,14 @@ class ListOfAvailableFeaturesModal extends Component {
     console.log('addFeaturesIntoRelease');
   };
 
+  onSearchFeaturesByName = () => {
+    console.log('STATE onSearchFeaturesByName', this.state);
+    const { featureName } = this.state;
+    const { fetchFeatures } = this.props;
+    if (featureName) fetchFeatures({ featureName });
+    else fetchFeatures({});
+  };
+
   render() {
     const { isListOfAvailableFeaturesModal, features } = this.props;
     const { selectedRowKeys } = this.state;
@@ -191,7 +199,9 @@ class ListOfAvailableFeaturesModal extends Component {
                 allowClear
                 onChange={elem => this.ChangeField('featureName', elem.target.value)}
               />
-              <StyledButtonPrimary type="primary"> Найти </StyledButtonPrimary>
+              <StyledButtonPrimary type="primary" onClick={this.onSearchFeaturesByName}>
+                Найти
+              </StyledButtonPrimary>
             </WrapperForSearchLine>
 
             <Collapse bordered={false}>

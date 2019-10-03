@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 const FormItem = Form.Item;
-
+const dateFormat = 'DD.MM.YYYY';
 class ReleasesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {};
@@ -20,12 +20,14 @@ class ReleasesModal extends Component {
     validateFields();
 
     if (action === 'edit') {
-      const { releaseId, releaseName, releaseDate } = selectedRow;
-
+      const { TfsReleaseId, TfsReleaseName, TfsReleaseDate } = selectedRow;
+      // console.log('moment', moment(TfsReleaseDate).format('DD.MM.YYYY'));
+      console.log('selectedRow', selectedRow);
+      console.log('moment(TfsReleaseDate)', moment(TfsReleaseDate));
       this.setState({
-        releaseId,
-        releaseName,
-        releaseDate,
+        TfsReleaseId,
+        TfsReleaseName,
+        TfsReleaseDate: moment(TfsReleaseDate),
       });
     }
   }
@@ -88,6 +90,8 @@ class ReleasesModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
+    console.log('value date', value);
+    // if (fieldName === 'TfsReleaseDate') value = moment(value).format('');
     this.setState({
       [fieldName]: value,
     });
@@ -98,11 +102,11 @@ class ReleasesModal extends Component {
     console.log('isReleasesModal', isReleasesModal);
 
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { releaseName, releaseDate } = this.state;
+    const { TfsReleaseName, TfsReleaseDate } = this.state;
     console.log('STATE', this.state);
 
-    const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
-    const releaseDateError = isFieldTouched('releaseDate') && getFieldError('releaseDate');
+    const tfsReleaseNameError = isFieldTouched('TfsReleaseName') && getFieldError('TfsReleaseName');
+    const tfsReleaseDateError = isFieldTouched('TfsReleaseDate') && getFieldError('TfsReleaseDate');
 
     return (
       <Wrapper
@@ -113,33 +117,39 @@ class ReleasesModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <StyledForm>
-          <FormItem validateStatus={releaseNameError ? 'error' : ''} help={releaseNameError || ''}>
-            {getFieldDecorator('releaseName', {
+          <FormItem
+            validateStatus={tfsReleaseNameError ? 'error' : ''}
+            help={tfsReleaseNameError || ''}
+          >
+            {getFieldDecorator('TfsReleaseName', {
               rules: [{ required: true, message: 'Имя релиза является обязательным!' }],
             })(
               <WrapperForLineInput>
                 <Label> Название релиза </Label>
                 <Input
-                  value={releaseName}
-                  onChange={elem => this.ChangeField('releaseName', elem.target.value)}
+                  value={TfsReleaseName}
+                  onChange={elem => this.ChangeField('TfsReleaseName', elem.target.value)}
                 />
               </WrapperForLineInput>
             )}
           </FormItem>
 
-          <FormItem validateStatus={releaseDateError ? 'error' : ''} help={releaseDateError || ''}>
-            {getFieldDecorator('releaseDateError', {
+          <FormItem
+            validateStatus={tfsReleaseDateError ? 'error' : ''}
+            help={tfsReleaseDateError || ''}
+          >
+            {getFieldDecorator('tfsReleaseDateError', {
               rules: [{ required: false, message: 'Выберите дату!' }],
             })(
               <WrapperForDate>
                 <Label> Дата релиза </Label>
                 <DatePicker
                   allowClear={false}
-                  // format={datesFormatsArray}
-                  value={releaseDate}
+                  format={dateFormat}
+                  value={TfsReleaseDate}
                   showToday={false}
-                  defaultValue={moment()}
-                  onChange={dateString => this.ChangeField('releaseDate', dateString)}
+                  // defaultValue={moment()}
+                  onChange={dateString => this.ChangeField('TfsReleaseDate', dateString)}
                 />
               </WrapperForDate>
             )}
@@ -172,6 +182,9 @@ const Wrapper = styled(Modal)`
   }
   .ant-modal-title {
     font-family: T2_DisplaySerif_Bold_Short;
+  }
+  .ant-calendar-picker-input.ant-input {
+    font-family: PT_Sans-Web-Regular;
   }
 `;
 

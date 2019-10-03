@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
   features: state.featuresPanel.features,
   isFeaturesModal: state.featuresModal.isFeaturesModal,
   selectedRow: state.featuresPanel.selectedRow,
+  isLoadingFeaturesTable: state.featuresPanel.isLoadingFeaturesTable,
 });
 
 const mapDispatchToProps = dispatch =>

@@ -6,6 +6,7 @@ const initialState = {
   fetchFeaturesErrorInfo: null,
   createFeatureErrorInfo: null, // wtf
   deleteFeatureErrorInfo: null,
+  isLoadingFeaturesTable: false,
 };
 
 export const FETCH_FEATURES = 'features/FETCH_FEATURES';
@@ -35,6 +36,7 @@ export default handleActions(
       return {
         ...state,
         features: null,
+        isLoadingFeaturesTable: true,
       };
     },
 
@@ -42,6 +44,7 @@ export default handleActions(
       return {
         ...state,
         features,
+        isLoadingFeaturesTable: false,
       };
     },
 
@@ -49,6 +52,7 @@ export default handleActions(
       return {
         ...state,
         fetchFeaturesErrorInfo: message,
+        isLoadingFeaturesTable: true,
       };
     },
 
@@ -56,6 +60,7 @@ export default handleActions(
       return {
         ...state,
         fetchFeaturesErrorInfo: message,
+        isLoadingFeaturesTable: true,
       };
     },
 

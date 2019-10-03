@@ -7,7 +7,7 @@ const FormItem = Form.Item;
 
 class TypesOfLikesAdminModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
-  state = { emojiActive: false };
+  state = { EmojiActive: false };
 
   componentDidMount() {
     const {
@@ -18,12 +18,13 @@ class TypesOfLikesAdminModal extends Component {
     validateFields();
 
     if (action === 'edit') {
-      const { typeId, typeName: emojiName, emojiName: emojiId, status: emojiActive } = selectedRow;
+      console.log('selectedRow', selectedRow);
+      const { TypeId, EmojiName, EmojiId, EmojiActive } = selectedRow;
       this.setState({
-        typeId,
-        emojiName,
-        emojiId,
-        emojiActive,
+        TypeId,
+        EmojiName,
+        EmojiId,
+        EmojiActive,
       });
     }
   }
@@ -94,11 +95,11 @@ class TypesOfLikesAdminModal extends Component {
   render() {
     const { isTypesOfLikesModal, form, selectedRow } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { emojiName, emojiId, emojiActive } = this.state;
+    const { EmojiName, EmojiId, EmojiActive } = this.state;
 
-    const emojiNameError = isFieldTouched('emojiName') && getFieldError('emojiName');
-    const emojiIdError = isFieldTouched('emojiId') && getFieldError('emojiId');
-    const emojiActiveError = isFieldTouched('emojiActive') && getFieldError('emojiActive');
+    const emojiNameError = isFieldTouched('EmojiName') && getFieldError('EmojiName');
+    const emojiIdError = isFieldTouched('EmojiId') && getFieldError('EmojiId');
+    const emojiActiveError = isFieldTouched('EmojiActive') && getFieldError('EmojiActive');
     console.log('selectedRow', selectedRow);
     console.log('state MODAL', this.state);
     return (
@@ -111,43 +112,43 @@ class TypesOfLikesAdminModal extends Component {
       >
         <Form>
           <FormItem validateStatus={emojiNameError ? 'error' : ''} help={emojiNameError || ''}>
-            {getFieldDecorator('emojiName', {
-              rules: [{ required: true, message: 'Название типа является обязательным!' }],
+            {getFieldDecorator('EmojiName', {
+              rules: [{ required: true, message: 'Название Emoji является обязательным!' }],
             })(
               <WrapperForLineInput>
-                <Label> Название типа </Label>
+                <Label> Название Emoji </Label>
                 <Input
-                  value={emojiName}
-                  onChange={elem => this.ChangeField('emojiName', elem.target.value)}
+                  value={EmojiName}
+                  onChange={elem => this.ChangeField('EmojiName', elem.target.value)}
                 />
               </WrapperForLineInput>
             )}
           </FormItem>
 
           <FormItem validateStatus={emojiIdError ? 'error' : ''} help={emojiIdError || ''}>
-            {getFieldDecorator('emojiId', {
-              rules: [{ required: true, message: 'Название Emoji является обязательным!' }],
+            {getFieldDecorator('EmojiId', {
+              rules: [{ required: true, message: 'Название типа является обязательным!' }],
             })(
               <WrapperForLineInput>
-                <Label> Название Emoji</Label>
+                <Label> Название типа </Label>
                 <Input
-                  value={emojiId}
-                  onChange={elem => this.ChangeField('emojiId', elem.target.value)}
+                  value={EmojiId}
+                  onChange={elem => this.ChangeField('EmojiId', elem.target.value)}
                 />
               </WrapperForLineInput>
             )}
           </FormItem>
 
           <FormItem validateStatus={emojiActiveError ? 'error' : ''} help={emojiActiveError || ''}>
-            {getFieldDecorator('emojiActive', {
+            {getFieldDecorator('EmojiActive', {
               rules: [{ required: false, message: 'Статус является обязательным!' }],
             })(
               <WrapperForStatus>
                 <Label> Активно </Label>
                 <StyledSwitch
-                  checked={emojiActive}
+                  checked={EmojiActive}
                   // defaultChecked={false}
-                  onChange={value => this.ChangeField('emojiActive', value)}
+                  onChange={value => this.ChangeField('EmojiActive', value)}
                 />
               </WrapperForStatus>
             )}
@@ -187,6 +188,9 @@ const Wrapper = styled(Modal)`
   }
   .ant-modal-title {
     font-family: T2_DisplaySerif_Bold_Short;
+  }
+  .ant-switch-checked {
+    background-color: #3fcbff;
   }
 `;
 

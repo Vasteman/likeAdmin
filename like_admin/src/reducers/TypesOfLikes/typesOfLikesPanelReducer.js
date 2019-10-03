@@ -52,7 +52,7 @@ export default handleActions(
       return {
         ...state,
         typesOfLikesError: message,
-        isLoadingTypesOfLikesTable: false,
+        isLoadingTypesOfLikesTable: true,
       };
     },
 
@@ -60,7 +60,7 @@ export default handleActions(
       return {
         ...state,
         typesOfLikesError: message,
-        isLoadingTypesOfLikesTable: false,
+        isLoadingTypesOfLikesTable: true,
       };
     },
 

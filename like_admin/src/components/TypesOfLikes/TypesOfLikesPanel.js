@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon, Popconfirm } from 'antd';
+import { Icon, Popconfirm, Spin } from 'antd';
 import TopMenu from '../TopMenu';
 import TypesOfLikesTable from './typesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
@@ -27,9 +27,8 @@ class TypesOfLikesPanel extends Component {
   onDeleteType = () => {
     const { deleteTypeOfLike, selectedRow } = this.props;
     if (Object.keys(selectedRow).length !== 0) {
-      deleteTypeOfLike({ typeId: selectedRow.typeId });
+      deleteTypeOfLike({ TypeId: selectedRow.TypeId });
     }
-    console.log('onDelete');
   };
 
   onSelectRow = record => {
@@ -39,13 +38,14 @@ class TypesOfLikesPanel extends Component {
 
   onChangeCheckboxValue = record => {
     const { createTypeOfLike } = this.props;
-    const { typeId, typeName: emojiName, emojiName: emojiId, status: emojiActive } = record;
+    const { TypeId, EmojiName, EmojiId, EmojiActive } = record;
 
+    console.log('record', record);
     const recordDataForRequest = {
-      emojiActive: !emojiActive,
-      emojiName,
-      typeId,
-      emojiId,
+      TypeId,
+      EmojiName,
+      EmojiId,
+      EmojiActive: !EmojiActive,
     };
     createTypeOfLike(recordDataForRequest);
   };
@@ -67,30 +67,32 @@ class TypesOfLikesPanel extends Component {
             <WrapperForIcon>
               <StyledIcon type="plus" onClick={this.onCreateType} />
               <StyledIcon type="edit" onClick={this.onEditType} />
-
-              {typesOfLikes && (
-                <Popconfirm
-                  key={1}
-                  title="Уверены в удалении?"
-                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                  placement="bottomRight"
-                  onConfirm={this.onDeleteType}
-                  onCancel={() => null}
-                  okText="Да"
-                  cancelText="Нет"
-                >
-                  <StyledIcon type="delete" />
-                </Popconfirm>
-              )}
+              <Popconfirm
+                key={1}
+                title="Уверены в удалении?"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                placement="bottomRight"
+                onConfirm={this.onDeleteType}
+                onCancel={() => null}
+                okText="Да"
+                cancelText="Нет"
+              >
+                <StyledIcon type="delete" />
+              </Popconfirm>
             </WrapperForIcon>
           </Header>
-          <TypesOfLikesTable
-            typesOfLikes={typesOfLikes}
-            onSelectRow={this.onSelectRow}
-            selectedRow={selectedRow}
-            onChangeCheckboxValue={this.onChangeCheckboxValue}
-            isLoadingTypesOfLikesTable={isLoadingTypesOfLikesTable}
-          />
+          <StyledSpin
+            spinning={isLoadingTypesOfLikesTable}
+            indicator={<Icon type="loading" spin />}
+          >
+            <TypesOfLikesTable
+              typesOfLikes={typesOfLikes}
+              onSelectRow={this.onSelectRow}
+              selectedRow={selectedRow}
+              onChangeCheckboxValue={this.onChangeCheckboxValue}
+              isLoadingTypesOfLikesTable={isLoadingTypesOfLikesTable}
+            />
+          </StyledSpin>
           {isTypesOfLikesModal && <TypesOfLikesAdminModal />}
         </Wrapper>
       </>
@@ -158,4 +160,17 @@ const WrapperForIcon = styled.div`
   margin-left: auto;
 `;
 
+const StyledSpin = styled(Spin)`
+  .anticon-spin {
+    margin-top: 100px;
+    color: #3fcbff;
+  }
+  .ant-spin-dot {
+    position: relative;
+    display: inline-block;
+    font-size: 80px;
+    width: 1em;
+    height: 1em;
+  }
+`;
 export default TypesOfLikesPanel;

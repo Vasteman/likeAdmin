@@ -42,7 +42,7 @@ export function* fetchTypesOfLikesSaga() {
 
 export function* createTypeOfLikeSaga({ payload }) {
   try {
-    console.log('payload', payload);
+    console.log('payload saga', payload);
 
     const { data } = yield call(createTypeOfLike, payload);
 

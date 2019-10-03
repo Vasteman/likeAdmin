@@ -23,12 +23,12 @@ class FeaturesModal extends Component {
 
     if (action === 'edit') {
       console.log('SELECTED ROW', selectedRow);
-      const { featureName, featureStatus } = selectedRow;
+      const { FeatureName, IsLikeActive, TfsReleaseId } = selectedRow;
 
       this.setState({
-        featureName,
-        featureStatus,
-        TfsReleaseName: null,
+        FeatureName,
+        IsLikeActive,
+        TfsReleaseId,
       });
     }
   }
@@ -39,8 +39,9 @@ class FeaturesModal extends Component {
       featuresModalState: { action },
     } = this.props;
     console.log('State OK!', this.state);
-
-    if (action === 'create' || action === 'edit') createFeature(this.state);
+    const { FeatureName, IsLikeActive, TfsReleaseId } = this.state;
+    const featureData = [{ FeatureName, IsLikeActive }];
+    if (action === 'create' || action === 'edit') createFeature({ TfsReleaseId, featureData });
     this.onCancel();
   };
 
@@ -51,9 +52,6 @@ class FeaturesModal extends Component {
   };
 
   hasErrors = fieldsError => {
-    console.log('fieldsError', fieldsError);
-    console.log('hasErrors', Object.keys(fieldsError).some(field => fieldsError[field]));
-
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
 
@@ -101,13 +99,11 @@ class FeaturesModal extends Component {
   render() {
     const { isFeaturesModal, form, releases } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    const { featureName, featureStatus, TfsReleaseId } = this.state;
-    console.log('releases', releases);
-    console.log('PROOOPS', this.props);
+    const { FeatureName, IsLikeActive, TfsReleaseId } = this.state;
 
-    const featureNameError = isFieldTouched('featureName') && getFieldError('featureName');
-    const featureStatusError = isFieldTouched('featureStatus') && getFieldError('featureStatus');
-    const releaseNameError = isFieldTouched('releaseName') && getFieldError('releaseName');
+    const featureNameError = isFieldTouched('FeatureName') && getFieldError('FeatureName');
+    const isLikeActiveError = isFieldTouched('IsLikeActive') && getFieldError('IsLikeActive');
+    const releaseNameError = isFieldTouched('ReleaseName') && getFieldError('ReleaseName');
 
     return (
       <Wrapper
@@ -119,14 +115,14 @@ class FeaturesModal extends Component {
       >
         <StyledForm>
           <FormItem validateStatus={featureNameError ? 'error' : ''} help={featureNameError || ''}>
-            {getFieldDecorator('featureName', {
+            {getFieldDecorator('FeatureName', {
               rules: [{ required: true, message: 'Имя фичи является обязательным!' }],
             })(
               <WrapperForFeatureInput>
                 <Label> Название фичи </Label>
                 <Input
-                  value={featureName}
-                  onChange={elem => this.ChangeField('featureName', elem.target.value)}
+                  value={FeatureName}
+                  onChange={elem => this.ChangeField('FeatureName', elem.target.value)}
                 />
               </WrapperForFeatureInput>
             )}
@@ -159,17 +155,17 @@ class FeaturesModal extends Component {
             </FormItem>
 
             <FormItem
-              validateStatus={featureStatusError ? 'error' : ''}
-              help={featureStatusError || ''}
+              validateStatus={isLikeActiveError ? 'error' : ''}
+              help={isLikeActiveError || ''}
             >
-              {getFieldDecorator('featureStatus', {
+              {getFieldDecorator('IsLikeActive', {
                 rules: [{ required: false, message: 'Статус является обязательным!' }],
               })(
                 <WrapperForStatus>
                   <Label> Активно </Label>
                   <Switch
-                    checked={featureStatus}
-                    onChange={value => this.ChangeField('featureStatus', value)}
+                    checked={IsLikeActive}
+                    onChange={value => this.ChangeField('IsLikeActive', value)}
                   />
                 </WrapperForStatus>
               )}
@@ -197,7 +193,7 @@ const StyledForm = styled(Form)`
   width: 700px;
   height: 150px;
   .ant-form-item .ant-switch {
-    margin: 10px 0 4px;
+    margin-top: 10px;
   }
 `;
 
@@ -213,6 +209,9 @@ const Wrapper = styled(Modal)`
   }
   .ant-modal-title {
     font-family: T2_DisplaySerif_Bold_Short;
+  }
+  .ant-switch-checked {
+    background-color: #3fcbff;
   }
 `;
 
@@ -233,13 +232,6 @@ const WrapperForStatus = styled.div`
   display: flex;
   width: 300px;
   margin-left: 50px;
-
-  .ant-input {
-    margin-left: 50px;
-  }
-
-  .ant-select {
-  }
 `;
 
 const WrapperForSelectLine = styled.div`
@@ -247,7 +239,7 @@ const WrapperForSelectLine = styled.div`
   justify-content: space-between;
 `;
 const Label = styled.div`
-  width: 200px;
+  width: 180px;
   height: 30px;
   margin-right: 10px;
 `;
@@ -255,14 +247,12 @@ const Label = styled.div`
 const StyledButtonPrimary = styled(Button)`
   .ant-btn-primary {
     backgorund-color: #3fcbff;
-    border-color: #3fcbff;
   }
 `;
 
 const StyledSelect = styled(Select)`
   .ant-select-selection {
     width: 160px;
-    margin-left: 15px;
   }
 `;
 

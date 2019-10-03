@@ -19,50 +19,50 @@ class ReleasesTable extends Component {
   }
 
   createDataSource = releases => {
-    return releases.map(release => {
-      let item = {};
-      item = {
-        author: release.TfsReleaseAuthor,
-        releaseDate: release.TfsReleaseDate,
-        releaseId: release.TfsReleaseId,
-        releaseName: release.TfsReleaseName,
-      };
-      return item;
-    });
+    if (releases) {
+      return releases.map(release => {
+        let item = {};
+        item = {
+          TfsReleaseAuthor: release.TfsReleaseAuthor,
+          TfsReleaseDate: release.TfsReleaseDate,
+          TfsReleaseId: release.TfsReleaseId,
+          TfsReleaseName: release.TfsReleaseName,
+        };
+        return item;
+      });
+    }
+    return null;
   };
 
   createTable = releases => {
     this.dataSource = this.createDataSource(releases);
 
-    // const { onChangeCheckboxValue } = this.props;
-    const { Cell } = Table.Column;
-    console.log('Cell', Cell);
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'releaseId',
-        key: 'releaseId',
+        dataIndex: 'TfsReleaseId',
+        key: 'TfsReleaseId',
         width: '10%',
       },
       {
         title: 'Название',
-        dataIndex: 'releaseName',
-        key: 'releaseName',
+        dataIndex: 'TfsReleaseName',
+        key: 'TfsReleaseName',
         width: '30%',
       },
       {
         title: 'Дата создания',
-        dataIndex: 'releaseDate',
-        key: 'releaseDate',
+        dataIndex: 'TfsReleaseDate',
+        key: 'TfsReleaseDate',
         width: '30%',
         render: value => {
-          return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
+          return value ? moment(value).format('DD.MM.YYYY') : '';
         },
       },
       {
         title: 'Автор',
-        dataIndex: 'author',
-        key: 'author',
+        dataIndex: 'TfsReleaseAuthor',
+        key: 'TfsReleaseAuthor',
         width: '30%',
       },
     ];
@@ -74,17 +74,16 @@ class ReleasesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, releases } = this.props;
+    const { onSelectRow, releases, isLoadingReleasesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
       },
       type: 'checkbox',
     };
-
     return (
       <Wrapper>
-        {releases && (
+        {releases && !isLoadingReleasesTable && (
           <StyledTable
             rowSelection={rowSelection}
             bordered
@@ -106,6 +105,7 @@ ReleasesTable.propTypes = {
   releases: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
   toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
+  isLoadingReleasesTable: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -140,4 +140,5 @@ const StyledTable = styled(Table)`
     }
   }
 `;
+
 export default ReleasesTable;
