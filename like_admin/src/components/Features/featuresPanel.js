@@ -32,7 +32,7 @@ class FeaturesPanel extends Component {
     console.log('selected row delete', selectedRow);
 
     if (Object.keys(selectedRow).length !== 0) {
-      console.log('{ featureIdList }', featureList);
+      console.log('featureIdList', featureList);
       deleteFeature(featureList);
     }
   };
@@ -41,7 +41,6 @@ class FeaturesPanel extends Component {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
     featureList.push(record.FeatureId);
-    console.log('select record!!!', record);
   };
 
   onChangeCheckboxValue = record => {

@@ -7,6 +7,8 @@ import TopMenu from '../TopMenu';
 import TypesOfLikesTable from './typesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
 
+const typesOfLikesList = [];
+
 class TypesOfLikesPanel extends Component {
   componentDidMount() {
     const { fetchTypesOfLikes } = this.props;
@@ -29,13 +31,14 @@ class TypesOfLikesPanel extends Component {
     const { deleteTypeOfLike, selectedRow } = this.props;
     console.log('selectedRow delete', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
-      deleteTypeOfLike({ TypeId: selectedRow.TypeId });
+      deleteTypeOfLike(typesOfLikesList);
     }
   };
 
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
+    typesOfLikesList.push(record.TypeId);
   };
 
   onChangeCheckboxValue = record => {
