@@ -33,10 +33,12 @@ export default handleActions(
       return { ...state };
     },
 
-    [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state) => {
+    [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state, {payload: { TfsReleaseId } }) => {
+      console.log('TfsReleaseId', TfsReleaseId);
         return {
           ...state,
           isListOfAvailableFeaturesModal: !state.isListOfAvailableFeaturesModal,
+          TfsReleaseId,
         };
     },
   },

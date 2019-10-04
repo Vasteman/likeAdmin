@@ -8,6 +8,7 @@ import FeaturesTable from './featuresTable';
 import FeaturesFilters from './featuresFilters';
 import FeaturesModal from './FeaturesModal';
 
+const featureList = [];
 class FeaturesPanel extends Component {
   componentDidMount() {
     const { fetchFeatures } = this.props;
@@ -28,14 +29,19 @@ class FeaturesPanel extends Component {
 
   onDeleteFeature = () => {
     const { deleteFeature, selectedRow } = this.props;
+    console.log('selected row delete', selectedRow);
+
     if (Object.keys(selectedRow).length !== 0) {
-      deleteFeature({ FeatureId: selectedRow.FeatureId });
+      console.log('{ featureIdList }', featureList);
+      deleteFeature(featureList);
     }
   };
 
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
+    featureList.push(record.FeatureId);
+    console.log('select record!!!', record);
   };
 
   onChangeCheckboxValue = record => {
@@ -49,15 +55,17 @@ class FeaturesPanel extends Component {
       tfsReleaseDate,
     } = record;
 
-    const recordDataForRequest = {
-      FeatureId,
-      FeatureName,
-      IsLikeActive: !IsLikeActive,
-      TfsReleaseId,
-      tfsReleaseName,
-      tfsReleaseDate,
-    };
-    createFeature(recordDataForRequest);
+    const featureData = [
+      {
+        FeatureId,
+        FeatureName,
+        IsLikeActive: !IsLikeActive,
+        TfsReleaseId,
+        tfsReleaseName,
+        tfsReleaseDate,
+      },
+    ];
+    createFeature({ featureData });
   };
 
   render() {

@@ -1,7 +1,18 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Modal, Button, Popconfirm, Icon, Form, Checkbox, Table, Input, Collapse } from 'antd';
+import {
+  Modal,
+  Button,
+  Popconfirm,
+  Icon,
+  Form,
+  Checkbox,
+  Table,
+  Input,
+  Collapse,
+  Spin,
+} from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -31,9 +42,8 @@ class ListOfAvailableFeaturesModal extends Component {
   }
 
   onOK = () => {
-    const { createFeature, selectedRow } = this.props;
-    console.log('arrayForSelectedRows!!!!', arrayForSelectedRows); // массив выбранных строк
-    const featureData = [{}];
+    const { createFeature, TfsReleaseId } = this.props;
+    const featureData = [];
 
     arrayForSelectedRows.map(row => {
       return featureData.push({
@@ -41,9 +51,8 @@ class ListOfAvailableFeaturesModal extends Component {
         IsLikeActive: row.IsLikeActive,
       });
     });
-    console.log('selectedRow', selectedRow);
-    console.log('featureData', featureData);
-    createFeature({ TfsReleaseId: 1488, featureData });
+
+    createFeature({ TfsReleaseId, featureData });
     arrayForSelectedRows = [];
     this.onCancel();
   };
@@ -174,7 +183,7 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   render() {
-    const { isListOfAvailableFeaturesModal, features } = this.props;
+    const { isListOfAvailableFeaturesModal, features, isLoadingFeaturesTable } = this.props;
     const { selectedRowKeys } = this.state;
 
     const rowSelection = {
@@ -210,17 +219,22 @@ class ListOfAvailableFeaturesModal extends Component {
 
             <Collapse bordered={false}>
               <Collapse.Panel header="Показать доступные фичи">
-                {features && (
-                  <StyledTable
-                    rowSelection={rowSelection}
-                    bordered
-                    dataSource={this.convertDataSourceIntoArray()} // gridData
-                    columns={this.columns}
-                    // pagination={{ pageSize: 6 }}
-                    scroll={{ y: 190 }}
-                    size="small"
-                  />
-                )}
+                <StyledSpin
+                  spinning={isLoadingFeaturesTable}
+                  indicator={<Icon type="loading" spin />}
+                >
+                  {features && (
+                    <StyledTable
+                      rowSelection={rowSelection}
+                      bordered
+                      dataSource={this.convertDataSourceIntoArray()} // gridData
+                      columns={this.columns}
+                      // pagination={{ pageSize: 6 }}
+                      scroll={{ y: 190 }}
+                      size="small"
+                    />
+                  )}
+                </StyledSpin>
               </Collapse.Panel>
             </Collapse>
           </WrapperForAvailableFeatures>
@@ -250,8 +264,9 @@ ListOfAvailableFeaturesModal.propTypes = {
   features: PropTypes.array.isRequired,
   fetchFeatures: PropTypes.func.isRequired,
   selectRow: PropTypes.func.isRequired,
-  selectedRow: PropTypes.object.isRequired,
   createFeature: PropTypes.func.isRequired,
+  TfsReleaseId: PropTypes.number.isRequired,
+  isLoadingFeaturesTable: PropTypes.bool.isRequired,
 };
 
 const StyledForm = styled(Form)``;
@@ -347,4 +362,17 @@ const StyledButtonPrimary = styled(Button)`
   margin: 0px 20px;
 `;
 
+const StyledSpin = styled(Spin)`
+  .anticon-spin {
+    margin-left: 350px;
+    color: #3fcbff;
+  }
+  .ant-spin-dot {
+    position: relative;
+    display: inline-block;
+    font-size: 50px;
+    width: 1em;
+    height: 1em;
+  }
+`;
 export default Form.create()(ListOfAvailableFeaturesModal);

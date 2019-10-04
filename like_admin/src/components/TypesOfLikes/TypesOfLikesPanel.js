@@ -27,6 +27,7 @@ class TypesOfLikesPanel extends Component {
 
   onDeleteType = () => {
     const { deleteTypeOfLike, selectedRow } = this.props;
+    console.log('selectedRow delete', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
       deleteTypeOfLike({ TypeId: selectedRow.TypeId });
     }

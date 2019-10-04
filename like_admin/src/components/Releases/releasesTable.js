@@ -68,9 +68,10 @@ class ReleasesTable extends Component {
     ];
   };
 
-  onListOfAvailableFeaturesModalOpen = () => {
+  onListOfAvailableFeaturesModalOpen = record => {
     const { toggleListOfAvailableFeaturesModal } = this.props;
-    toggleListOfAvailableFeaturesModal({});
+    const { TfsReleaseId } = record;
+    toggleListOfAvailableFeaturesModal({ TfsReleaseId });
   };
 
   render() {

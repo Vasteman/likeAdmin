@@ -26,11 +26,12 @@ class FeaturesTable extends Component {
       return features.map(feature => {
         let item = {};
         item = {
-          FeatureAuthor: feature.FeatureFeatureAuthor,
+          FeatureAuthor: feature.FeatureAuthor,
           FeatureDate: feature.FeatureDate,
           FeatureId: feature.FeatureId,
           FeatureName: feature.FeatureName,
           IsLikeActive: feature.IsLikeActive,
+          // TfsReleasesFeatures: features.TfsReleasesFeatures,
         };
         return item;
       });
@@ -44,16 +45,10 @@ class FeaturesTable extends Component {
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
-        title: 'ID',
-        dataIndex: 'FeatureId',
-        key: 'FeatureId',
-        width: '9%',
-      },
-      {
         title: 'Название',
         dataIndex: 'FeatureName',
         key: 'FeatureName',
-        width: '18%',
+        width: '30%',
       },
       {
         title: 'Активно',
@@ -74,7 +69,7 @@ class FeaturesTable extends Component {
         title: 'Дата создания',
         dataIndex: 'FeatureDate',
         key: 'FeatureDate',
-        width: '18%',
+        width: '15%',
         render: value => {
           return value ? moment(value).format('DD.MM.YYYY HH:mm') : '';
         },

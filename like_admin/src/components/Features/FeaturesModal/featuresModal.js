@@ -5,7 +5,6 @@ import { Modal, Button, Popconfirm, Icon, Form, Input, Select, Switch } from 'an
 import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
-
 class FeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { IsLikeActive: false };
@@ -16,30 +15,52 @@ class FeaturesModal extends Component {
       featuresModalState: { action },
       form: { validateFields },
       fetchReleases,
+      releases,
     } = this.props;
     validateFields();
-
-    fetchReleases({});
+    console.log('selectedRow', selectedRow);
 
     if (action === 'edit') {
-      const { FeatureName, IsLikeActive, TfsReleaseId } = selectedRow;
+      const { FeatureName, IsLikeActive, FeatureId } = selectedRow;
+      console.log('selectedRow feature', selectedRow);
+      fetchReleases({ FeatureId });
+      fetchReleases({});
+      console.log('releases', releases);
 
       this.setState({
+        FeatureId,
         FeatureName,
         IsLikeActive,
-        TfsReleaseId,
+        TfsReleaseId: null,
+        TfsReleaseName: null,
       });
+    } else {
+      fetchReleases({});
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const { releases } = nextProps;
+  //   const { TfsReleaseName } = this.state;
+  //   // if (releases) {
+  //   //   this.setState({
+  //   //     TfsReleaseName: releases[0].TfsReleaseName,
+  //   //   });
+  //   //   console.log('TfsReleaseName', TfsReleaseName);
+  //   // }
+  // }
 
   onOK = () => {
     const {
       createFeature,
       featuresModalState: { action },
     } = this.props;
-    const { FeatureName, IsLikeActive, TfsReleaseId } = this.state;
-    const featureData = [{ FeatureName, IsLikeActive }];
-    if (action === 'create' || action === 'edit') createFeature({ TfsReleaseId, featureData });
+    const { FeatureName, IsLikeActive, TfsReleaseId, FeatureId } = this.state;
+    let featureData = [];
+    if (action === 'edit') featureData = [{ FeatureId, FeatureName, IsLikeActive }];
+    else featureData = [{ FeatureName, IsLikeActive }];
+
+    createFeature({ TfsReleaseId, featureData });
     this.onCancel();
   };
 
@@ -101,6 +122,8 @@ class FeaturesModal extends Component {
     const featureNameError = isFieldTouched('FeatureName') && getFieldError('FeatureName');
     const isLikeActiveError = isFieldTouched('IsLikeActive') && getFieldError('IsLikeActive');
     const releaseNameError = isFieldTouched('ReleaseName') && getFieldError('ReleaseName');
+    console.log('releases render', releases);
+    console.log('STATE', this.state);
 
     return (
       <Wrapper
@@ -139,6 +162,7 @@ class FeaturesModal extends Component {
                     value={TfsReleaseId}
                     placeholder="Выберите релиз"
                     onChange={value => this.ChangeField('TfsReleaseId', value)}
+                    // onClick={fetchReleases({})}
                   >
                     {releases &&
                       releases.map(release => (

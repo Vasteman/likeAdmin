@@ -46,6 +46,9 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   hasErrors = fieldsError => {
+    console.log('fieldsError', fieldsError);
+    console.log('hasErrors', Object.keys(fieldsError).some(field => fieldsError[field]));
+
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
 
@@ -107,20 +110,6 @@ class TypesOfLikesAdminModal extends Component {
         footer={this.renderFooterButtons()}
       >
         <Form>
-          <FormItem validateStatus={emojiNameError ? 'error' : ''} help={emojiNameError || ''}>
-            {getFieldDecorator('EmojiName', {
-              rules: [{ required: true, message: 'Название Emoji является обязательным!' }],
-            })(
-              <WrapperForLineInput>
-                <Label> Название Emoji </Label>
-                <Input
-                  value={EmojiName}
-                  onChange={elem => this.ChangeField('EmojiName', elem.target.value)}
-                />
-              </WrapperForLineInput>
-            )}
-          </FormItem>
-
           <FormItem validateStatus={emojiIdError ? 'error' : ''} help={emojiIdError || ''}>
             {getFieldDecorator('EmojiId', {
               rules: [{ required: true, message: 'Название типа является обязательным!' }],
@@ -130,6 +119,20 @@ class TypesOfLikesAdminModal extends Component {
                 <Input
                   value={EmojiId}
                   onChange={elem => this.ChangeField('EmojiId', elem.target.value)}
+                />
+              </WrapperForLineInput>
+            )}
+          </FormItem>
+
+          <FormItem validateStatus={emojiNameError ? 'error' : ''} help={emojiNameError || ''}>
+            {getFieldDecorator('EmojiName', {
+              rules: [{ required: true, message: 'Название Emoji является обязательным!' }],
+            })(
+              <WrapperForLineInput>
+                <Label> Название Emoji </Label>
+                <Input
+                  value={EmojiName}
+                  onChange={elem => this.ChangeField('EmojiName', elem.target.value)}
                 />
               </WrapperForLineInput>
             )}
@@ -219,6 +222,8 @@ const WrapperForStatus = styled.div`
 `;
 
 const StyledSwitch = styled(Switch)``;
+
 const StyledButtonPrimary = styled(Button)``;
 
+// export default TypesOfLikesAdminModal;
 export default Form.create()(TypesOfLikesAdminModal);

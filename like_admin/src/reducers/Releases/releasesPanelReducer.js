@@ -41,6 +41,7 @@ export default handleActions(
     },
 
     [FETCH_RELEASES_SUCCESS]: (state, { payload: { releases } }) => {
+      console.log('reducer ', releases);
       return {
         ...state,
         releases,

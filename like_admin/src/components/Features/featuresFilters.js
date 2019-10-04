@@ -160,6 +160,10 @@ const StyledForm = styled(Form)`
     @media (max-width: 1280px) {
       width: 750px;
     }
+    @media (max-width: 1368px) {
+      width: 750px;
+      //margin-right: 80px;
+    }
   }
   .ant-btn-primary {
     height: 32px;
@@ -182,10 +186,14 @@ const StyledTitle = styled.div`
 
 const StyledTitlePeriod = styled.div`
   font-size: 16px;
-  margin: 0px 135px 0px 10px;
+  margin: 0px 40px 0px 10px;
   padding-top: 5px;
+  width: 150px;
+  // @media (max-width: 1368px) {
+  //   margin: 0px 95px 0px 10px;
+  // }
   @media (max-width: 1280px) {
-    margin: 0px 140px 0px 10px;
+    margin: 0px 50px 0px 10px;
   }
 `;
 

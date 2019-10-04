@@ -134,9 +134,7 @@ ReleasesFilters.propTypes = {
 };
 
 const StyledForm = styled(Form)`
-  border: 1px solid blue;
   font-family: T2_DisplaySerif_Regular;
-  justify-content: space-between;
   height: 90px;
   color: #000;
   border-bottom: 1px solid #8e97a0;
@@ -154,13 +152,13 @@ const StyledForm = styled(Form)`
   .ant-input {
     font-family: PT_Sans-Web-Regular;
     margin: 3px 0px 0px 10px;
-    // width: 1400px;
-    // @media (max-width: 1280px) {
-    //   width: 700px;
-    // }
-    // @media (max-width: 1368px) {
-    //   width: 750px;
-    // //margin-right: 80px;
+    width: 1400px;
+    @media (max-width: 1280px) {
+      width: 700px;
+    }
+    @media (max-width: 1368px) {
+      width: 750px;
+    //margin-right: 80px;
   }
     }
   }
@@ -180,22 +178,20 @@ const StyledForm = styled(Form)`
 `;
 
 const StyledTitle = styled.div`
-  width: 100px;
+  width: 150px;
   font-size: 16px;
   height: 24px;
   margin: 8px 0px 0px 10px;
-  border: 1px solid red;
 `;
 
 const StyledTitlePeriod = styled.div`
   font-size: 16px;
-  // margin: 0px 140px 0px 10px;
+  margin: 0px 40px 0px 10px;
   padding-top: 5px;
-  border: 1px solid green;
-  width: 100px;
-  // @media (max-width: 1280px) {
-  //   margin: 0px 140px 0px 10px;
-  // }
+  width: 150px;
+  @media (max-width: 1280px) {
+    margin: 0px 50px 0px 10px;
+  }
   // @media (max-width: 1368px) {
   //   margin: 0px 140px 0px 10px;
   // }
@@ -213,10 +209,10 @@ const StyledButton = styled(Button)`
 const WrapperForInputFilter = styled.div`
   display: flex;
   height: 40px;
-  justify-content: space-around;
-  .ant-input {
-    margin-left: 50px;
-  }
+  justify-content: space-between;
+  // .ant-input {
+  //   margin-left: 50px;
+  // }
 `;
 
 export default Form.create()(ReleasesFilters);
