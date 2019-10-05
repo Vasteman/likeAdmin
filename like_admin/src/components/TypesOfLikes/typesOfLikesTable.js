@@ -76,10 +76,16 @@ class TypesOfLikesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, typesOfLikes, isLoadingTypesOfLikesTable } = this.props;
+    const { onSelectRow, onSelectAll, typesOfLikes, isLoadingTypesOfLikesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log('selected', selected);
+        console.log('selectedRows', selectedRows);
+        console.log('changeRows', changeRows);
+        onSelectAll(selected, selectedRows, changeRows);
       },
       type: 'checkbox',
     };
@@ -105,6 +111,7 @@ TypesOfLikesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   typesOfLikes: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
+  onSelectAll: PropTypes.func.isRequired,
   onChangeCheckboxValue: PropTypes.func.isRequired,
   isLoadingTypesOfLikesTable: PropTypes.bool.isRequired,
 };

@@ -65,21 +65,6 @@ export default handleActions(
     },
 
     [SELECT_ROW_OF_TYPES_OF_LIKES_TABLE]: (state, { payload: { selectedRow } }) => {
-      // console.log('newType', newType);
-      // if (!selectedRow && newType) {
-      //   const newSelectedRow = {
-      //     typeId: newType.TypeId,
-      //     typeName: newType.EmojiName,
-      //     author: newType.EmojiAuthor,
-      //     status: newType.EmojiActive,
-      //   };
-      //   console.log('newSelectedRow', newSelectedRow);
-      //   return {
-      //     ...state,
-      //     selectedRow: newSelectedRow,
-      //   };
-      // }
-      // console.log('99999999', selectedRow);
       return {
         ...state,
         selectedRow,

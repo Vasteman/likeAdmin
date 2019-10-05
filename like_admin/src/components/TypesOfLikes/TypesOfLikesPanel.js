@@ -29,7 +29,7 @@ class TypesOfLikesPanel extends Component {
 
   onDeleteType = () => {
     const { deleteTypeOfLike, selectedRow } = this.props;
-    console.log('selectedRow delete', selectedRow);
+    console.log('typesOfLikesList', typesOfLikesList);
     if (Object.keys(selectedRow).length !== 0) {
       deleteTypeOfLike(typesOfLikesList);
     }
@@ -38,7 +38,22 @@ class TypesOfLikesPanel extends Component {
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    typesOfLikesList.push(record.TypeId);
+    if (typesOfLikesList.indexOf(record.TypeId) >= 0) {
+      typesOfLikesList.splice(typesOfLikesList.indexOf(record.TypeId), 1);
+    } else typesOfLikesList.push(record.TypeId);
+  };
+
+  onSelectAll = (selected, selectedRows, changeRows) => {
+    if (selected) {
+      changeRows.map(row => {
+        if (typesOfLikesList.indexOf(row.TypeId) >= 0) {
+          typesOfLikesList.splice(typesOfLikesList.indexOf(row.TypeId), 1);
+        } else typesOfLikesList.push(row.TypeId);
+        return typesOfLikesList;
+      });
+    } else {
+      typesOfLikesList.splice(0, typesOfLikesList.length);
+    }
   };
 
   onChangeCheckboxValue = record => {
@@ -91,6 +106,7 @@ class TypesOfLikesPanel extends Component {
             <TypesOfLikesTable
               typesOfLikes={typesOfLikes}
               onSelectRow={this.onSelectRow}
+              onSelectAll={this.onSelectAll}
               selectedRow={selectedRow}
               onChangeCheckboxValue={this.onChangeCheckboxValue}
               isLoadingTypesOfLikesTable={isLoadingTypesOfLikesTable}
