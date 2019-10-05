@@ -43,7 +43,7 @@ class TypesOfLikesPanel extends Component {
     } else typesOfLikesList.push(record.TypeId);
   };
 
-  onSelectAll = (selected, selectedRows, changeRows) => {
+  onSelectAllRows = (selected, selectedRows, changeRows) => {
     if (selected) {
       changeRows.map(row => {
         if (typesOfLikesList.indexOf(row.TypeId) >= 0) {
@@ -106,7 +106,7 @@ class TypesOfLikesPanel extends Component {
             <TypesOfLikesTable
               typesOfLikes={typesOfLikes}
               onSelectRow={this.onSelectRow}
-              onSelectAll={this.onSelectAll}
+              onSelectAllRows={this.onSelectAllRows}
               selectedRow={selectedRow}
               onChangeCheckboxValue={this.onChangeCheckboxValue}
               isLoadingTypesOfLikesTable={isLoadingTypesOfLikesTable}

@@ -44,7 +44,22 @@ class ReleasesPanel extends Component {
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    releasesList.push(record.TfsReleaseId);
+    if (releasesList.indexOf(record.TfsReleaseId) >= 0) {
+      releasesList.splice(releasesList.indexOf(record.TfsReleaseId), 1);
+    } else releasesList.push(record.TfsReleaseId);
+  };
+
+  onSelectAllRows = (selected, selectedRows, changeRows) => {
+    if (selected) {
+      changeRows.map(row => {
+        if (releasesList.indexOf(row.TfsReleaseId) >= 0) {
+          releasesList.splice(releasesList.indexOf(row.TfsReleaseId), 1);
+        } else releasesList.push(row.TfsReleaseId);
+        return releasesList;
+      });
+    } else {
+      releasesList.splice(0, releasesList.length);
+    }
   };
 
   render() {
@@ -87,6 +102,7 @@ class ReleasesPanel extends Component {
               releases={releases}
               selectedRow={selectedRow}
               onSelectRow={this.onSelectRow}
+              onSelectAllRows={this.onSelectAllRows}
               toggleListOfAvailableFeaturesModal={toggleListOfAvailableFeaturesModal}
               isLoadingReleasesTable={isLoadingReleasesTable}
             />

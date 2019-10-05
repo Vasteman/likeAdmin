@@ -40,7 +40,22 @@ class FeaturesPanel extends Component {
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    featureList.push(record.FeatureId);
+    if (featureList.indexOf(record.FeatureId) >= 0) {
+      featureList.splice(featureList.indexOf(record.FeatureId), 1);
+    } else featureList.push(record.FeatureId);
+  };
+
+  onSelectAllRows = (selected, selectedRows, changeRows) => {
+    if (selected) {
+      changeRows.map(row => {
+        if (featureList.indexOf(row.FeatureId) >= 0) {
+          featureList.splice(featureList.indexOf(row.FeatureId), 1);
+        } else featureList.push(row.FeatureId);
+        return featureList;
+      });
+    } else {
+      featureList.splice(0, featureList.length);
+    }
   };
 
   onChangeCheckboxValue = record => {
@@ -105,6 +120,7 @@ class FeaturesPanel extends Component {
               features={features}
               selectedRow={selectedRow}
               onSelectRow={this.onSelectRow}
+              onSelectAllRows={this.onSelectAllRows}
               onChangeCheckboxValue={this.onChangeCheckboxValue}
               isLoadingFeaturesTable={isLoadingFeaturesTable}
             />

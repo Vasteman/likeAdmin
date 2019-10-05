@@ -84,10 +84,16 @@ class FeaturesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, features, isLoadingFeaturesTable } = this.props;
+    const { onSelectRow, onSelectAllRows, features, isLoadingFeaturesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log('selected', selected);
+        console.log('selectedRows', selectedRows);
+        console.log('changeRows', changeRows);
+        onSelectAllRows(selected, selectedRows, changeRows);
       },
       type: 'checkbox',
     };
@@ -114,6 +120,7 @@ FeaturesTable.propTypes = {
   onChangeCheckboxValue: PropTypes.func.isRequired,
   onSelectRow: PropTypes.func.isRequired,
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
+  onSelectAllRows: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`

@@ -75,10 +75,15 @@ class ReleasesTable extends Component {
   };
 
   render() {
-    const { onSelectRow, releases, isLoadingReleasesTable } = this.props;
+    const { onSelectRow, onSelectAllRows, releases, isLoadingReleasesTable } = this.props;
     const rowSelection = {
       onSelect: (record, selected, selectedRows) => {
         onSelectRow(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log('selectedRows', selectedRows);
+        console.log('changeRows', changeRows);
+        onSelectAllRows(selected, selectedRows, changeRows);
       },
       type: 'checkbox',
     };
@@ -105,6 +110,7 @@ ReleasesTable.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   releases: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
+  onSelectAllRows: PropTypes.func.isRequired,
   toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
   isLoadingReleasesTable: PropTypes.bool.isRequired,
 };
