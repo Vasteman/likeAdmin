@@ -7,7 +7,7 @@ import TopMenu from '../TopMenu';
 import TypesOfLikesTable from './typesOfLikesTable';
 import TypesOfLikesAdminModal from './TypesOfLikesModal';
 
-const typesOfLikesList = [];
+let typesOfLikesList = [];
 
 class TypesOfLikesPanel extends Component {
   componentDidMount() {
@@ -32,6 +32,7 @@ class TypesOfLikesPanel extends Component {
     console.log('typesOfLikesList', typesOfLikesList);
     if (Object.keys(selectedRow).length !== 0) {
       deleteTypeOfLike(typesOfLikesList);
+      typesOfLikesList = [];
     }
   };
 
@@ -41,6 +42,7 @@ class TypesOfLikesPanel extends Component {
     if (typesOfLikesList.indexOf(record.TypeId) >= 0) {
       typesOfLikesList.splice(typesOfLikesList.indexOf(record.TypeId), 1);
     } else typesOfLikesList.push(record.TypeId);
+    console.log('typesOfLikesList', typesOfLikesList);
   };
 
   onSelectAllRows = (selected, selectedRows, changeRows) => {
@@ -54,6 +56,7 @@ class TypesOfLikesPanel extends Component {
     } else {
       typesOfLikesList.splice(0, typesOfLikesList.length);
     }
+    console.log('typesOfLikesList', typesOfLikesList);
   };
 
   onChangeCheckboxValue = record => {

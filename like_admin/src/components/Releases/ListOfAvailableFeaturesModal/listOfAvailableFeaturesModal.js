@@ -14,25 +14,27 @@ import {
   Spin,
 } from 'antd';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 let gridData = [];
 let arrayForSelectedRows = [];
+let arrayForGettedFeatures = [];
 
+let listFeaturesForDeleteFromRelease = [];
 class ListOfAvailableFeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
-    selectedRowKeys: [], // Check here to configure the default column
+    selectedRowKeys: [],
   };
 
   componentDidMount() {
     const {
-      // selectedRow,
       form: { validateFields },
       fetchFeatures,
+      record: { GetFeatureBinding },
     } = this.props;
     fetchFeatures({});
     validateFields();
+    this.getFeaturesIncludesInRelease(GetFeatureBinding);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,11 +44,16 @@ class ListOfAvailableFeaturesModal extends Component {
   }
 
   onOK = () => {
-    const { createFeature, TfsReleaseId } = this.props;
+    const {
+      createFeature,
+      record: { TfsReleaseId },
+      // fetchReleases,
+    } = this.props;
     const featureData = [];
 
     arrayForSelectedRows.map(row => {
       return featureData.push({
+        FeatureId: row.FeatureId,
         FeatureName: row.FeatureName,
         IsLikeActive: row.IsLikeActive,
       });
@@ -54,6 +61,7 @@ class ListOfAvailableFeaturesModal extends Component {
 
     createFeature({ TfsReleaseId, featureData });
     arrayForSelectedRows = [];
+    // fetchReleases({});
     this.onCancel();
   };
 
@@ -110,6 +118,21 @@ class ListOfAvailableFeaturesModal extends Component {
     });
   };
 
+  getFeaturesIncludesInRelease = GetFeatureBinding => {
+    arrayForGettedFeatures = [];
+    if (GetFeatureBinding) {
+      GetFeatureBinding.map(feature => {
+        arrayForGettedFeatures.push({
+          FeatureId: feature.FeatureId,
+          IsLikeActive: feature.IsLikeActive,
+          FeatureName: feature.FeatureName,
+        });
+        return feature.FeatureName;
+      });
+    }
+    return arrayForGettedFeatures;
+  };
+
   convertDataSourceIntoArray = () => {
     const { features } = this.props;
     gridData = [];
@@ -119,6 +142,7 @@ class ListOfAvailableFeaturesModal extends Component {
       // массив с ключами для того, чтобы сравнивать с ним выбранные строки
       gridData.push({
         key: i,
+        FeatureId: features[i].FeatureId,
         FeatureAuthor: features[i].FeatureAuthor,
         FeatureDate: features[i].FeatureDate,
         FeatureName: features[i].FeatureName,
@@ -136,7 +160,7 @@ class ListOfAvailableFeaturesModal extends Component {
         title: 'Название',
         dataIndex: 'FeatureName',
         key: 'FeatureName',
-        width: '40%',
+        width: '80%',
       },
       {
         title: 'Активно',
@@ -148,21 +172,61 @@ class ListOfAvailableFeaturesModal extends Component {
           return <Checkbox checked={record.IsLikeActive} />;
         },
       },
-      {
-        title: 'Дата создания',
-        dataIndex: 'FeatureDate',
-        key: 'FeatureDate',
-        width: '30%',
-        render: value => {
-          return value ? moment(value).format('DD.MM.YYYY') : '';
-        },
-      },
+      // {
+      //   title: 'Дата создания',
+      //   dataIndex: 'FeatureDate',
+      //   key: 'FeatureDate',
+      //   width: '30%',
+      //   render: value => {
+      //     return value ? moment(value).format('DD.MM.YYYY') : '';
+      //   },
+      // },
     ];
   };
 
   onSelectRow = record => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
+  };
+
+  onSelectRowFromListFeatures = record => {
+    const {
+      record: { TfsReleaseId },
+    } = this.props;
+
+    listFeaturesForDeleteFromRelease.push({
+      TfsReleaseId,
+      FeatureId: record.FeatureId,
+    });
+    console.log('record', record);
+    const { selectRow } = this.props;
+    selectRow({ selectedRow: record });
+  };
+
+  onSelectAllRowsFromListFeatures = (selected, selectedRows, changeRows) => {
+    const {
+      record: { TfsReleaseId },
+    } = this.props;
+
+    if (selected) {
+      changeRows.map(row => {
+        console.log('ROW', row);
+        if (listFeaturesForDeleteFromRelease.indexOf(row.FeatureId) >= 0) {
+          listFeaturesForDeleteFromRelease.splice(
+            listFeaturesForDeleteFromRelease.indexOf(row.FeatureId),
+            1
+          );
+        } else
+          listFeaturesForDeleteFromRelease.push({
+            TfsReleaseId,
+            FeatureId: row.FeatureId,
+          });
+        return listFeaturesForDeleteFromRelease;
+      });
+    } else {
+      listFeaturesForDeleteFromRelease.splice(0, listFeaturesForDeleteFromRelease.length);
+    }
+    console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
   };
 
   onSelectChange = selectedRowKeys => {
@@ -172,6 +236,7 @@ class ListOfAvailableFeaturesModal extends Component {
     });
 
     this.setState({ selectedRowKeys });
+    console.log('333', arrayForSelectedRows);
     return arrayForSelectedRows;
   };
 
@@ -182,11 +247,18 @@ class ListOfAvailableFeaturesModal extends Component {
     else fetchFeatures({});
   };
 
+  onDeleteFeaturesFromRelease = () => {
+    const { deleteFeaturesFromReleases } = this.props;
+    deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
+    listFeaturesForDeleteFromRelease = [];
+    // console.log('TfsReleaseId', TfsReleaseId);
+  };
+
   render() {
     const { isListOfAvailableFeaturesModal, features, isLoadingFeaturesTable } = this.props;
     const { selectedRowKeys } = this.state;
 
-    const rowSelection = {
+    const rowSelectionForTableAvailableFeatures = {
       selectedRowKeys,
       onChange: this.onSelectChange,
       onSelect: (record, selected, selectedRows) => {
@@ -194,6 +266,22 @@ class ListOfAvailableFeaturesModal extends Component {
       },
       type: 'checkbox',
     };
+
+    const rowSelection = {
+      // selectedRowKeys,
+      // onChange: this.onSelectChange,
+      onSelect: (record, selected, selectedRows) => {
+        this.onSelectRowFromListFeatures(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log('selectedRows', selectedRows);
+        console.log('changeRows', changeRows);
+        this.onSelectAllRowsFromListFeatures(selected, selectedRows, changeRows);
+      },
+      type: 'checkbox',
+    };
+
+    const dataSourceArray = arrayForGettedFeatures.concat(arrayForSelectedRows);
 
     return (
       <Wrapper
@@ -225,7 +313,7 @@ class ListOfAvailableFeaturesModal extends Component {
                 >
                   {features && (
                     <StyledTable
-                      rowSelection={rowSelection}
+                      rowSelection={rowSelectionForTableAvailableFeatures}
                       bordered
                       dataSource={this.convertDataSourceIntoArray()} // gridData
                       columns={this.columns}
@@ -239,15 +327,30 @@ class ListOfAvailableFeaturesModal extends Component {
             </Collapse>
           </WrapperForAvailableFeatures>
           <WrapperIncludedInReleaseFeatures>
-            <Label> Список фич, включенных в релиз </Label>
+            <Title>
+              <Label>Список фич, включенных в релиз </Label>
+              <Popconfirm
+                key={1}
+                title="Уверены в удалении?"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                placement="bottomRight"
+                onConfirm={this.onDeleteFeaturesFromRelease}
+                onCancel={() => null}
+                okText="Да"
+                cancelText="Нет"
+              >
+                <StyledIcon type="delete" />
+              </Popconfirm>
+            </Title>
             <StyledTable
               rowSelection={rowSelection}
               bordered
-              dataSource={arrayForSelectedRows}
+              dataSource={dataSourceArray}
               columns={this.columns}
               scroll={{ y: 190 }}
               pagination={false}
               size="small"
+              type={false}
             />
           </WrapperIncludedInReleaseFeatures>
         </StyledForm>
@@ -259,6 +362,7 @@ class ListOfAvailableFeaturesModal extends Component {
 ListOfAvailableFeaturesModal.propTypes = {
   isListOfAvailableFeaturesModal: PropTypes.bool.isRequired,
   toggleListOfAvailableFeaturesModal: PropTypes.func.isRequired,
+  deleteFeaturesFromReleases: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   validateFields: PropTypes.func.isRequired,
   features: PropTypes.array.isRequired,
@@ -267,6 +371,8 @@ ListOfAvailableFeaturesModal.propTypes = {
   createFeature: PropTypes.func.isRequired,
   TfsReleaseId: PropTypes.number.isRequired,
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
+  record: PropTypes.object.isRequired,
+  // fetchReleases: PropTypes.func.isRequired,
 };
 
 const StyledForm = styled(Form)``;
@@ -316,6 +422,7 @@ const StyledTable = styled(Table)`
   .ant-table-small
     > .ant-table-content
     > .ant-table-scroll
+    > .ant-table-body
     > .ant-table-header
     > table
     > .ant-table-thead
@@ -338,6 +445,19 @@ const StyledTable = styled(Table)`
 
   .ant-table-small > .ant-table-content .ant-table-header {
     background-color: #ecf9ff;
+  }
+  .ant-table-thead > tr > th {
+    text-align: center;
+  }
+  .ant-table-small
+    > .ant-table-content
+    > .ant-table-scroll
+    > .ant-table-body
+    > table
+    > .ant-table-tbody
+    > tr
+    > td {
+    text-align: center;
   }
 `;
 
@@ -375,4 +495,17 @@ const StyledSpin = styled(Spin)`
     height: 1em;
   }
 `;
+
+const StyledIcon = styled(Icon)`
+  width: 40px;
+  font-size: 25px;
+  margin: 5px 5px;
+  color: black;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export default Form.create()(ListOfAvailableFeaturesModal);

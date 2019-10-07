@@ -27,6 +27,7 @@ class ReleasesTable extends Component {
           TfsReleaseDate: release.TfsReleaseDate,
           TfsReleaseId: release.TfsReleaseId,
           TfsReleaseName: release.TfsReleaseName,
+          GetFeatureBinding: release.GetFeatureBinding,
         };
         return item;
       });
@@ -70,8 +71,8 @@ class ReleasesTable extends Component {
 
   onListOfAvailableFeaturesModalOpen = record => {
     const { toggleListOfAvailableFeaturesModal } = this.props;
-    const { TfsReleaseId } = record;
-    toggleListOfAvailableFeaturesModal({ TfsReleaseId });
+    console.log('RECORD', record);
+    toggleListOfAvailableFeaturesModal({ record });
   };
 
   render() {

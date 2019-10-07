@@ -1,9 +1,13 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { toggleListOfAvailableFeaturesModal } from 'reducers/Releases/releasesModalsReducer';
-import { fetchFeatures, selectRow, createFeature } from 'reducers/Features/featuresPanelReducer';
+import {
+  toggleListOfAvailableFeaturesModal,
+  deleteFeaturesFromReleases,
+} from 'reducers/Releases/releasesModalsReducer';
 
+import { fetchFeatures, selectRow, createFeature } from 'reducers/Features/featuresPanelReducer';
+import { fetchReleases } from 'reducers/Releases/releasesPanelReducer';
 import ListOfAvailableFeaturesModal from './listOfAvailableFeaturesModal';
 
 const mapStateToProps = state => ({
@@ -11,15 +15,18 @@ const mapStateToProps = state => ({
   features: state.featuresPanel.features,
   TfsReleaseId: state.releasesModal.TfsReleaseId,
   isLoadingFeaturesTable: state.featuresPanel.isLoadingFeaturesTable,
+  record: state.releasesModal.releasesModalState.record,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       toggleListOfAvailableFeaturesModal,
+      deleteFeaturesFromReleases,
       fetchFeatures,
       selectRow,
       createFeature,
+      fetchReleases,
     },
     dispatch
   );

@@ -31,8 +31,10 @@ class FeaturesTable extends Component {
           FeatureId: feature.FeatureId,
           FeatureName: feature.FeatureName,
           IsLikeActive: feature.IsLikeActive,
-          // TfsReleasesFeatures: features.TfsReleasesFeatures,
+          GetReleasesBinding: feature.GetReleasesBinding,
         };
+
+        console.log('item', item);
         return item;
       });
     }

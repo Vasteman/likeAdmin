@@ -8,7 +8,7 @@ import FeaturesTable from './featuresTable';
 import FeaturesFilters from './featuresFilters';
 import FeaturesModal from './FeaturesModal';
 
-const featureList = [];
+let featureList = [];
 class FeaturesPanel extends Component {
   componentDidMount() {
     const { fetchFeatures } = this.props;
@@ -22,6 +22,7 @@ class FeaturesPanel extends Component {
 
   onEditFeature = () => {
     const { toggleFeaturesModal, selectedRow } = this.props;
+    console.log('selectedRow', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
       toggleFeaturesModal({ action: 'edit' });
     }
@@ -34,6 +35,7 @@ class FeaturesPanel extends Component {
     if (Object.keys(selectedRow).length !== 0) {
       console.log('featureIdList', featureList);
       deleteFeature(featureList);
+      featureList = [];
     }
   };
 

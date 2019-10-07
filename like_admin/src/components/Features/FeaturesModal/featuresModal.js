@@ -1,10 +1,22 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Modal, Button, Popconfirm, Icon, Form, Input, Select, Switch } from 'antd';
+import {
+  Modal,
+  Button,
+  Popconfirm,
+  Icon,
+  Form,
+  Input,
+  Select,
+  Switch,
+  List,
+  Typography,
+} from 'antd';
 import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
+let arrayForReleases = []; // массив релизов, в которых есть эта фича
 class FeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { IsLikeActive: false };
@@ -15,29 +27,39 @@ class FeaturesModal extends Component {
       featuresModalState: { action },
       form: { validateFields },
       fetchReleases,
-      releases,
+      // releases,
     } = this.props;
     validateFields();
-    console.log('selectedRow', selectedRow);
+    fetchReleases({});
 
     if (action === 'edit') {
-      const { FeatureName, IsLikeActive, FeatureId } = selectedRow;
+      const { FeatureName, IsLikeActive, FeatureId, GetReleasesBinding } = selectedRow;
+      this.createListReleases(GetReleasesBinding);
       console.log('selectedRow feature', selectedRow);
-      fetchReleases({ FeatureId });
-      fetchReleases({});
-      console.log('releases', releases);
 
       this.setState({
         FeatureId,
         FeatureName,
         IsLikeActive,
         TfsReleaseId: null,
-        TfsReleaseName: null,
+        // TfsReleaseName: null,
       });
-    } else {
-      fetchReleases({});
     }
   }
+
+  createListReleases = GetReleasesBinding => {
+    arrayForReleases = [];
+    console.log('ENTER');
+    if (GetReleasesBinding) {
+      GetReleasesBinding.map(release => {
+        arrayForReleases.push(release.TfsReleaseName);
+        console.log('item edit', release.TfsReleaseName);
+        return release.TfsReleaseName;
+      });
+    }
+
+    return arrayForReleases;
+  };
 
   // componentWillReceiveProps(nextProps) {
   //   const { releases } = nextProps;
@@ -115,19 +137,21 @@ class FeaturesModal extends Component {
   };
 
   render() {
-    const { isFeaturesModal, form, releases } = this.props;
+    const {
+      isFeaturesModal,
+      form,
+      releases,
+      featuresModalState: { action },
+    } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { FeatureName, IsLikeActive, TfsReleaseId } = this.state;
 
     const featureNameError = isFieldTouched('FeatureName') && getFieldError('FeatureName');
     const isLikeActiveError = isFieldTouched('IsLikeActive') && getFieldError('IsLikeActive');
     const releaseNameError = isFieldTouched('ReleaseName') && getFieldError('ReleaseName');
-    console.log('releases render', releases);
-    console.log('STATE', this.state);
-
     return (
       <Wrapper
-        title="Добавление фичи"
+        title={action === 'edit' ? 'Редактирование фичи' : 'Добавление фичи'}
         visible={isFeaturesModal}
         onCancel={this.onCancel}
         width={800}
@@ -148,50 +172,66 @@ class FeaturesModal extends Component {
             )}
           </FormItem>
 
-          <WrapperForSelectLine>
-            <FormItem
-              validateStatus={releaseNameError ? 'error' : ''}
-              help={releaseNameError || ''}
-            >
-              {getFieldDecorator('releaseNameError', {
-                rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
-              })(
-                <WrapperForReleaseName>
-                  <Label> Название релиза</Label>
-                  <StyledSelect
-                    value={TfsReleaseId}
-                    placeholder="Выберите релиз"
-                    onChange={value => this.ChangeField('TfsReleaseId', value)}
-                    // onClick={fetchReleases({})}
-                  >
-                    {releases &&
-                      releases.map(release => (
-                        <Select.Option value={release.TfsReleaseId} key={release.TfsReleaseId}>
-                          {release.TfsReleaseName}
-                        </Select.Option>
-                      ))}
-                  </StyledSelect>
-                </WrapperForReleaseName>
-              )}
-            </FormItem>
+          <WrapperForSelectAndList>
+            <WrapperForSwitchAndNameRelease>
+              <FormItem
+                validateStatus={isLikeActiveError ? 'error' : ''}
+                help={isLikeActiveError || ''}
+              >
+                {getFieldDecorator('IsLikeActive', {
+                  rules: [{ required: false, message: 'Статус является обязательным!' }],
+                })(
+                  <WrapperForStatus>
+                    <Label> Активно </Label>
+                    <Switch
+                      checked={IsLikeActive}
+                      onChange={value => this.ChangeField('IsLikeActive', value)}
+                    />
+                  </WrapperForStatus>
+                )}
+              </FormItem>
 
-            <FormItem
-              validateStatus={isLikeActiveError ? 'error' : ''}
-              help={isLikeActiveError || ''}
-            >
-              {getFieldDecorator('IsLikeActive', {
-                rules: [{ required: false, message: 'Статус является обязательным!' }],
-              })(
-                <WrapperForStatus>
-                  <Label> Активно </Label>
-                  <Switch
-                    checked={IsLikeActive}
-                    onChange={value => this.ChangeField('IsLikeActive', value)}
-                  />
-                </WrapperForStatus>
-              )}
-            </FormItem>
-          </WrapperForSelectLine>
+              <FormItem
+                validateStatus={releaseNameError ? 'error' : ''}
+                help={releaseNameError || ''}
+              >
+                {getFieldDecorator('releaseNameError', {
+                  rules: [{ required: false, message: 'Имя релиза является обязательным!' }],
+                })(
+                  <WrapperForReleaseName>
+                    <Label> Название релиза</Label>
+                    <StyledSelect
+                      value={TfsReleaseId}
+                      placeholder="Выберите релиз"
+                      onChange={value => this.ChangeField('TfsReleaseId', value)}
+                      // onClick={fetchReleases({})}
+                    >
+                      {releases &&
+                        releases.map(release => (
+                          <Select.Option value={release.TfsReleaseId} key={release.TfsReleaseId}>
+                            {release.TfsReleaseName}
+                          </Select.Option>
+                        ))}
+                    </StyledSelect>
+                  </WrapperForReleaseName>
+                )}
+              </FormItem>
+            </WrapperForSwitchAndNameRelease>
+
+            {action === 'edit' && (
+              <StyledList
+                header="Релизы, содержащие фичу"
+                // bordered
+                size="small"
+                dataSource={arrayForReleases}
+                renderItem={item => (
+                  <List.Item>
+                    <Typography.Text mark></Typography.Text> {item}
+                  </List.Item>
+                )}
+              />
+            )}
+          </WrapperForSelectAndList>
         </StyledForm>
       </Wrapper>
     );
@@ -208,13 +248,24 @@ FeaturesModal.propTypes = {
   selectedRow: PropTypes.object.isRequired,
   releases: PropTypes.array.isRequired,
   fetchReleases: PropTypes.func.isRequired,
+  GetReleasesBinding: PropTypes.array.isRequired,
 };
 
 const StyledForm = styled(Form)`
   width: 700px;
-  height: 150px;
   .ant-form-item .ant-switch {
     margin-top: 10px;
+    margin-right: 100px;
+  }
+
+  .ant-list-split .ant-list-header {
+    border-bottom: 1px solid #e8e8e8;
+    font-family: T2_DisplaySerif_Bold_Short;
+    color: black;
+    font-size: 16px;
+  }
+  .ant-list-bordered .ant-list-item {
+    text-align: center;
   }
 `;
 
@@ -252,10 +303,9 @@ const WrapperForReleaseName = styled.div`
 const WrapperForStatus = styled.div`
   display: flex;
   width: 300px;
-  margin-left: 50px;
 `;
 
-const WrapperForSelectLine = styled.div`
+const WrapperForSelectAndList = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -277,4 +327,9 @@ const StyledSelect = styled(Select)`
   }
 `;
 
+const StyledList = styled(List)``;
+
+const WrapperForSwitchAndNameRelease = styled.div`
+  width: 320px;
+`;
 export default Form.create()(FeaturesModal);

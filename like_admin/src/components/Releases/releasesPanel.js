@@ -9,7 +9,7 @@ import ReleasesFilters from './releasesFilters';
 import ReleaseModal from './ReleasesModal';
 import ListOfAvailableFeaturesModal from './ListOfAvailableFeaturesModal';
 
-const releasesList = [];
+let releasesList = [];
 
 class ReleasesPanel extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -38,6 +38,7 @@ class ReleasesPanel extends Component {
     const { deleteRelease, selectedRow } = this.props;
     if (Object.keys(selectedRow).length !== 0) {
       deleteRelease(releasesList);
+      releasesList = [];
     }
   };
 
