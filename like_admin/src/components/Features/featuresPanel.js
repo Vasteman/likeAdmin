@@ -22,7 +22,6 @@ class FeaturesPanel extends Component {
 
   onEditFeature = () => {
     const { toggleFeaturesModal, selectedRow } = this.props;
-    console.log('selectedRow', selectedRow);
     if (Object.keys(selectedRow).length !== 0) {
       toggleFeaturesModal({ action: 'edit' });
     }
@@ -30,10 +29,8 @@ class FeaturesPanel extends Component {
 
   onDeleteFeature = () => {
     const { deleteFeature, selectedRow } = this.props;
-    console.log('selected row delete', selectedRow);
 
-    if (Object.keys(selectedRow).length !== 0) {
-      console.log('featureIdList', featureList);
+    if (Object.keys(selectedRow).length !== 0 && featureList.length !== 0) {
       deleteFeature(featureList);
       featureList = [];
     }

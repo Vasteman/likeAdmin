@@ -5,17 +5,17 @@ import api from 'utils/api';
 import {
   FETCH_FEATURES,
   FETCH_FEATURES_SUCCESS,
-  FETCH_FEATURES_ERROR, // error fe
-  FETCH_FEATURES_FAILURE, // error be
-  // SELECT_ROW_OF_TYPES_OF_LIKES_TABLE,
+  FETCH_FEATURES_ERROR,
+  FETCH_FEATURES_FAILURE,
   CREATE_FEATURE_SUCCESS,
   CREATE_FEATURE_ERROR,
   CREATE_FEATURE_FAILURE,
-  //
   DELETE_FEATURE_SUCCESS,
   DELETE_FEATURE_ERROR,
   DELETE_FEATURE_FAILURE,
 } from 'reducers/Features/featuresPanelReducer';
+
+// import { FETCH_RELEASES } from 'reducers/Releases/releasesPanelReducer';
 
 const { fetchFeatures, createFeature, deleteFeature } = api;
 
@@ -26,6 +26,7 @@ export function* fetchFeaturesSaga({ payload }) {
     if (data.IsSuccess) {
       const { Data: features } = data;
       yield put({ type: FETCH_FEATURES_SUCCESS, payload: { features } });
+      // yield put({ type: FETCH_RELEASES });
     } else {
       yield put({ type: FETCH_FEATURES_ERROR, payload: {} });
     }

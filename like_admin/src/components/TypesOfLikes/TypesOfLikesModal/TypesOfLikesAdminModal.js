@@ -46,9 +46,6 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   hasErrors = fieldsError => {
-    console.log('fieldsError', fieldsError);
-    console.log('hasErrors', Object.keys(fieldsError).some(field => fieldsError[field]));
-
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
 
@@ -93,17 +90,20 @@ class TypesOfLikesAdminModal extends Component {
   };
 
   render() {
-    const { isTypesOfLikesModal, form } = this.props;
+    const {
+      isTypesOfLikesModal,
+      form,
+      typesOfLikesModalState: { action },
+    } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { EmojiName, EmojiId, EmojiActive } = this.state;
-
     const emojiNameError = isFieldTouched('EmojiName') && getFieldError('EmojiName');
     const emojiIdError = isFieldTouched('EmojiId') && getFieldError('EmojiId');
     const emojiActiveError = isFieldTouched('EmojiActive') && getFieldError('EmojiActive');
 
     return (
       <Wrapper
-        title="Добавление типа лайка"
+        title={action === 'create' ? 'Добавление типа лайка' : 'Редактирование типа лайка'}
         visible={isTypesOfLikesModal}
         onCancel={this.onCancel}
         width={750}

@@ -4,11 +4,6 @@ import { Table, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    // selectedRowKeys: [],
-  };
-
   componentDidMount() {
     const { typesOfLikes } = this.props;
     this.createTable(typesOfLikes);
@@ -19,7 +14,6 @@ class TypesOfLikesTable extends Component {
     if (typesOfLikes) this.createTable(typesOfLikes);
   }
 
-  // нейминг переменных отличается от тех, что в модалке (!)
   createDataSource = typesOfLikes => {
     if (typesOfLikes) {
       return typesOfLikes.map(type => {
@@ -82,8 +76,6 @@ class TypesOfLikesTable extends Component {
         onSelectRow(record, selected, selectedRows);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log('selectedRows', selectedRows);
-        console.log('changeRows', changeRows);
         onSelectAllRows(selected, selectedRows, changeRows);
       },
       type: 'checkbox',

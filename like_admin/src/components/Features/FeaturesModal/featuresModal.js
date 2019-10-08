@@ -35,7 +35,6 @@ class FeaturesModal extends Component {
     if (action === 'edit') {
       const { FeatureName, IsLikeActive, FeatureId, GetReleasesBinding } = selectedRow;
       this.createListReleases(GetReleasesBinding);
-      console.log('selectedRow feature', selectedRow);
 
       this.setState({
         FeatureId,
@@ -49,28 +48,14 @@ class FeaturesModal extends Component {
 
   createListReleases = GetReleasesBinding => {
     arrayForReleases = [];
-    console.log('ENTER');
     if (GetReleasesBinding) {
       GetReleasesBinding.map(release => {
         arrayForReleases.push(release.TfsReleaseName);
-        console.log('item edit', release.TfsReleaseName);
         return release.TfsReleaseName;
       });
     }
-
     return arrayForReleases;
   };
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { releases } = nextProps;
-  //   const { TfsReleaseName } = this.state;
-  //   // if (releases) {
-  //   //   this.setState({
-  //   //     TfsReleaseName: releases[0].TfsReleaseName,
-  //   //   });
-  //   //   console.log('TfsReleaseName', TfsReleaseName);
-  //   // }
-  // }
 
   onOK = () => {
     const {
@@ -204,7 +189,6 @@ class FeaturesModal extends Component {
                       value={TfsReleaseId}
                       placeholder="Выберите релиз"
                       onChange={value => this.ChangeField('TfsReleaseId', value)}
-                      // onClick={fetchReleases({})}
                     >
                       {releases &&
                         releases.map(release => (

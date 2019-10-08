@@ -34,11 +34,10 @@ class ListOfAvailableFeaturesModal extends Component {
     } = this.props;
     fetchFeatures({});
     validateFields();
-    this.getFeaturesIncludesInRelease(GetFeatureBinding);
+    this.getFeaturesIncludedInRelease(GetFeatureBinding);
   }
 
   componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line no-shadow
     const { features } = nextProps;
     if (features) this.createTable(features);
   }
@@ -118,7 +117,7 @@ class ListOfAvailableFeaturesModal extends Component {
     });
   };
 
-  getFeaturesIncludesInRelease = GetFeatureBinding => {
+  getFeaturesIncludedInRelease = GetFeatureBinding => {
     arrayForGettedFeatures = [];
     if (GetFeatureBinding) {
       GetFeatureBinding.map(feature => {
@@ -198,7 +197,6 @@ class ListOfAvailableFeaturesModal extends Component {
       TfsReleaseId,
       FeatureId: record.FeatureId,
     });
-    console.log('record', record);
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
   };
@@ -210,7 +208,6 @@ class ListOfAvailableFeaturesModal extends Component {
 
     if (selected) {
       changeRows.map(row => {
-        console.log('ROW', row);
         if (listFeaturesForDeleteFromRelease.indexOf(row.FeatureId) >= 0) {
           listFeaturesForDeleteFromRelease.splice(
             listFeaturesForDeleteFromRelease.indexOf(row.FeatureId),
@@ -226,7 +223,6 @@ class ListOfAvailableFeaturesModal extends Component {
     } else {
       listFeaturesForDeleteFromRelease.splice(0, listFeaturesForDeleteFromRelease.length);
     }
-    console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
   };
 
   onSelectChange = selectedRowKeys => {
@@ -236,7 +232,6 @@ class ListOfAvailableFeaturesModal extends Component {
     });
 
     this.setState({ selectedRowKeys });
-    console.log('333', arrayForSelectedRows);
     return arrayForSelectedRows;
   };
 
@@ -248,10 +243,15 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   onDeleteFeaturesFromRelease = () => {
-    const { deleteFeaturesFromReleases } = this.props;
-    deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
-    listFeaturesForDeleteFromRelease = [];
-    // console.log('TfsReleaseId', TfsReleaseId);
+    const { deleteFeaturesFromReleases, GetFeatureBinding } = this.props;
+
+    if (listFeaturesForDeleteFromRelease.length !== 0) {
+      deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
+      listFeaturesForDeleteFromRelease = [];
+      // this.getFeaturesIncludedInRelease(GetFeatureBinding);
+      console.log('GetFeatureBinding', GetFeatureBinding);
+      console.log('arrayForGettedFeatures', arrayForGettedFeatures);
+    }
   };
 
   render() {
@@ -268,20 +268,18 @@ class ListOfAvailableFeaturesModal extends Component {
     };
 
     const rowSelection = {
-      // selectedRowKeys,
-      // onChange: this.onSelectChange,
       onSelect: (record, selected, selectedRows) => {
         this.onSelectRowFromListFeatures(record, selected, selectedRows);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log('selectedRows', selectedRows);
-        console.log('changeRows', changeRows);
         this.onSelectAllRowsFromListFeatures(selected, selectedRows, changeRows);
       },
       type: 'checkbox',
     };
 
     const dataSourceArray = arrayForGettedFeatures.concat(arrayForSelectedRows);
+    console.log('arrayForGettedFeatures', arrayForGettedFeatures);
+    console.log('dataSourceArray', dataSourceArray);
 
     return (
       <Wrapper
@@ -373,6 +371,8 @@ ListOfAvailableFeaturesModal.propTypes = {
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
   record: PropTypes.object.isRequired,
   // fetchReleases: PropTypes.func.isRequired,
+  GetFeatureBinding: PropTypes.array.isRequired,
+  // selectedRow: PropTypes.object.isRequired,
 };
 
 const StyledForm = styled(Form)``;

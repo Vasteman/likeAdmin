@@ -12,18 +12,6 @@ class ReleasesFilters extends Component {
     datePeriodFinish: moment(),
   };
 
-  componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    // const { typesOfLikes } = this.props;
-    // this.createTable(typesOfLikes);
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   // eslint-disable-next-line no-shadow
-  //   // const { typesOfLikes } = nextProps;
-  //   // console.log('nextProps', nextProps);
-  //   // if (typesOfLikes) this.createTable(typesOfLikes);
-  // }
   changeDate = params => {
     this.setState({
       ...params,
@@ -158,7 +146,6 @@ const StyledForm = styled(Form)`
     }
     @media (max-width: 1368px) {
       width: 750px;
-    //margin-right: 80px;
   }
     }
   }
@@ -210,9 +197,6 @@ const WrapperForInputFilter = styled.div`
   display: flex;
   height: 40px;
   justify-content: space-between;
-  // .ant-input {
-  //   margin-left: 50px;
-  // }
 `;
 
 export default Form.create()(ReleasesFilters);

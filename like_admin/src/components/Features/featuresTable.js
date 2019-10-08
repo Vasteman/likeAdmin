@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class FeaturesTable extends Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {};
-
   // componentDidMount() {
   //   // eslint-disable-next-line no-shadow
   //   const { features } = this.props;
@@ -16,7 +13,6 @@ class FeaturesTable extends Component {
   // }
 
   componentWillReceiveProps(nextProps) {
-    // eslint-disable-next-line no-shadow
     const { features } = nextProps;
     if (features) this.createTable(features);
   }
@@ -33,8 +29,6 @@ class FeaturesTable extends Component {
           IsLikeActive: feature.IsLikeActive,
           GetReleasesBinding: feature.GetReleasesBinding,
         };
-
-        console.log('item', item);
         return item;
       });
     }
@@ -92,9 +86,6 @@ class FeaturesTable extends Component {
         onSelectRow(record, selected, selectedRows);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log('selected', selected);
-        console.log('selectedRows', selectedRows);
-        console.log('changeRows', changeRows);
         onSelectAllRows(selected, selectedRows, changeRows);
       },
       type: 'checkbox',

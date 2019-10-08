@@ -29,8 +29,7 @@ class TypesOfLikesPanel extends Component {
 
   onDeleteType = () => {
     const { deleteTypeOfLike, selectedRow } = this.props;
-    console.log('typesOfLikesList', typesOfLikesList);
-    if (Object.keys(selectedRow).length !== 0) {
+    if (Object.keys(selectedRow).length !== 0 && typesOfLikesList.length !== 0) {
       deleteTypeOfLike(typesOfLikesList);
       typesOfLikesList = [];
     }
@@ -42,7 +41,6 @@ class TypesOfLikesPanel extends Component {
     if (typesOfLikesList.indexOf(record.TypeId) >= 0) {
       typesOfLikesList.splice(typesOfLikesList.indexOf(record.TypeId), 1);
     } else typesOfLikesList.push(record.TypeId);
-    console.log('typesOfLikesList', typesOfLikesList);
   };
 
   onSelectAllRows = (selected, selectedRows, changeRows) => {
@@ -56,7 +54,6 @@ class TypesOfLikesPanel extends Component {
     } else {
       typesOfLikesList.splice(0, typesOfLikesList.length);
     }
-    console.log('typesOfLikesList', typesOfLikesList);
   };
 
   onChangeCheckboxValue = record => {

@@ -8,6 +8,8 @@ import {
   DELETE_FEATURES_FROM_RELEASES_FAILURE,
 } from 'reducers/Releases/releasesModalsReducer';
 
+import { FETCH_RELEASES } from 'reducers/Releases/releasesPanelReducer';
+
 const { deleteFeaturesFromReleases } = api;
 
 export default function* deleteFeaturesFromReleasesSaga({ payload }) {
@@ -15,7 +17,7 @@ export default function* deleteFeaturesFromReleasesSaga({ payload }) {
     const { data } = yield call(deleteFeaturesFromReleases, payload);
     if (data.IsSuccess) {
       yield put({ type: DELETE_FEATURES_FROM_RELEASES_SUCCESS });
-      // yield put({ type: FETCH_RELEASES });
+      yield put({ type: FETCH_RELEASES });
       notification.success({
         message: 'Релизы',
         description: 'Релиз успешно удален!',

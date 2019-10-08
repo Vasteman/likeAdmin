@@ -71,7 +71,6 @@ class ReleasesTable extends Component {
 
   onListOfAvailableFeaturesModalOpen = record => {
     const { toggleListOfAvailableFeaturesModal } = this.props;
-    console.log('RECORD', record);
     toggleListOfAvailableFeaturesModal({ record });
   };
 
@@ -82,8 +81,6 @@ class ReleasesTable extends Component {
         onSelectRow(record, selected, selectedRows);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log('selectedRows', selectedRows);
-        console.log('changeRows', changeRows);
         onSelectAllRows(selected, selectedRows, changeRows);
       },
       type: 'checkbox',

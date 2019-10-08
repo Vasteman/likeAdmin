@@ -4,9 +4,10 @@ import { bindActionCreators } from 'redux';
 import {
   toggleListOfAvailableFeaturesModal,
   deleteFeaturesFromReleases,
+  selectRow,
 } from 'reducers/Releases/releasesModalsReducer';
 
-import { fetchFeatures, selectRow, createFeature } from 'reducers/Features/featuresPanelReducer';
+import { fetchFeatures, createFeature } from 'reducers/Features/featuresPanelReducer';
 import { fetchReleases } from 'reducers/Releases/releasesPanelReducer';
 import ListOfAvailableFeaturesModal from './listOfAvailableFeaturesModal';
 
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   TfsReleaseId: state.releasesModal.TfsReleaseId,
   isLoadingFeaturesTable: state.featuresPanel.isLoadingFeaturesTable,
   record: state.releasesModal.releasesModalState.record,
+  selectedRow: state.releasesModal.selectedRow,
 });
 
 const mapDispatchToProps = dispatch =>

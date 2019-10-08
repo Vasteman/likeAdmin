@@ -13,11 +13,15 @@ export const DELETE_FEATURES_FROM_RELEASES_SUCCESS = 'releases/DELETE_FEATURES_F
 export const DELETE_FEATURES_FROM_RELEASES_FAILURE = 'releases/DELETE_FEATURES_FROM_RELEASES_FAILURE';
 export const deleteFeaturesFromReleases = createAction(DELETE_FEATURES_FROM_RELEASES);
 
+export const SELECT_ROW_OF_FEATURES_INCLUDED_IN_RELEASE_TABLE = 'releases/SELECT_ROW_OF_FEATURES_INCLUDED_IN_RELEASE_TABLE';
+export const selectRow = createAction(SELECT_ROW_OF_FEATURES_INCLUDED_IN_RELEASE_TABLE);
+
 const initialState = {
   isReleasesModal: false,
   isListOfAvailableFeaturesModal: false,
   releasesModalState: {},
   deleteFeaturesFromReleasesError: null,
+  selectedRow: {},
 };
 
 export default handleActions(
@@ -41,7 +45,6 @@ export default handleActions(
     },
 
     [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state, {payload: { record } }) => {
-      console.log('record reducer', record);
         return {
           ...state,
           isListOfAvailableFeaturesModal: !state.isListOfAvailableFeaturesModal,
@@ -72,6 +75,13 @@ export default handleActions(
       return {
         ...state,
         deleteFeaturesFromReleasesError: message,
+      };
+    },
+
+    [SELECT_ROW_OF_FEATURES_INCLUDED_IN_RELEASE_TABLE]: (state, { payload: { selectedRow } }) => {
+      return {
+        ...state,
+        selectedRow,
       };
     },
   },

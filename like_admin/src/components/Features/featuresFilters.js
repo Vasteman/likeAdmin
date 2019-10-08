@@ -13,18 +13,6 @@ class FeaturesFilters extends Component {
     datePeriodFinish: moment(),
   };
 
-  componentDidMount() {
-    // eslint-disable-next-line no-shadow
-    // const { typesOfLikes } = this.props;
-    // this.createTable(typesOfLikes);
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   // eslint-disable-next-line no-shadow
-  //   // const { typesOfLikes } = nextProps;
-  //   // console.log('nextProps', nextProps);
-  //   // if (typesOfLikes) this.createTable(typesOfLikes);
-  // }
   changeDate = params => {
     this.setState({
       ...params,

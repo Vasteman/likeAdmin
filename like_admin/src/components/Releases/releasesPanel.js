@@ -36,7 +36,7 @@ class ReleasesPanel extends Component {
 
   onDeleteRelease = () => {
     const { deleteRelease, selectedRow } = this.props;
-    if (Object.keys(selectedRow).length !== 0) {
+    if (Object.keys(selectedRow).length !== 0 && releasesList.length !== 0) {
       deleteRelease(releasesList);
       releasesList = [];
     }

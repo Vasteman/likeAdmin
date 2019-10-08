@@ -8,9 +8,6 @@ import moment from 'moment';
 const FormItem = Form.Item;
 const dateFormat = 'DD.MM.YYYY';
 class ReleasesModal extends Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {};
-
   componentDidMount() {
     const {
       selectedRow,
@@ -84,14 +81,17 @@ class ReleasesModal extends Component {
   };
 
   ChangeField = (fieldName, value) => {
-    // if (fieldName === 'TfsReleaseDate') value = moment(value).format('');
     this.setState({
       [fieldName]: value,
     });
   };
 
   render() {
-    const { isReleasesModal, form } = this.props;
+    const {
+      isReleasesModal,
+      form,
+      releasesModalState: { action },
+    } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
     const { TfsReleaseName, TfsReleaseDate } = this.state;
 
@@ -100,7 +100,7 @@ class ReleasesModal extends Component {
 
     return (
       <Wrapper
-        title="Добавление релиза"
+        title={action === 'create' ? 'Добавление релиза' : 'Редактирование релиза'}
         visible={isReleasesModal}
         onCancel={this.onCancel}
         width={800}
@@ -138,7 +138,6 @@ class ReleasesModal extends Component {
                   format={dateFormat}
                   value={TfsReleaseDate}
                   showToday={false}
-                  // defaultValue={moment()}
                   onChange={dateString => this.ChangeField('TfsReleaseDate', dateString)}
                 />
               </WrapperForDate>

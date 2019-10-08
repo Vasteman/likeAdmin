@@ -11,9 +11,7 @@ const { fetchUserDataApi } = api;
 
 export default function* fetchUserDataSaga() {
   try {
-    console.log('fetchUserDataSaga');
     const { data } = yield call(fetchUserDataApi, {});
-    console.log('datauser', data);
     // const { Data: {}}
     if (data.isSuccess) {
       yield put({ type: FETCH_USER_DATA_SUCCESS, payload: {} });
