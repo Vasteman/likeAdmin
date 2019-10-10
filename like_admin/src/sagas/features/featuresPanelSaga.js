@@ -15,7 +15,7 @@ import {
   DELETE_FEATURE_FAILURE,
 } from 'reducers/Features/featuresPanelReducer';
 
-// import { FETCH_RELEASES } from 'reducers/Releases/releasesPanelReducer';
+import { FETCH_RELEASES } from 'reducers/Releases/releasesPanelReducer';
 
 const { fetchFeatures, createFeature, deleteFeature } = api;
 
@@ -26,7 +26,6 @@ export function* fetchFeaturesSaga({ payload }) {
     if (data.IsSuccess) {
       const { Data: features } = data;
       yield put({ type: FETCH_FEATURES_SUCCESS, payload: { features } });
-      // yield put({ type: FETCH_RELEASES });
     } else {
       yield put({ type: FETCH_FEATURES_ERROR, payload: {} });
     }
@@ -45,9 +44,10 @@ export function* createFeatureSaga({ payload }) {
 
     if (data.IsSuccess) {
       yield put({ type: CREATE_FEATURE_SUCCESS });
+      yield put({ type: FETCH_RELEASES });
       notification.success({
-        message: 'Типы фич',
-        description: 'Тип фичи успешно создан!',
+        message: 'Фичи',
+        description: 'Фича добавлена!',
       });
       yield put({ type: FETCH_FEATURES });
     } else {
