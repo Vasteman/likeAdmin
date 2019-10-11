@@ -22,20 +22,24 @@ class ListOfAvailableFeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
     selectedRowKeys: [],
+    dataSourceArray: [],
   };
 
   componentDidMount() {
     const {
       form: { validateFields },
       fetchFeatures,
+      features,
     } = this.props;
     fetchFeatures({});
+    if (features) this.createColumnForTable();
     validateFields();
+    this.getDataForFeaturesIncludedInReleaseTable();
   }
 
   componentWillReceiveProps(nextProps) {
     const { features } = nextProps;
-    if (features) this.createTable(features);
+    if (features) this.createColumnForTable();
     console.log('nextProps', nextProps);
   }
 
@@ -97,27 +101,13 @@ class ListOfAvailableFeaturesModal extends Component {
     });
   };
 
-  // table
-  createDataSource = features => {
-    return features.map(feature => {
-      let item = {};
-      item = {
-        FeatureAuthor: feature.FeatureAuthor,
-        FeatureDate: feature.FeatureDate,
-        FeatureId: feature.FeatureId,
-        FeatureName: feature.FeatureName,
-        IsLikeActive: feature.IsLikeActive,
-      };
-      return item;
-    });
-  };
-
+  // for features table
   convertDataSourceIntoArray = () => {
+    // массив с ключами для того, чтобы сравнивать с ним выбранные строки
     const { features } = this.props;
     gridData = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < features.length; i++) {
-      // массив с ключами для того, чтобы сравнивать с ним выбранные строки
       gridData.push({
         key: i,
         FeatureId: features[i].FeatureId,
@@ -130,9 +120,23 @@ class ListOfAvailableFeaturesModal extends Component {
     return gridData;
   };
 
-  createTable = features => {
-    this.dataSource = this.createDataSource(features);
+  getDataForFeaturesIncludedInReleaseTable = () => {
+    const { dataSourceArray } = this.state;
+    const { releases, rowIndex } = this.props;
+    const releasesRow = this.findRecordByIndex(releases, rowIndex);
+    this.setState({
+      dataSourceArray: dataSourceArray
+        .concat(releasesRow.GetFeatureBinding)
+        .concat(arrayForSelectedRows),
+    });
+  };
 
+  findRecordByIndex = (array, index) => {
+    const record = array[index];
+    return record;
+  };
+
+  createColumnForTable = () => {
     this.columns = [
       {
         title: 'Название',
@@ -159,11 +163,12 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   onSelectRowFromListFeatures = record => {
-    const {
-      record: { TfsReleaseId },
-    } = this.props;
+    const { releases, rowIndex } = this.props;
+    const releasesRow = releases[rowIndex];
+    const { TfsReleaseId } = releasesRow;
 
     listFeaturesForDeleteFromRelease.push({
+      // есть баг c выделением и удалением
       TfsReleaseId,
       FeatureId: record.FeatureId,
     });
@@ -220,19 +225,12 @@ class ListOfAvailableFeaturesModal extends Component {
       console.log('props', this.props);
       console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
       listFeaturesForDeleteFromRelease = [];
-      this.onCancel();
     }
   };
 
   render() {
-    const {
-      isListOfAvailableFeaturesModal,
-      features,
-      isLoadingFeaturesTable,
-      record: { GetFeatureBinding },
-    } = this.props;
-    const { selectedRowKeys } = this.state;
-
+    const { isListOfAvailableFeaturesModal, features, isLoadingFeaturesTable } = this.props;
+    const { selectedRowKeys, dataSourceArray } = this.state;
     const rowSelectionForTableAvailableFeatures = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -251,10 +249,8 @@ class ListOfAvailableFeaturesModal extends Component {
       },
       type: 'checkbox',
     };
-
-    const dataSourceArray = GetFeatureBinding.concat(arrayForSelectedRows);
-    console.log('dataSourceArray', dataSourceArray);
-    console.log('PROOOOPS', this.props);
+    console.log('PROPSSSS', this.props);
+    console.log('state', this.state);
     return (
       <Wrapper
         title="Редактирование фич в релизе"
@@ -278,7 +274,7 @@ class ListOfAvailableFeaturesModal extends Component {
 
           <WrapperForTables>
             <Collapse bordered={false}>
-              <Collapse.Panel header="Показать доступные фичи">
+              <Collapse.Panel header="Показать доступные фичи" forceRender>
                 <StyledSpin
                   spinning={isLoadingFeaturesTable}
                   indicator={<Icon type="loading" spin />}
@@ -345,8 +341,9 @@ ListOfAvailableFeaturesModal.propTypes = {
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
   record: PropTypes.object.isRequired,
   // fetchReleases: PropTypes.func.isRequired,
-  GetFeatureBinding: PropTypes.array.isRequired,
+  rowIndex: PropTypes.array.isRequired,
   // selectedRow: PropTypes.object.isRequired,
+  releases: PropTypes.array.isRequired,
 };
 
 const Wrapper = styled(Modal)`

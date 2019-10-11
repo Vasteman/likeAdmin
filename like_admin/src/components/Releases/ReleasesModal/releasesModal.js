@@ -8,14 +8,20 @@ import moment from 'moment';
 const FormItem = Form.Item;
 const dateFormat = 'DD.MM.YYYY';
 class ReleasesModal extends Component {
+  // eslint-disable-next-line react/state-in-constructor
+  state = {
+    TfsReleaseName: null,
+    TfsReleaseDate: null,
+  };
+
   componentDidMount() {
     const {
       selectedRow,
       releasesModalState: { action },
       form: { validateFields },
     } = this.props;
+    console.log('selectedRow', selectedRow);
     validateFields();
-
     if (action === 'edit') {
       const { TfsReleaseId, TfsReleaseName, TfsReleaseDate } = selectedRow;
       this.setState({
@@ -93,8 +99,8 @@ class ReleasesModal extends Component {
       releasesModalState: { action },
     } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
+    console.log('state', this.state);
     const { TfsReleaseName, TfsReleaseDate } = this.state;
-
     const tfsReleaseNameError = isFieldTouched('TfsReleaseName') && getFieldError('TfsReleaseName');
     const tfsReleaseDateError = isFieldTouched('TfsReleaseDate') && getFieldError('TfsReleaseDate');
 

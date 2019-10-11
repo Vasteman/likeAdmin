@@ -9,35 +9,15 @@ class FeaturesTable extends Component {
   //   // eslint-disable-next-line no-shadow
   //   const { features } = this.props;
   //   console.log('PROPS CDM ', this.props);
-  //   this.createTable(features);
+  //   this.createColumnForTable(features);
   // }
 
   componentWillReceiveProps(nextProps) {
     const { features } = nextProps;
-    if (features) this.createTable(features);
+    if (features) this.createColumnForTable(features);
   }
 
-  createDataSource = features => {
-    if (features) {
-      return features.map(feature => {
-        let item = {};
-        item = {
-          FeatureAuthor: feature.FeatureAuthor,
-          FeatureDate: feature.FeatureDate,
-          FeatureId: feature.FeatureId,
-          FeatureName: feature.FeatureName,
-          IsLikeActive: feature.IsLikeActive,
-          GetReleasesBinding: feature.GetReleasesBinding,
-        };
-        return item;
-      });
-    }
-    return null;
-  };
-
-  createTable = features => {
-    this.dataSource = this.createDataSource(features);
-
+  createColumnForTable = () => {
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
@@ -97,7 +77,7 @@ class FeaturesTable extends Component {
           <StyledTable
             rowSelection={rowSelection}
             bordered
-            dataSource={this.dataSource}
+            dataSource={features}
             columns={this.columns}
             pagination={false}
           />

@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Table } from 'antd';
@@ -9,35 +10,15 @@ class ReleasesTable extends Component {
   state = {};
 
   componentDidMount() {
-    const { releases } = this.props;
-    this.createTable(releases);
+    this.createColumnForTable();
   }
 
   componentWillReceiveProps(nextProps) {
     const { releases } = nextProps;
-    if (releases) this.createTable(releases);
+    if (releases) this.createColumnForTable();
   }
 
-  createDataSource = releases => {
-    if (releases) {
-      return releases.map(release => {
-        let item = {};
-        item = {
-          TfsReleaseAuthor: release.TfsReleaseAuthor,
-          TfsReleaseDate: release.TfsReleaseDate,
-          TfsReleaseId: release.TfsReleaseId,
-          TfsReleaseName: release.TfsReleaseName,
-          GetFeatureBinding: release.GetFeatureBinding,
-        };
-        return item;
-      });
-    }
-    return null;
-  };
-
-  createTable = releases => {
-    this.dataSource = this.createDataSource(releases);
-
+  createColumnForTable = () => {
     this.columns = [
       {
         title: 'ID',
@@ -69,9 +50,10 @@ class ReleasesTable extends Component {
     ];
   };
 
-  onListOfAvailableFeaturesModalOpen = record => {
+  onListOfAvailableFeaturesModalOpen = rowIndex => {
+    console.log('record!!1', rowIndex);
     const { toggleListOfAvailableFeaturesModal } = this.props;
-    toggleListOfAvailableFeaturesModal({ record });
+    toggleListOfAvailableFeaturesModal({ rowIndex });
   };
 
   render() {
@@ -85,16 +67,17 @@ class ReleasesTable extends Component {
       },
       type: 'checkbox',
     };
+
     return (
       <Wrapper>
         {releases && !isLoadingReleasesTable && (
           <StyledTable
             rowSelection={rowSelection}
             bordered
-            onRow={record => ({
-              onClick: () => this.onListOfAvailableFeaturesModalOpen(record),
+            onRow={(record, rowIndex) => ({
+              onClick: () => this.onListOfAvailableFeaturesModalOpen(rowIndex),
             })}
-            dataSource={this.dataSource}
+            dataSource={releases}
             columns={this.columns}
             pagination={false}
           />
@@ -105,7 +88,6 @@ class ReleasesTable extends Component {
 }
 
 ReleasesTable.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   releases: PropTypes.array.isRequired,
   onSelectRow: PropTypes.func.isRequired,
   onSelectAllRows: PropTypes.func.isRequired,

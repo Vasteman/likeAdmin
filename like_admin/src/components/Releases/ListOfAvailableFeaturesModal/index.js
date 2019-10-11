@@ -14,10 +14,8 @@ import ListOfAvailableFeaturesModal from './listOfAvailableFeaturesModal';
 const mapStateToProps = state => ({
   isListOfAvailableFeaturesModal: state.releasesModal.isListOfAvailableFeaturesModal,
   features: state.featuresPanel.features,
-  TfsReleaseId: state.releasesModal.TfsReleaseId,
   isLoadingFeaturesTable: state.featuresPanel.isLoadingFeaturesTable,
-  record: state.releasesModal.releasesModalState.record,
-  selectedRow: state.releasesModal.selectedRow,
+  rowIndex: state.releasesModal.releasesModalState.rowIndex,
   releases: state.releasesPanel.releases,
 });
 

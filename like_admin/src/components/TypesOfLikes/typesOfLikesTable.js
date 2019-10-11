@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 
 class TypesOfLikesTable extends Component {
   componentDidMount() {
-    const { typesOfLikes } = this.props;
-    this.createTable(typesOfLikes);
+    this.createColumnsForTable();
   }
 
   componentWillReceiveProps(nextProps) {
     const { typesOfLikes } = nextProps;
-    if (typesOfLikes) this.createTable(typesOfLikes);
+    if (typesOfLikes) this.createColumnsForTable();
   }
 
   createDataSource = typesOfLikes => {
@@ -31,9 +30,7 @@ class TypesOfLikesTable extends Component {
     return null;
   };
 
-  createTable = typesOfLikes => {
-    this.dataSource = this.createDataSource(typesOfLikes);
-
+  createColumnsForTable = () => {
     const { onChangeCheckboxValue } = this.props;
     this.columns = [
       {
@@ -88,7 +85,7 @@ class TypesOfLikesTable extends Component {
             rowSelection={rowSelection}
             hideDefaultSelections
             bordered
-            dataSource={this.dataSource}
+            dataSource={typesOfLikes}
             columns={this.columns}
             pagination={false}
           />

@@ -44,11 +44,12 @@ export default handleActions(
       return { ...state };
     },
 
-    [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state, {payload: { record } }) => {
+    [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state, {payload: { rowIndex } }) => {
+      console.log('rowIndex reducer', rowIndex);
         return {
           ...state,
           isListOfAvailableFeaturesModal: !state.isListOfAvailableFeaturesModal,
-          releasesModalState: {record},
+          releasesModalState: {rowIndex},
         };
     },
 
