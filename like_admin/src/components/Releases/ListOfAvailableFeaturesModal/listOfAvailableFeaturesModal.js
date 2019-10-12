@@ -1,23 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {
-  Modal,
-  Button,
-  Popconfirm,
-  Icon,
-  Form,
-  Checkbox,
-  Table,
-  Input,
-  Collapse,
-  Spin,
-} from 'antd';
+import { Modal, Button, Popconfirm, Icon, Form, Checkbox, Table, Input, Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 let gridData = [];
 let arrayForSelectedRows = []; // список выбранных
 let listFeaturesForDeleteFromRelease = []; // список фич для удаления
+
 class ListOfAvailableFeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
@@ -34,21 +24,38 @@ class ListOfAvailableFeaturesModal extends Component {
     fetchFeatures({});
     if (features) this.createColumnForTable();
     validateFields();
-    this.getDataForFeaturesIncludedInReleaseTable();
+    this.getDataForFeaturesIncludedInReleaseTable(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { features } = nextProps;
-    if (features) this.createColumnForTable();
+  static getDerivedStateFromProps(nextProps, prevState) {
     console.log('nextProps', nextProps);
+    console.log('prevState', prevState);
+    // if (props.releases) {
+    //   console.log('props5555', props);
+    //   return this.getDataForFeaturesIncludedInReleaseTable(props);
+    // }
+    // if (props.releases !== null) this.getDataForFeaturesIncludedInReleaseTable();
+    // if (props.releases !== state.releases) {
+    //   return {
+    //     releases: props.list,
+    //     prevFilterText: state.filterText,
+    //     filteredList: props.list.filter(item => item.text.includes(state.filterText))
+    //   };
+    // }
+    return null;
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   const { releases } = nextProps;
+  //   console.log('releases', releases);
+  //   this.getDataForFeaturesIncludedInReleaseTable(nextProps);
+  // }
 
   onOK = () => {
-    const {
-      createFeature,
-      record: { TfsReleaseId },
-    } = this.props;
+    const { createFeature, releases, rowIndex } = this.props;
     const featureData = [];
+    const releasesRow = this.findRecordByIndex(releases, rowIndex);
+    const { TfsReleaseId } = releasesRow;
 
     arrayForSelectedRows.map(row => {
       return featureData.push({
@@ -120,10 +127,11 @@ class ListOfAvailableFeaturesModal extends Component {
     return gridData;
   };
 
-  getDataForFeaturesIncludedInReleaseTable = () => {
+  getDataForFeaturesIncludedInReleaseTable = props => {
     const { dataSourceArray } = this.state;
-    const { releases, rowIndex } = this.props;
+    const { releases, rowIndex } = props;
     const releasesRow = this.findRecordByIndex(releases, rowIndex);
+    console.log('releasesRow in func', releasesRow);
     this.setState({
       dataSourceArray: dataSourceArray
         .concat(releasesRow.GetFeatureBinding)
@@ -221,9 +229,6 @@ class ListOfAvailableFeaturesModal extends Component {
     const { deleteFeaturesFromReleases } = this.props;
     if (listFeaturesForDeleteFromRelease.length !== 0) {
       deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
-
-      console.log('props', this.props);
-      console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
       listFeaturesForDeleteFromRelease = [];
     }
   };
@@ -273,29 +278,28 @@ class ListOfAvailableFeaturesModal extends Component {
           </WrapperForSearchLine>
 
           <WrapperForTables>
-            <Collapse bordered={false}>
-              <Collapse.Panel header="Показать доступные фичи" forceRender>
-                <StyledSpin
-                  spinning={isLoadingFeaturesTable}
-                  indicator={<Icon type="loading" spin />}
-                >
-                  {features && (
-                    <StyledTable
-                      rowSelection={rowSelectionForTableAvailableFeatures}
-                      bordered
-                      dataSource={this.convertDataSourceIntoArray()} // gridData
-                      columns={this.columns}
-                      // pagination={{ pageSize: 6 }}
-                      scroll={{ y: 190 }}
-                      size="small"
-                    />
-                  )}
-                </StyledSpin>
-              </Collapse.Panel>
-            </Collapse>
+            <AvailableFeaturesTable>
+              <Label> Список доступных фич </Label>
+              <StyledSpin
+                spinning={isLoadingFeaturesTable}
+                indicator={<Icon type="loading" spin />}
+              >
+                {features && (
+                  <StyledTable
+                    rowSelection={rowSelectionForTableAvailableFeatures}
+                    bordered={false}
+                    dataSource={this.convertDataSourceIntoArray()} // gridData
+                    columns={this.columns}
+                    // pagination={{ pageSize: 6 }}
+                    scroll={{ y: 240 }}
+                    size="small"
+                  />
+                )}
+              </StyledSpin>
+            </AvailableFeaturesTable>
             <WrapperForFeaturesIncludedInReleaseTable>
-              <Title>
-                <Label>Список фич, включенных в релиз </Label>
+              <Label>
+                Список фич, включенных в релиз
                 <Popconfirm
                   key={1}
                   title="Уверены в удалении?"
@@ -308,13 +312,13 @@ class ListOfAvailableFeaturesModal extends Component {
                 >
                   <StyledIcon type="delete" />
                 </Popconfirm>
-              </Title>
+              </Label>
               <StyledTable
                 rowSelection={rowSelection}
-                bordered
+                bordered={false}
                 dataSource={dataSourceArray}
                 columns={this.columns}
-                scroll={{ y: 190 }}
+                scroll={{ y: 240 }}
                 pagination={false}
                 size="small"
                 type={false}
@@ -387,22 +391,10 @@ const WrapperForTables = styled.div`
     text-align: center;
     color: #000;
   }
-  .ant-collapse-borderless > .ant-collapse-item:last-child .ant-collapse-header {
-    width: 450px;
-  }
-  .ant-collapse-borderless
-    > .ant-collapse-item
-    > .ant-collapse-content
-    > .ant-collapse-content-box {
-    padding-top: 0px;
-  }
-
-  .ant-collapse-content > .ant-collapse-content-box {
-    padding: 0px;
-  }
 `;
 
 const StyledTable = styled(Table)`
+  width: 400px;
   .ant-table-small
     > .ant-table-content
     > .ant-table-scroll
@@ -456,6 +448,8 @@ const Label = styled.div`
   color: #000;
   font-family: T2_DisplaySerif_Bold_Short;
   margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const LabelForName = styled.div`
@@ -492,10 +486,6 @@ const StyledIcon = styled(Icon)`
   color: black;
 `;
 
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
+const AvailableFeaturesTable = styled.div``;
 const WrapperForFeaturesIncludedInReleaseTable = styled.div``;
 export default Form.create()(ListOfAvailableFeaturesModal);

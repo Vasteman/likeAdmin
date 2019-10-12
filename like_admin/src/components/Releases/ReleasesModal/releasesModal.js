@@ -20,7 +20,6 @@ class ReleasesModal extends Component {
       releasesModalState: { action },
       form: { validateFields },
     } = this.props;
-    console.log('selectedRow', selectedRow);
     validateFields();
     if (action === 'edit') {
       const { TfsReleaseId, TfsReleaseName, TfsReleaseDate } = selectedRow;
@@ -99,7 +98,6 @@ class ReleasesModal extends Component {
       releasesModalState: { action },
     } = this.props;
     const { getFieldDecorator, getFieldError, isFieldTouched } = form;
-    console.log('state', this.state);
     const { TfsReleaseName, TfsReleaseDate } = this.state;
     const tfsReleaseNameError = isFieldTouched('TfsReleaseName') && getFieldError('TfsReleaseName');
     const tfsReleaseDateError = isFieldTouched('TfsReleaseDate') && getFieldError('TfsReleaseDate');

@@ -51,7 +51,6 @@ class ReleasesTable extends Component {
   };
 
   onListOfAvailableFeaturesModalOpen = rowIndex => {
-    console.log('record!!1', rowIndex);
     const { toggleListOfAvailableFeaturesModal } = this.props;
     toggleListOfAvailableFeaturesModal({ rowIndex });
   };

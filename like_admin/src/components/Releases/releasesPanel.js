@@ -12,11 +12,6 @@ import ListOfAvailableFeaturesModal from './ListOfAvailableFeaturesModal';
 let releasesList = [];
 
 class ReleasesPanel extends Component {
-  // eslint-disable-next-line react/state-in-constructor
-  // state = {
-  //   selectedRowKeys: [],
-  // };
-
   componentDidMount() {
     const { fetchReleases } = this.props;
     fetchReleases({});

@@ -45,7 +45,6 @@ export default handleActions(
     },
 
     [TOGGLE_LIST_OF_AVAILABLE_FEATURES_MODAL]: (state, {payload: { rowIndex } }) => {
-      console.log('rowIndex reducer', rowIndex);
         return {
           ...state,
           isListOfAvailableFeaturesModal: !state.isListOfAvailableFeaturesModal,
