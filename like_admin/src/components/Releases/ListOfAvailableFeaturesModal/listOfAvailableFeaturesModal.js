@@ -3,11 +3,19 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Modal, Button, Popconfirm, Icon, Form, Checkbox, Table, Input, Spin } from 'antd';
 import PropTypes from 'prop-types';
+import { isEqual } from 'lodash';
 
 let gridData = [];
 let arrayForSelectedRows = []; // список выбранных
 let listFeaturesForDeleteFromRelease = []; // список фич для удаления
 
+const findRecordByIndex = (array, index) => {
+  if (array.length !== 0) {
+    const record = array[index];
+    return record;
+  }
+  return null;
+};
 class ListOfAvailableFeaturesModal extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
@@ -24,37 +32,45 @@ class ListOfAvailableFeaturesModal extends Component {
     fetchFeatures({});
     if (features) this.createColumnForTable();
     validateFields();
-    this.getDataForFeaturesIncludedInReleaseTable(this.props);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('nextProps', nextProps);
-    console.log('prevState', prevState);
-    // if (props.releases) {
-    //   console.log('props5555', props);
-    //   return this.getDataForFeaturesIncludedInReleaseTable(props);
-    // }
-    // if (props.releases !== null) this.getDataForFeaturesIncludedInReleaseTable();
-    // if (props.releases !== state.releases) {
-    //   return {
-    //     releases: props.list,
-    //     prevFilterText: state.filterText,
-    //     filteredList: props.list.filter(item => item.text.includes(state.filterText))
-    //   };
-    // }
+  static getDerivedStateFromProps(props, state) {
+    const { releases, rowIndex } = props;
+    const { dataSourceArray } = state;
+    if (releases) {
+      const releasesRow = findRecordByIndex(releases, rowIndex);
+      if (!isEqual(releasesRow.GetFeatureBinding, dataSourceArray))
+        return {
+          dataSourceArray: dataSourceArray
+            .concat(releasesRow.GetFeatureBinding)
+            .concat(arrayForSelectedRows),
+        };
+    }
     return null;
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   const { releases } = nextProps;
-  //   console.log('releases', releases);
-  //   this.getDataForFeaturesIncludedInReleaseTable(nextProps);
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { releases, rowIndex } = this.props;
+    const { dataSourceArray } = prevState;
+    if (releases) {
+      const releasesRow = findRecordByIndex(releases, rowIndex);
+      if (releases !== prevProps.releases) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          dataSourceArray: dataSourceArray
+            .splice(0, dataSourceArray)
+            .concat(releasesRow.GetFeatureBinding)
+            .concat(arrayForSelectedRows),
+        });
+      }
+    }
+    return false;
+  }
 
   onOK = () => {
     const { createFeature, releases, rowIndex } = this.props;
     const featureData = [];
-    const releasesRow = this.findRecordByIndex(releases, rowIndex);
+    const releasesRow = findRecordByIndex(releases, rowIndex);
     const { TfsReleaseId } = releasesRow;
 
     arrayForSelectedRows.map(row => {
@@ -127,23 +143,6 @@ class ListOfAvailableFeaturesModal extends Component {
     return gridData;
   };
 
-  getDataForFeaturesIncludedInReleaseTable = props => {
-    const { dataSourceArray } = this.state;
-    const { releases, rowIndex } = props;
-    const releasesRow = this.findRecordByIndex(releases, rowIndex);
-    console.log('releasesRow in func', releasesRow);
-    this.setState({
-      dataSourceArray: dataSourceArray
-        .concat(releasesRow.GetFeatureBinding)
-        .concat(arrayForSelectedRows),
-    });
-  };
-
-  findRecordByIndex = (array, index) => {
-    const record = array[index];
-    return record;
-  };
-
   createColumnForTable = () => {
     this.columns = [
       {
@@ -171,7 +170,7 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   onSelectRowFromListFeatures = record => {
-    const { releases, rowIndex } = this.props;
+    const { releases, rowIndex, selectRow } = this.props;
     const releasesRow = releases[rowIndex];
     const { TfsReleaseId } = releasesRow;
 
@@ -180,14 +179,14 @@ class ListOfAvailableFeaturesModal extends Component {
       TfsReleaseId,
       FeatureId: record.FeatureId,
     });
-    const { selectRow } = this.props;
     selectRow({ selectedRow: record });
   };
 
+  // логика при другой структуре объекта
   onSelectAllRowsFromListFeatures = (selected, selectedRows, changeRows) => {
-    const {
-      record: { TfsReleaseId },
-    } = this.props;
+    const { releases, rowIndex } = this.props;
+    const releasesRow = releases[rowIndex];
+    const { TfsReleaseId } = releasesRow;
 
     if (selected) {
       changeRows.map(row => {
@@ -254,8 +253,7 @@ class ListOfAvailableFeaturesModal extends Component {
       },
       type: 'checkbox',
     };
-    console.log('PROPSSSS', this.props);
-    console.log('state', this.state);
+
     return (
       <Wrapper
         title="Редактирование фич в релизе"
@@ -343,7 +341,6 @@ ListOfAvailableFeaturesModal.propTypes = {
   createFeature: PropTypes.func.isRequired,
   TfsReleaseId: PropTypes.number.isRequired,
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
-  record: PropTypes.object.isRequired,
   // fetchReleases: PropTypes.func.isRequired,
   rowIndex: PropTypes.array.isRequired,
   // selectedRow: PropTypes.object.isRequired,
