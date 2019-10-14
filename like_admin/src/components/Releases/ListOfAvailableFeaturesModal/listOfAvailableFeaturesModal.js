@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
 let gridData = [];
-let arrayForSelectedRows = []; // список выбранных
 let listFeaturesForDeleteFromRelease = []; // список фич для удаления
 
 const findRecordByIndex = (array, index) => {
@@ -21,6 +20,7 @@ class ListOfAvailableFeaturesModal extends Component {
   state = {
     selectedRowKeys: [],
     dataSourceArray: [],
+    arrayForSelectedRows: [],
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ class ListOfAvailableFeaturesModal extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const { releases, rowIndex } = props;
-    const { dataSourceArray } = state;
+    const { dataSourceArray, arrayForSelectedRows } = state;
     if (releases) {
       const releasesRow = findRecordByIndex(releases, rowIndex);
       if (!isEqual(releasesRow.GetFeatureBinding, dataSourceArray))
@@ -51,7 +51,8 @@ class ListOfAvailableFeaturesModal extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { releases, rowIndex } = this.props;
-    const { dataSourceArray } = prevState;
+    const { dataSourceArray, selectedRowKeys } = prevState;
+    console.log('prevState', prevState);
     if (releases) {
       const releasesRow = findRecordByIndex(releases, rowIndex);
       if (releases !== prevProps.releases) {
@@ -59,8 +60,9 @@ class ListOfAvailableFeaturesModal extends Component {
         this.setState({
           dataSourceArray: dataSourceArray
             .splice(0, dataSourceArray)
-            .concat(releasesRow.GetFeatureBinding)
-            .concat(arrayForSelectedRows),
+            .concat(releasesRow.GetFeatureBinding),
+          // .concat(arrayForSelectedRows),
+          selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
         });
       }
     }
@@ -69,21 +71,22 @@ class ListOfAvailableFeaturesModal extends Component {
 
   onOK = () => {
     const { createFeature, releases, rowIndex } = this.props;
-    const featureData = [];
+    const { arrayForSelectedRows, selectedRowKeys } = this.state;
     const releasesRow = findRecordByIndex(releases, rowIndex);
     const { TfsReleaseId } = releasesRow;
-
-    arrayForSelectedRows.map(row => {
-      return featureData.push({
-        FeatureId: row.FeatureId,
-        FeatureName: row.FeatureName,
-        IsLikeActive: row.IsLikeActive,
-      });
+    const featureData = [];
+    console.log('selectedRowKeys', selectedRowKeys);
+    this.setState({
+      arrayForSelectedRows: arrayForSelectedRows.map(row => {
+        return featureData.push({
+          FeatureId: row.FeatureId,
+          FeatureName: row.FeatureName,
+          IsLikeActive: row.IsLikeActive,
+        });
+      }),
+      //  selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
     });
-
     createFeature({ TfsReleaseId, featureData });
-    arrayForSelectedRows = [];
-    this.onCancel();
   };
 
   onCancel = () => {
@@ -92,6 +95,7 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   renderFooterButtons = () => {
+    const { arrayForSelectedRows } = this.state;
     const disabledButtonPrimary = Object.keys(arrayForSelectedRows).length === 0;
     return [
       <Popconfirm
@@ -174,15 +178,15 @@ class ListOfAvailableFeaturesModal extends Component {
     const releasesRow = releases[rowIndex];
     const { TfsReleaseId } = releasesRow;
 
+    selectRow({ selectedRow: record });
     listFeaturesForDeleteFromRelease.push({
       // есть баг c выделением и удалением
       TfsReleaseId,
       FeatureId: record.FeatureId,
     });
-    selectRow({ selectedRow: record });
+    console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
   };
 
-  // логика при другой структуре объекта
   onSelectAllRowsFromListFeatures = (selected, selectedRows, changeRows) => {
     const { releases, rowIndex } = this.props;
     const releasesRow = releases[rowIndex];
@@ -208,13 +212,22 @@ class ListOfAvailableFeaturesModal extends Component {
   };
 
   onSelectChange = selectedRowKeys => {
-    arrayForSelectedRows = [];
+    const { arrayForSelectedRows } = this.state;
+    console.log('state before', this.state);
+
+    const tempData = [];
     selectedRowKeys.map(index => {
-      return arrayForSelectedRows.push(gridData[index]);
+      return tempData.push(gridData[index]);
     });
 
-    this.setState({ selectedRowKeys });
-    return arrayForSelectedRows;
+    this.setState({
+      selectedRowKeys,
+      arrayForSelectedRows: arrayForSelectedRows.splice(0, arrayForSelectedRows).concat(tempData),
+    });
+    console.log('tempData', tempData);
+
+    console.log('selectedRowKeys', selectedRowKeys);
+    console.log('state', this.state);
   };
 
   onSearchFeaturesByName = () => {
@@ -226,9 +239,14 @@ class ListOfAvailableFeaturesModal extends Component {
 
   onDeleteFeaturesFromRelease = () => {
     const { deleteFeaturesFromReleases } = this.props;
+    const { selectedRowKeys } = this.state;
+
     if (listFeaturesForDeleteFromRelease.length !== 0) {
       deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
       listFeaturesForDeleteFromRelease = [];
+      this.setState({
+        selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
+      });
     }
   };
 
