@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class FeaturesTable extends Component {
-  // componentDidMount() {
-  //   // eslint-disable-next-line no-shadow
-  //   const { features } = this.props;
-  //   console.log('PROPS CDM ', this.props);
-  //   this.createColumnForTable(features);
-  // }
+  componentDidMount() {
+    // eslint-disable-next-line no-shadow
+    const { features } = this.props;
+    this.createColumnForTable(features);
+  }
 
+  // wtf?
   componentWillReceiveProps(nextProps) {
     const { features } = nextProps;
     if (features) this.createColumnForTable(features);

@@ -45,16 +45,40 @@ const StyledLink = styled(NavLink)`
   max-height: 60px;
   width: 150px;
   margin: 15px auto;
+  position: relative;
 
-  &.active {
-    border-bottom: 3px solid #3fcbff;
-    // line-height: 2px;
+  :visited {
+    border-bottom: none;
   }
 
-  :hover {
-    border-bottom: 3px solid #3fcbff;
+  &.active {
     color: #fff;
-    transition: all 0.2s ease-in-out;
+    border-bottom: 2px solid #3fcbff;
+  }
+
+  :after,
+  :before {
+    color: #fff;
+    transition: all 0.5s;
+  }
+
+  :after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #3fcbff;
+    height: 2px;
+  }
+  :hover {
+    color: #fff;
+  }
+  :hover:after {
+    width: 100%;
   }
 `;
 

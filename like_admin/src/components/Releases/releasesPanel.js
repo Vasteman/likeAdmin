@@ -41,7 +41,6 @@ class ReleasesPanel extends Component {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
     releasesList = [];
-    console.log('selectedRows111', selectedRows);
 
     selectedRows.map(row => {
       return releasesList.push(row.TfsReleaseId);
@@ -49,7 +48,6 @@ class ReleasesPanel extends Component {
   };
 
   onSelectAllRows = (selected, selectedRows) => {
-    console.log('selectedRows3333', selectedRows);
     if (selected) {
       selectedRows.map(row => {
         return releasesList.push(row.TfsReleaseId);

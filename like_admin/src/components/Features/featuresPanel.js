@@ -36,24 +36,21 @@ class FeaturesPanel extends Component {
     }
   };
 
-  onSelectRow = record => {
+  onSelectRow = (record, selected, selectedRows) => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    if (featureList.indexOf(record.FeatureId) >= 0) {
-      featureList.splice(featureList.indexOf(record.FeatureId), 1);
-    } else featureList.push(record.FeatureId);
+    featureList = [];
+
+    selectedRows.map(row => {
+      return featureList.push(row.FeatureId);
+    });
   };
 
-  onSelectAllRows = (selected, selectedRows, changeRows) => {
+  onSelectAllRows = (selected, selectedRows) => {
     if (selected) {
-      changeRows.map(row => {
-        if (featureList.indexOf(row.FeatureId) >= 0) {
-          featureList.splice(featureList.indexOf(row.FeatureId), 1);
-        } else featureList.push(row.FeatureId);
-        return featureList;
+      selectedRows.map(row => {
+        return featureList.push(row.FeatureId);
       });
-    } else {
-      featureList.splice(0, featureList.length);
     }
   };
 

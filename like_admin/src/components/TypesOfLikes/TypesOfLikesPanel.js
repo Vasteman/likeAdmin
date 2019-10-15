@@ -35,24 +35,21 @@ class TypesOfLikesPanel extends Component {
     }
   };
 
-  onSelectRow = record => {
+  onSelectRow = (record, selected, selectedRows) => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    if (typesOfLikesList.indexOf(record.TypeId) >= 0) {
-      typesOfLikesList.splice(typesOfLikesList.indexOf(record.TypeId), 1);
-    } else typesOfLikesList.push(record.TypeId);
+    typesOfLikesList = [];
+
+    selectedRows.map(row => {
+      return typesOfLikesList.push(row.TypeId);
+    });
   };
 
-  onSelectAllRows = (selected, selectedRows, changeRows) => {
+  onSelectAllRows = (selected, selectedRows) => {
     if (selected) {
-      changeRows.map(row => {
-        if (typesOfLikesList.indexOf(row.TypeId) >= 0) {
-          typesOfLikesList.splice(typesOfLikesList.indexOf(row.TypeId), 1);
-        } else typesOfLikesList.push(row.TypeId);
-        return typesOfLikesList;
+      selectedRows.map(row => {
+        return typesOfLikesList.push(row.TypeId);
       });
-    } else {
-      typesOfLikesList.splice(0, typesOfLikesList.length);
     }
   };
 

@@ -146,7 +146,6 @@ const StyledForm = styled(Form)`
     }
     @media (max-width: 1368px) {
       width: 750px;
-  }
     }
   }
   .ant-btn-primary {
