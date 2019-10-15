@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
 let gridData = [];
-let listFeaturesForDeleteFromRelease = []; // список фич для удаления
+let listFeaturesForDeleteFromRelease = [];
 
 const findRecordByIndex = (array, index) => {
   if (array.length !== 0) {
@@ -52,7 +52,6 @@ class ListOfAvailableFeaturesModal extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { releases, rowIndex } = this.props;
     const { dataSourceArray, selectedRowKeys } = prevState;
-    console.log('prevState', prevState);
     if (releases) {
       const releasesRow = findRecordByIndex(releases, rowIndex);
       if (releases !== prevProps.releases) {
@@ -75,16 +74,18 @@ class ListOfAvailableFeaturesModal extends Component {
     const releasesRow = findRecordByIndex(releases, rowIndex);
     const { TfsReleaseId } = releasesRow;
     const featureData = [];
-    console.log('selectedRowKeys', selectedRowKeys);
+
     this.setState({
-      arrayForSelectedRows: arrayForSelectedRows.map(row => {
-        return featureData.push({
-          FeatureId: row.FeatureId,
-          FeatureName: row.FeatureName,
-          IsLikeActive: row.IsLikeActive,
-        });
-      }),
-      //  selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
+      arrayForSelectedRows: arrayForSelectedRows
+        .map(row => {
+          return featureData.push({
+            FeatureId: row.FeatureId,
+            FeatureName: row.FeatureName,
+            IsLikeActive: row.IsLikeActive,
+          });
+        })
+        .slice(0, arrayForSelectedRows),
+      selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
     });
     createFeature({ TfsReleaseId, featureData });
   };
@@ -107,9 +108,9 @@ class ListOfAvailableFeaturesModal extends Component {
         okText="Да"
         cancelText="Нет"
       >
-        <Button type="danger" icon="close">
+        {/* <Button type="danger" icon="close">
           Закрыть
-        </Button>
+        </Button> */}
       </Popconfirm>,
       <StyledButtonPrimary
         type="primary"
@@ -117,7 +118,7 @@ class ListOfAvailableFeaturesModal extends Component {
         disabled={disabledButtonPrimary}
         onClick={this.onOK}
       >
-        Сохранить
+        Привязать выбранные
       </StyledButtonPrimary>,
     ];
   };
@@ -173,61 +174,56 @@ class ListOfAvailableFeaturesModal extends Component {
     selectRow({ selectedRow: record });
   };
 
-  onSelectRowFromListFeatures = record => {
+  onSelectRowFromListFeatures = (record, selected, selectedRows) => {
     const { releases, rowIndex, selectRow } = this.props;
     const releasesRow = releases[rowIndex];
     const { TfsReleaseId } = releasesRow;
+    listFeaturesForDeleteFromRelease = [];
 
     selectRow({ selectedRow: record });
-    listFeaturesForDeleteFromRelease.push({
-      // есть баг c выделением и удалением
-      TfsReleaseId,
-      FeatureId: record.FeatureId,
+    selectedRows.map(row => {
+      return listFeaturesForDeleteFromRelease.push({
+        TfsReleaseId,
+        FeatureId: row.FeatureId,
+      });
     });
+    console.log('selectedRows', selectedRows);
     console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
   };
 
-  onSelectAllRowsFromListFeatures = (selected, selectedRows, changeRows) => {
+  onSelectAllRowsFromListFeatures = (selected, selectedRows) => {
     const { releases, rowIndex } = this.props;
     const releasesRow = releases[rowIndex];
     const { TfsReleaseId } = releasesRow;
 
     if (selected) {
-      changeRows.map(row => {
-        if (listFeaturesForDeleteFromRelease.indexOf(row.FeatureId) >= 0) {
-          listFeaturesForDeleteFromRelease.splice(
-            listFeaturesForDeleteFromRelease.indexOf(row.FeatureId),
-            1
-          );
-        } else
-          listFeaturesForDeleteFromRelease.push({
-            TfsReleaseId,
-            FeatureId: row.FeatureId,
-          });
-        return listFeaturesForDeleteFromRelease;
+      selectedRows.map(row => {
+        return listFeaturesForDeleteFromRelease.push({
+          TfsReleaseId,
+          FeatureId: row.FeatureId,
+        });
       });
-    } else {
-      listFeaturesForDeleteFromRelease.splice(0, listFeaturesForDeleteFromRelease.length);
     }
   };
 
   onSelectChange = selectedRowKeys => {
     const { arrayForSelectedRows } = this.state;
-    console.log('state before', this.state);
 
     const tempData = [];
     selectedRowKeys.map(index => {
       return tempData.push(gridData[index]);
     });
 
+    console.log('arrayForSelectedRows', arrayForSelectedRows);
     this.setState({
       selectedRowKeys,
       arrayForSelectedRows: arrayForSelectedRows.splice(0, arrayForSelectedRows).concat(tempData),
     });
+
     console.log('tempData', tempData);
 
     console.log('selectedRowKeys', selectedRowKeys);
-    console.log('state', this.state);
+    // console.log('state', this.state);
   };
 
   onSearchFeaturesByName = () => {
@@ -244,10 +240,10 @@ class ListOfAvailableFeaturesModal extends Component {
     if (listFeaturesForDeleteFromRelease.length !== 0) {
       deleteFeaturesFromReleases(listFeaturesForDeleteFromRelease);
       listFeaturesForDeleteFromRelease = [];
-      this.setState({
-        selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
-      });
     }
+    this.setState({
+      selectedRowKeys: selectedRowKeys.splice(0, selectedRowKeys),
+    });
   };
 
   render() {
@@ -359,9 +355,7 @@ ListOfAvailableFeaturesModal.propTypes = {
   createFeature: PropTypes.func.isRequired,
   TfsReleaseId: PropTypes.number.isRequired,
   isLoadingFeaturesTable: PropTypes.bool.isRequired,
-  // fetchReleases: PropTypes.func.isRequired,
   rowIndex: PropTypes.array.isRequired,
-  // selectedRow: PropTypes.object.isRequired,
   releases: PropTypes.array.isRequired,
 };
 
@@ -482,8 +476,9 @@ const StyledButtonPrimary = styled(Button)`
 
 const StyledSpin = styled(Spin)`
   .anticon-spin {
-    margin-left: 350px;
+    margin-left: 150px;
     color: #3fcbff;
+    margin-top: 50px;
   }
   .ant-spin-dot {
     position: relative;

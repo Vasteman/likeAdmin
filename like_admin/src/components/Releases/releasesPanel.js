@@ -37,24 +37,23 @@ class ReleasesPanel extends Component {
     }
   };
 
-  onSelectRow = record => {
+  onSelectRow = (record, selected, selectedRows) => {
     const { selectRow } = this.props;
     selectRow({ selectedRow: record });
-    if (releasesList.indexOf(record.TfsReleaseId) >= 0) {
-      releasesList.splice(releasesList.indexOf(record.TfsReleaseId), 1);
-    } else releasesList.push(record.TfsReleaseId);
+    releasesList = [];
+    console.log('selectedRows111', selectedRows);
+
+    selectedRows.map(row => {
+      return releasesList.push(row.TfsReleaseId);
+    });
   };
 
-  onSelectAllRows = (selected, selectedRows, changeRows) => {
+  onSelectAllRows = (selected, selectedRows) => {
+    console.log('selectedRows3333', selectedRows);
     if (selected) {
-      changeRows.map(row => {
-        if (releasesList.indexOf(row.TfsReleaseId) >= 0) {
-          releasesList.splice(releasesList.indexOf(row.TfsReleaseId), 1);
-        } else releasesList.push(row.TfsReleaseId);
-        return releasesList;
+      selectedRows.map(row => {
+        return releasesList.push(row.TfsReleaseId);
       });
-    } else {
-      releasesList.splice(0, releasesList.length);
     }
   };
 

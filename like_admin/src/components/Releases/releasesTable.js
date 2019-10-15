@@ -21,12 +21,6 @@ class ReleasesTable extends Component {
   createColumnForTable = () => {
     this.columns = [
       {
-        title: 'ID',
-        dataIndex: 'TfsReleaseId',
-        key: 'TfsReleaseId',
-        width: '10%',
-      },
-      {
         title: 'Название',
         dataIndex: 'TfsReleaseName',
         key: 'TfsReleaseName',

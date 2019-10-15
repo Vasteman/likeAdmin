@@ -311,7 +311,9 @@ const StyledSelect = styled(Select)`
   }
 `;
 
-const StyledList = styled(List)``;
+const StyledList = styled(List)`
+  text-align: center;
+`;
 
 const WrapperForSwitchAndNameRelease = styled.div`
   width: 320px;

@@ -17,7 +17,7 @@ export default function* deleteFeaturesFromReleasesSaga({ payload }) {
     const { data } = yield call(deleteFeaturesFromReleases, payload);
     if (data.IsSuccess) {
       yield put({ type: DELETE_FEATURES_FROM_RELEASES_SUCCESS });
-      yield put({ type: FETCH_RELEASES }); // need?
+      yield put({ type: FETCH_RELEASES });
       notification.success({
         message: 'Фичи',
         description: 'Фича успешно удалена!',
