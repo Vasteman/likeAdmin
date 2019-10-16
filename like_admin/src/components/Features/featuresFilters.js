@@ -7,7 +7,6 @@ import RangePicker from 'components/RangePicker';
 import moment from 'moment';
 
 class FeaturesFilters extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     datePeriodStart: moment().subtract(1, 'month'),
     datePeriodFinish: moment(),

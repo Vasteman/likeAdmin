@@ -8,7 +8,6 @@ import moment from 'moment';
 const FormItem = Form.Item;
 const dateFormat = 'DD.MM.YYYY';
 class ReleasesModal extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     TfsReleaseName: null,
     TfsReleaseDate: null,

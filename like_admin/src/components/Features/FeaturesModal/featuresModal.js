@@ -18,7 +18,6 @@ import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 let arrayForReleases = []; // массив релизов, в которых есть эта фича
 class FeaturesModal extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = { IsLikeActive: false };
 
   componentDidMount() {

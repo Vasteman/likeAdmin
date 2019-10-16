@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 
 class TypesOfLikesAdminModal extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = { EmojiActive: false };
 
   componentDidMount() {

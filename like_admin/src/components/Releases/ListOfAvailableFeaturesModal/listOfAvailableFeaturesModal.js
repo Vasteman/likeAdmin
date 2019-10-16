@@ -16,7 +16,6 @@ const findRecordByIndex = (array, index) => {
   return null;
 };
 class ListOfAvailableFeaturesModal extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     selectedRowKeys: [],
     dataSourceArray: [],

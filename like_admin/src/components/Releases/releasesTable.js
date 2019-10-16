@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class ReleasesTable extends Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = {};
 
   componentDidMount() {
