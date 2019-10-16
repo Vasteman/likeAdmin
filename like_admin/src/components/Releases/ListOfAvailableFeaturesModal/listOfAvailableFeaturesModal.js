@@ -187,8 +187,6 @@ class ListOfAvailableFeaturesModal extends Component {
         FeatureId: row.FeatureId,
       });
     });
-    console.log('selectedRows', selectedRows);
-    console.log('listFeaturesForDeleteFromRelease', listFeaturesForDeleteFromRelease);
   };
 
   onSelectAllRowsFromListFeatures = (selected, selectedRows) => {
@@ -208,22 +206,14 @@ class ListOfAvailableFeaturesModal extends Component {
 
   onSelectChange = selectedRowKeys => {
     const { arrayForSelectedRows } = this.state;
-
     const tempData = [];
     selectedRowKeys.map(index => {
       return tempData.push(gridData[index]);
     });
-
-    console.log('arrayForSelectedRows', arrayForSelectedRows);
     this.setState({
       selectedRowKeys,
       arrayForSelectedRows: arrayForSelectedRows.splice(0, arrayForSelectedRows).concat(tempData),
     });
-
-    console.log('tempData', tempData);
-
-    console.log('selectedRowKeys', selectedRowKeys);
-    // console.log('state', this.state);
   };
 
   onSearchFeaturesByName = () => {
