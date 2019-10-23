@@ -13,3 +13,6 @@ class TypesOfLikes extends Component {
 }
 
 export default TypesOfLikes
+// по сути ты берешь TopMenu, оборачиваешь его в Fragment и выплевываешь наружу.
+// Почему бы просто сразу не импортить TopMenu?
+// Не вижу необходимости существования TypesOfLikes
